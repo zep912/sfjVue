@@ -6,7 +6,7 @@ const $http = axios.create({
     // baseURL: 'http://localhost:8080/api',
     // baseURL: 'http://192.168.0.133:9001/jjkj/sfj/api/',
     // baseURL: "/",
-    baseURL: 'http://192.168.0.133:9001/jjkj/sfj/api/',
+    baseURL: 'http://59.44.27.201:9010/jjkj/sfj/api',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json;charset=utf-8'
