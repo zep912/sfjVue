@@ -1,0 +1,46 @@
+stages:
+  - package
+  - build
+  - deploy
+
+#yarn:
+#  stage: package
+#  image: node
+#  script:
+#    - yarn
+#    - yarn build
+#  artifacts:
+#    name: dis-"$CI_COMMIT_REF_NAME"
+#    paths:
+#      - dist/
+
+build:
+  stage: build
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build --pull -t $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+production:
+  stage: deploy
+  image: simcu/k8s-deploy
+  variables:
+    GIT_STRATEGY: none
+    PLUGIN_NAMESPACE: jujin-sfj
+    PLUGIN_NAME: ${CI_PROJECT_NAME}
+    PLUGIN_ENVIRONMENT: ${CI_ENVIRONMENT_SLUG}
+    PLUGIN_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}
+    PLUGIN_CPU: 500m
+    PLUGIN_MEM: 512Mi
+    PLUGIN_RSVP: "false"
+    PLUGIN_PORT: 80
+    PLUGIN_URL: sfj.zhoushijt.com
+    PLUGIN_ACME: "true"
+    PLUGIN_REGISTRY_SECRET: zhoushijt
+  script:
+    - dotnet /app/Emilia.dll
+  environment:
+    name: production
+    url: https://sfj.zhoushijt.com

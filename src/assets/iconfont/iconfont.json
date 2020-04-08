@@ -1,0 +1,72 @@
+{
+  "id": "1465489",
+  "name": "sifa",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "534225",
+      "name": "意见反馈",
+      "font_class": "yijianfankui",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "1125628",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "1125654",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "3216582",
+      "name": "地图",
+      "font_class": "ditu",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
+      "icon_id": "7165746",
+      "name": "yu_yue",
+      "font_class": "yu_yue",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "7168811",
+      "name": "zi_xun",
+      "font_class": "zi_xun",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "7712205",
+      "name": "考试",
+      "font_class": "kaoshi",
+      "unicode": "e723",
+      "unicode_decimal": 59171
+    },
+    {
+      "icon_id": "10268524",
+      "name": "档案",
+      "font_class": "dangan",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "10281827",
+      "name": "shouye",
+      "font_class": "shouye",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    }
+  ]
+}

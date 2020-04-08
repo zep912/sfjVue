@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bbcc14d4-f343-44e2-9fb3-12910aee45ba" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/assets/css/common.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SingleDate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/fileUpload.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/shipinUpload.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/array.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/breadcrumb" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/breadcrumb/breadcrumb.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/emergencyCommandBaseInfoView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/emergencyCommandBaseInfoView/emergencyCommandBaseInfoView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/emergencyPlanModelView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/emergencyPlanModelView/emergencyPlanModelView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/emergencyPlanView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/emergencyPlanView/emergencyPlanView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/enterpriseAllDetail.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/enterpriseProduceProcessView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/enterpriseProduceProcessView/enterpriseProduceProcessView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/hazardNormalDetailView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/hazardNormalDetailView/hazardNormalDetailView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/hazardNormalView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/hazardNormalView/hazardNormalView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/produceBaseChemicalTankareaPreview" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/produceBaseChemicalTankareaPreview/produceBaseChemicalTankareaPreview.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/produceBaseChemicalTtankareaView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/produceBaseChemicalTtankareaView/produceBaseChemicalTankareaView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/produceVaseChemicalView" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/enterpriseAllDetail/produceVaseChemicalView/produceBaseChemicalViewComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/imgUpload" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/imgUpload/imgUploadComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/filtrate" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/filtrate/filtrate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/leftPanel" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/leftPanel/leftPanel.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/map" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/map/mapComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/charts/summary/summaryComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/lvsuo/lvsuo_zixun.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/common.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/nux-api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/nux-api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/lawyer/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/lawyer/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/lawyer/indexChildren/zaixianzixun.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/lawyer/indexChildren/zaixianzixun.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/lawyer/wanshan.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/lawyer/wanshan.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/lvsuo/addlvshi.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/lvsuo/addlvshi.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/lvsuo/law_mana.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/lvsuo/law_mana.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/lvsuo/zhize.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/lvsuo/zhize.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/shimin/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/shimin/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/add_lvsuo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/add_lvsuo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/chakan_zhengwu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/chakan_zhengwu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/diaoweihui_xiangying.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/diaoweihui_xiangying.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/falvzixun.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/falvzixun.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/lvshi_xiangying.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/lvshi_xiangying.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/mana_law.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/mana_law.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/manapeixun.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/manapeixun.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/n_pxplan.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/n_pxplan.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/nadd_kejian.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/nadd_kejian.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/nxinzeng_kejian.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/nxinzeng_kejian.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/sifa_ditu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/sifa_ditu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/sifa_kaoshi.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/sifa_kaoshi.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/xinzeng_jigou.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/xinzeng_jigou.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/xinzeng_sifakaoshi.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/xinzeng_sifakaoshi.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/xinzengzhiban.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/xinzengzhiban.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/zhengwugongkai.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/zhengwugongkai.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/zhibanshezhi.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/zhibanshezhi.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/zhizhe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/zhizhe.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sifaju/zixun_dengji.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sifaju/zixun_dengji.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Xz751fr1hk2gtN36iOeXmcV6Rd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="SearchEverywhereHistoryKey" value="daichuli&#9;FILE&#9;file://F:/司法局/司法局PC/web-master/src/views/sifaju/daichuli.vue&#10;sifaju&#9;FILE&#9;file://F:/司法局/司法局PC/web-master/src/views/sifaju&#10;xizeng_falvfagui&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/xizeng_falvfagui.vue&#10;zixun_dengji&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/zixun_dengji.vue&#10;falvzixun&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/falvzixun.vue&#10;nxinzeng_kejian&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/nxinzeng_kejian.vue&#10;zhengwugongkai&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/zhengwugongkai.vue&#10;xinzeng_zhengwu&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/xinzeng_zhengwu.vue&#10;manakejianku&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/manakejianku.vue&#10;nadd_kejian&#9;FILE&#9;file://E:/111/web-master/src/views/sifaju/nadd_kejian.vue" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="D:/ajvue/ajVue" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="E:/111/web-master/node_modules/eslint" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\司法局\司法局PC内网\src\utils" />
+      <recent name="F:\司法局\司法局PC内网\src\assets\css" />
+      <recent name="F:\司法局\司法局PC内网\src\views" />
+      <recent name="F:\司法局\司法局PC内网\src\components" />
+      <recent name="E:\111\web-master\src\utils" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.build">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="serve" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="serve" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+        <item itemvalue="npm.serve" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\boy\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\司法局\司法局PC内网" />
+          <option name="myCopyRoot" value="F:\司法局\司法局PC内网" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\司法局\司法局PC内网" />
+          <option name="myCopyRoot" value="F:\司法局\司法局PC内网" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bbcc14d4-f343-44e2-9fb3-12910aee45ba" name="Default" comment="" />
+      <created>1576656483723</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1576656483723</updated>
+      <workItem from="1576656485431" duration="20631000" />
+      <workItem from="1576716966847" duration="13996000" />
+      <workItem from="1576753115580" duration="1310000" />
+      <workItem from="1582036889285" duration="3724000" />
+      <workItem from="1582821512425" duration="115000" />
+      <workItem from="1582850743875" duration="2460000" />
+      <workItem from="1583127484489" duration="4321000" />
+      <workItem from="1583286529016" duration="3314000" />
+      <workItem from="1583300643965" duration="4776000" />
+      <workItem from="1583488156188" duration="2698000" />
+      <workItem from="1583732504498" duration="11946000" />
+      <workItem from="1583763419135" duration="1481000" />
+      <workItem from="1583800121954" duration="1877000" />
+      <workItem from="1583848889727" duration="584000" />
+      <workItem from="1583852289532" duration="580000" />
+      <workItem from="1583886306342" duration="1352000" />
+      <workItem from="1583972562521" duration="2964000" />
+      <workItem from="1584030868296" duration="492000" />
+      <workItem from="1584059141877" duration="2226000" />
+      <workItem from="1584063227762" duration="21482000" />
+      <workItem from="1584237041142" duration="2505000" />
+      <workItem from="1584242729512" duration="665000" />
+      <workItem from="1584277866641" duration="2721000" />
+      <workItem from="1584318448190" duration="4325000" />
+      <workItem from="1584334807577" duration="11066000" />
+      <workItem from="1584404777903" duration="15855000" />
+      <workItem from="1584458653976" duration="85000" />
+      <workItem from="1584491170458" duration="10525000" />
+      <workItem from="1584517605796" duration="2345000" />
+      <workItem from="1584577545741" duration="13945000" />
+      <workItem from="1584664643330" duration="11212000" />
+      <workItem from="1584924837629" duration="17069000" />
+      <workItem from="1585009579363" duration="7741000" />
+      <workItem from="1585096153528" duration="13463000" />
+      <workItem from="1585182677087" duration="9809000" />
+      <workItem from="1585269107434" duration="1653000" />
+      <workItem from="1585296338435" duration="3254000" />
+      <workItem from="1585528671833" duration="4267000" />
+      <workItem from="1585533401501" duration="22847000" />
+      <workItem from="1585614373499" duration="7866000" />
+      <workItem from="1585700993232" duration="580000" />
+      <workItem from="1585790200747" duration="1281000" />
+      <workItem from="1585874083570" duration="7369000" />
+      <workItem from="1585885542925" duration="10443000" />
+      <workItem from="1585901361447" duration="2027000" />
+      <workItem from="1585961863801" duration="34360000" />
+      <workItem from="1586221566573" duration="25839000" />
+      <workItem from="1586255115580" duration="337000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="569" y="164" key="FileChooserDialogImpl" timestamp="1586247675292">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="462" y="118" key="FileChooserDialogImpl/0.0.1364.728@0.0.1364.728" timestamp="1585963249226" />
+    <state x="569" y="164" key="FileChooserDialogImpl/0.0.1680.1010@0.0.1680.1010" timestamp="1586247675292" />
+    <state x="650" y="169" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1585531814801" />
+    <state width="1658" height="181" key="GridCell.Tab.0.bottom" timestamp="1586255458648">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="1342" height="132" key="GridCell.Tab.0.bottom/0.0.1364.728@0.0.1364.728" timestamp="1586001633389" />
+    <state width="1658" height="181" key="GridCell.Tab.0.bottom/0.0.1680.1010@0.0.1680.1010" timestamp="1586255458648" />
+    <state width="1898" height="214" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585615545077" />
+    <state width="1658" height="181" key="GridCell.Tab.0.center" timestamp="1586255458648">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="1342" height="132" key="GridCell.Tab.0.center/0.0.1364.728@0.0.1364.728" timestamp="1586001633389" />
+    <state width="1658" height="181" key="GridCell.Tab.0.center/0.0.1680.1010@0.0.1680.1010" timestamp="1586255458648" />
+    <state width="1898" height="214" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585615545077" />
+    <state width="1658" height="181" key="GridCell.Tab.0.left" timestamp="1586255458648">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="1342" height="132" key="GridCell.Tab.0.left/0.0.1364.728@0.0.1364.728" timestamp="1586001633389" />
+    <state width="1658" height="181" key="GridCell.Tab.0.left/0.0.1680.1010@0.0.1680.1010" timestamp="1586255458648" />
+    <state width="1898" height="214" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585615545077" />
+    <state width="1658" height="181" key="GridCell.Tab.0.right" timestamp="1586255458648">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="1342" height="132" key="GridCell.Tab.0.right/0.0.1364.728@0.0.1364.728" timestamp="1586001633389" />
+    <state width="1658" height="181" key="GridCell.Tab.0.right/0.0.1680.1010@0.0.1680.1010" timestamp="1586255458648" />
+    <state width="1898" height="214" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585615545077" />
+    <state x="441" y="139" width="969" height="830" key="find.popup" timestamp="1586242927410">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="358" y="100" width="786" height="598" key="find.popup/0.0.1364.728@0.0.1364.728" timestamp="1585884626553" />
+    <state x="441" y="139" width="969" height="830" key="find.popup/0.0.1680.1010@0.0.1680.1010" timestamp="1586242927410" />
+    <state x="504" y="143" width="1107" height="855" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1585571970740" />
+    <state x="425" y="68" width="828" height="941" key="search.everywhere.popup" timestamp="1586248761613">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="345" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1364.728@0.0.1364.728" timestamp="1585997369213" />
+    <state x="425" y="68" width="828" height="941" key="search.everywhere.popup/0.0.1680.1010@0.0.1680.1010" timestamp="1586248761613" />
+    <state x="486" y="70" width="946" height="969" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1585572000338" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/sifaju/mana_law.vue</url>
+          <line>51</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/sifaju/mana_law.vue</url>
+          <line>119</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/charts/summary/map/mapComponent.vue</url>
+          <line>42</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/lawyer/wanshan.vue</url>
+          <line>41</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/lawyer/wanshan.vue</url>
+          <line>495</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/lawyer/wanshan.vue</url>
+          <line>742</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/lawyer/wanshan.vue</url>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
