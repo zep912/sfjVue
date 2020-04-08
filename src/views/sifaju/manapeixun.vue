@@ -8,6 +8,30 @@
 		</div>
 		<div>
 			<div class="tightp_top" style="border: 0;">
+				<div>
+					培训方式：
+					<el-select v-model="wayValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
+						<el-option :value="possess">全部</el-option>
+					    <el-option
+					      v-for="item in wayList"
+					      :key="item.dictDataCode"
+					      :label="item.dictDataName"
+					      :value="item.dictDataCode">
+					    </el-option>
+					</el-select>
+					培训级别：
+					<el-select v-model="levelValue" placeholder="请选择"  @change="getData()">
+						<el-option :value="possess">全部</el-option>
+					    <el-option
+					      v-for="item in levelList"
+					      :key="item.dictDataCode"
+					      :label="item.dictDataName"
+					      :value="item.dictDataCode">
+					    </el-option>
+					</el-select>
+				</div>
+			</div>
+			<div class="tightp_top" style="border: 0;">
 				<div class="peixun_shijian">
 					培训时间：
 					<el-date-picker
@@ -32,30 +56,6 @@
 						  @change="getData()"
 					 >
 					    </el-date-picker>
-				</div>
-			</div>
-			<div class="tightp_top" style="border: 0;">
-				<div>
-					培训方式：
-					<el-select v-model="wayValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
-						<el-option :value="possess">全部</el-option>
-					    <el-option
-					      v-for="item in wayList"
-					      :key="item.dictDataCode"
-					      :label="item.dictDataName"
-					      :value="item.dictDataCode">
-					    </el-option>
-					</el-select>
-					培训等级：
-					<el-select v-model="levelValue" placeholder="请选择"  @change="getData()">
-						<el-option :value="possess">全部</el-option>
-					    <el-option
-					      v-for="item in levelList"
-					      :key="item.dictDataCode"
-					      :label="item.dictDataName"
-					      :value="item.dictDataCode">
-					    </el-option>
-					</el-select>
 				</div>
 			</div>
 			<div class="tightp_top" style="border: 0;">
@@ -167,34 +167,33 @@
   export default {
     data() {
       return {
-		  token:sessionStorage.getItem("token"),
-		  wayList:[],   //培训方式
-          wayValue: '',
-		  levelList:[],   //培训等级
-		  levelValue:'',
-		  typeList:[],   //培训类型
-		  typeValue:'',
-		  stateList:[],   //培训状态
-		  stateValue:'',
-          activeName: 'second',
-		  expName:'',  //搜素条件
-		  possess:'',   //搜素条件全部
-    pageSize: 10,
-    pageNum: 1,
-    total: 10,
-
-		multipleSelection: [],
-		peixunjihua:[],
-		value1: '',
-		value6:"",
-      }
-    },
+			token:sessionStorage.getItem("token"),
+			wayList:[],   //培训方式
+			wayValue: '',
+			levelList:[],   //培训等级
+			levelValue:'',
+			typeList:[],   //培训类型
+			typeValue:'',
+			stateList:[],   //培训状态
+			stateValue:'',
+			activeName: 'second',
+			expName:'',  //搜素条件
+			possess:'',   //搜素条件全部
+			pageSize: 10,
+			pageNum: 1,
+			total: 10,
+			multipleSelection: [],
+			peixunjihua:[],
+			value1: '',
+			value6:"",
+    }
+  },
 	created(){
-         this.getData();
-         this.wayData();
-         this.levelData();
-         this.typeData();
-         this.stateData();
+		this.getData();
+		this.wayData();
+		this.levelData();
+		this.typeData();
+		this.stateData();
 	},
 	methods: {
     //获取培训方式数据字典
@@ -204,7 +203,7 @@
 			userId:'1'
 		}).then(res=>{
 			if(res.code == '200'){
-				this.wayList=res.content.resultList
+				this.wayList = res.content.resultList
 			}
 		})
 	},
@@ -215,7 +214,7 @@
 			userId:'2'
 		}).then(res=>{
 			if(res.code == '200'){
-				this.levelList=res.content.resultList
+				this.levelList = res.content.resultList
 			}
 		})
 	},
@@ -226,7 +225,7 @@
 			userId:'3'
 		}).then(res=>{
 			if(res.code == '200'){
-				this.typeList=res.content.resultList
+				this.typeList = res.content.resultList
 			}
 		})
 	},
@@ -237,13 +236,13 @@
 			userId:'4'
 		}).then(res=>{
 			if(res.code == '200'){
-				this.stateList=res.content.resultList
+				this.stateList = res.content.resultList
 			}
 		})
 	},
     getData() {
       	manapeixun({
-		  token:this.token,
+		      token:this.token,
           trainDate:this.value1,                //类型：String  可有字段  备注：培训时间
           startDate:this.value6[0],                //类型：String  可有字段  备注：开始时间
           endDate:this.value6[1],                //类型：String  可有字段  备注：结束时间
@@ -255,7 +254,7 @@
           pageNum:this.pageNum
         }).then(res=>{
           if(res){
-            this.peixunjihua=res.content.dataList
+            this.peixunjihua = res.content.dataList
             this.total = res.content.pageInfo.total
           }
         })
@@ -310,6 +309,7 @@
 </script>
 
 <style lang="scss">
+.p_conright {
 	.publice{
 		width: 100vw;
 	}
@@ -479,4 +479,5 @@
 			justify-content: center;
 		}
 	}
+}	
 </style>
