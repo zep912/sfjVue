@@ -7,94 +7,107 @@
 			</el-breadcrumb>
 		</div>
 		<div>
-			<div class="tightp_top" style="border: 0;">
-				<div>
-					培训方式：
-					<el-select v-model="wayValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
-						<el-option :value="possess">全部</el-option>
-					    <el-option
-					      v-for="item in wayList"
-					      :key="item.dictDataCode"
-					      :label="item.dictDataName"
-					      :value="item.dictDataCode">
-					    </el-option>
-					</el-select>
-					培训级别：
-					<el-select v-model="levelValue" placeholder="请选择"  @change="getData()">
-						<el-option :value="possess">全部</el-option>
-					    <el-option
-					      v-for="item in levelList"
-					      :key="item.dictDataCode"
-					      :label="item.dictDataName"
-					      :value="item.dictDataCode">
-					    </el-option>
-					</el-select>
-				</div>
+			<!-- 查询条件 -->
+			<el-form :model="queryCondition" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-row class="tightp_top" style="border: 0;">
+					<el-col :span="8">
+						<el-form-item label="培训方式：" prop="wayValue">
+							<el-select v-model="queryCondition.wayValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
+								<el-option :value="possess">全部</el-option>
+								<el-option
+									v-for="item in wayList"
+									:key="item.dictDataCode"
+									:label="item.dictDataName"
+									:value="item.dictDataCode">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>	
+					<el-col :span="8">
+						<el-form-item label="培训级别：" prop="levelValue">
+							<el-select v-model="queryCondition.levelValue" placeholder="请选择"  @change="getData()">
+								<el-option :value="possess">全部</el-option>
+								<el-option
+									v-for="item in levelList"
+									:key="item.dictDataCode"
+									:label="item.dictDataName"
+									:value="item.dictDataCode">
+								</el-option>
+						</el-select>
+						</el-form-item>
+					</el-col>	
+					<el-col :span="8">
+						<el-form-item label="培训类型：" prop="typeValue">
+							<el-select v-model="queryCondition.typeValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
+								<el-option :value="possess">全部</el-option>
+									<el-option
+										v-for="item in typeList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row class="tightp_top" style="border: 0;">
+					<el-col :span="8">
+						<el-form-item label="培训状态：" prop="stateValue">
+							<el-select v-model="queryCondition.stateValue" placeholder="请选择"  @change="getData()">
+								<el-option :value="possess">全部</el-option>
+									<el-option
+										v-for="item in stateList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>	
+					<el-col :span="8">
+						<el-form-item label="培训时间：" prop="value1">
+							<el-date-picker
+								v-model="queryCondition.value1"
+								type="date"
+								placeholder="选择日期"
+								format="yyyy-MM-dd"
+								value-format="yyyy-MM-dd"
+								style='margin-right:20px'
+								@change="getData()"
+								>
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="自定义：" prop="value6">
+							<el-date-picker
+									v-model="queryCondition.value6"
+									type="daterange"
+									format="yyyy-MM-dd"
+									value-format="yyyy-MM-dd"
+									range-separator="至"
+									start-placeholder="开始日期"
+									end-placeholder="结束日期"
+								@change="getData()">
+								</el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row class="tightp_top" style="border: 0;">
+					<el-col :span="8">
+						<el-form-item label="主题搜索" prop="expName">
+							<el-input v-model="queryCondition.expName" placeholder="请输入要搜的培训主题"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-button type="primary" @click="getData()">搜索</el-button>
+					</el-col>
+				</el-row>
+			</el-form>
+			<div>
+				<el-button type="success" @click="zhiding">+ 制定培训计划</el-button>
 			</div>
-			<div class="tightp_top" style="border: 0;">
-				<div class="peixun_shijian">
-					培训时间：
-					<el-date-picker
-					  v-model="value1"
-					  type="date"
-					  placeholder="选择日期"
-					  format="yyyy-MM-dd"
-      			value-format="yyyy-MM-dd"
-					  style='margin-right:20px'
-					  @change="getData()"
-					  >
-					</el-date-picker>
-					自定义：
-					<el-date-picker
-					      v-model="value6"
-					      type="daterange"
-                format="yyyy-MM-dd"
-      			    value-format="yyyy-MM-dd"
-					      range-separator="至"
-					      start-placeholder="开始日期"
-					      end-placeholder="结束日期"
-						  @change="getData()"
-					 >
-					    </el-date-picker>
-				</div>
-			</div>
-			<div class="tightp_top" style="border: 0;">
-				<div>
-					培训类型：
-					<el-select v-model="typeValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
-						<el-option :value="possess">全部</el-option>
-					    <el-option
-					      v-for="item in typeList"
-					      :key="item.dictDataCode"
-					      :label="item.dictDataName"
-					      :value="item.dictDataCode">
-					    </el-option>
-					</el-select>
-					培训状态：
-					<el-select v-model="stateValue" placeholder="请选择"  @change="getData()">
-						<el-option :value="possess">全部</el-option>
-					    <el-option
-					      v-for="item in stateList"
-					      :key="item.dictDataCode"
-					      :label="item.dictDataName"
-					      :value="item.dictDataCode">
-					    </el-option>
-					</el-select>
-				</div>
-			</div>
-			<div class="tightp_top" style="border: 0;">
-				<div class="zuzhijifou">
-					<div>
-						<el-button type="success" @click="zhiding">+ 制定培训计划</el-button>
-					</div>
-				</div>
-				<div class="p_search">
-					<input type="text" v-model="expName" placeholder="请输入要搜的培训主题">
-					<div class="searchp" @click="getData()">
-						<img src="../../assets/image/u2290.png" alt="">
-					</div>
-				</div>
-			</div>
+			<!-- 表格 -->
 			<div class="biaoge_content">
 				<el-table
 				    :data="peixunjihua"
@@ -150,13 +163,17 @@
 					</el-table-column>
 				  </el-table>
 			</div>
+			<!-- 分页 -->
 			<div class="p_page">
-				<el-pagination
-				  background
-           @current-change="onPageChange"
-				  layout="prev, pager, next"
-				  :total="total">
-				</el-pagination>
+				<el-pagination background
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					:current-page="queryCondition.page.pageIndex"
+					:page-sizes="[10, 50, 100,200]"
+					:page-size="queryCondition.page.limit"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="queryCondition.page.results">
+					</el-pagination>
 			</div>
 		</div>
 	</div>
@@ -164,29 +181,45 @@
 
 <script>
 	import {manapeixun,getSelectDetail} from '../../http/api.js'
+	import * as crud from '../../assets/js/co-crud.js'
   export default {
     data() {
       return {
-			token:sessionStorage.getItem("token"),
-			wayList:[],   //培训方式
-			wayValue: '',
-			levelList:[],   //培训等级
-			levelValue:'',
-			typeList:[],   //培训类型
-			typeValue:'',
-			stateList:[],   //培训状态
-			stateValue:'',
-			activeName: 'second',
-			expName:'',  //搜素条件
-			possess:'',   //搜素条件全部
-			pageSize: 10,
-			pageNum: 1,
-			total: 10,
-			multipleSelection: [],
-			peixunjihua:[],
-			value1: '',
-			value6:"",
-    }
+				queryCondition: {
+					token:sessionStorage.getItem("token"),
+					wayValue: '',
+					levelValue:'',
+					typeValue:'',
+					stateValue:'',
+					activeName: 'second',
+					expName:'',  //搜素条件
+					value1: '',
+					value6:"",
+					pageSize: 10,
+					pageNum: 1,
+					total: 10,
+					page: crud.getQueryCondition({})
+				},
+				token:sessionStorage.getItem("token"),
+				wayValue: '',
+				levelValue:'',
+				typeValue:'',
+				stateValue:'',
+				activeName: 'second',
+				expName:'',  //搜素条件
+				value1: '',
+				value6:"",
+				pageSize: 10,
+				pageNum: 1,
+				total: 10,
+				possess:'',   //搜素条件全部
+				levelList:[],   //培训等级
+				wayList:[],   //培训方式
+				typeList:[],   //培训类型
+				stateList:[],   //培训状态
+				multipleSelection: [],
+				peixunjihua:[],
+    	}
   },
 	created(){
 		this.getData();
@@ -264,10 +297,16 @@
 				path:'/n_pxplan'
 			})
     },
-    onPageChange(num) {
-				this.pageNum = '' + num;
-				this.getData();
-			},
+    handleSizeChange (limit) {
+      this.queryCondition.page.limit = limit
+      this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+      this.searchForm()
+    },
+    handleCurrentChange (pageIndex) {
+      this.queryCondition.page.pages = pageIndex
+      this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+      this.searchForm()
+    },
 		onSearch() {
 			console.log(this.value6);
 		},
