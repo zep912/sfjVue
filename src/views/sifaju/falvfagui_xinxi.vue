@@ -43,7 +43,7 @@ import {pfxcXjflfgRead, getSelectDetail} from '../../http/api.js'
 export default {
     data() {
         return {
-          id: '',  
+          id: '',
           lawTitle: '',
           scopeLevel: '',
           enactOrg: '',
@@ -70,7 +70,7 @@ export default {
             this.docUrl = da.docUrl;
             // 获取下拉数据
             this.getSelectData();
-            this.setIframeHeight();
+            // this.setIframeHeight();
           }
         })
       };
@@ -98,19 +98,19 @@ export default {
         });
       },
       // 处理iframe高度
-      setIframeHeight() {
-        let nIframe = document.querySelector('.iframe-docx iframe');
-        nIframe.onload = function() {
-          let h = nIframe.offsetHeight;
-          // nIframe.style.height = h + nIframe.scrollHeight + 'px';
-          let childBody = window.frames['iframedocx'].document.body;
-          let ifm = nIframe.contentDocument;
-          nIframe.style.height = 'auto';//关键这一句，先取消掉之前iframe设置的高度
-          nIframe.style.height = ifm.body.scrollHeight+50+'px';
-          // console.log(ifm.body.getElementsByTagName('*'),998);
-          // document.getElementsByTagName('*')
-        }
-      }
+      // setIframeHeight() {
+      //   let nIframe = document.querySelector('.iframe-docx iframe');
+      //   nIframe.onload = function() {
+      //     let h = nIframe.offsetHeight;
+      //     // nIframe.style.height = h + nIframe.scrollHeight + 'px';
+      //     let childBody = window.frames['iframedocx'].document.body;
+      //     let ifm = nIframe.contentDocument;
+      //     nIframe.style.height = 'auto';//关键这一句，先取消掉之前iframe设置的高度
+      //     nIframe.style.height = ifm.body.scrollHeight+50+'px';
+      //     // console.log(ifm.body.getElementsByTagName('*'),998);
+      //     // document.getElementsByTagName('*')
+      //   }
+      // }
     }
 }
 </script>
@@ -118,6 +118,7 @@ export default {
 <style lang="scss">
 .yulanfv{
   width: 100%;
+  height: 100%;
   .yulantop{
     width: 96%;
     padding: 0 2%;
@@ -127,6 +128,7 @@ export default {
     align-items: center;
   }
   .read-falvfagui {
+    height: calc(100% - 70px);
     h1 {
       margin: 15px 0;
       font-size: 30px;
@@ -143,12 +145,13 @@ export default {
       }
     }
     .iframe-docx {
-      // height: 10000px;
+      height: calc(100% - 260px);
       iframe {
         width: 100%;
+        height: 100%;
       }
     }
   }
 }
-    
+
 </style>
