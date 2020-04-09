@@ -185,8 +185,7 @@ export const lvsuochakan2 = data => {
 //管理课件数
 export const manakejians = data => {
     return $http.post('train/getTrainCoursewareList', data);
-};
-
+}
 //新增或修改计划提交
 export const plan = data =>{
     return $http.post('train/saveTrainPlan', data);
@@ -198,7 +197,7 @@ export const deleteTrainPlan = data => {
 //管理培训
 export const manapeixun = data => {
     return $http.post('train/getTrainPlanList', data);
-};
+}
 //敏感词
 export const minganci = data => {
     return $http.post('/admin/words/getWordsList', data);

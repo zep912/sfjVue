@@ -65,10 +65,10 @@
 						<el-form-item label="培训课件" prop="peixunzhuangtai">
 							<el-select v-model="queryCondition.peixunzhuangtai" placeholder="请选择">
 								<el-option
-									v-for="item in peixunfangshiList"
-									:key="item.dictDataCode"
-									:label="item.dictDataName"
-									:value="item.dictDataCode">
+									v-for="item in peixunkejianList"
+									:key="item.resId"
+									:label="item.couName"
+									:value="item.resId">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -114,7 +114,7 @@
 									</template>
 								</el-table-column>
 							</el-table>
-							<div class="p_page">
+							<!-- <div class="p_page">
 								<el-pagination background
 									@size-change="handleSizeChange"
 									@current-change="handleCurrentChange"
@@ -123,7 +123,7 @@
 									layout="total, sizes, prev, pager, next, jumper"
 									:total="queryCondition.page.results">
 									</el-pagination>
-							</div>
+							</div> -->
 						</el-form-item>
 				</el-row>
 			</el-form>
@@ -138,7 +138,7 @@
 
 <script>
 
-	import {getSelectDetail, plan} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getInnerLawyerList} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
 	// import NPxplanTree from './n_pxplan_tree'
@@ -162,8 +162,9 @@
 					principalUserId: '', // 负责人
 					peixunfangshi: '' // 培训人数
 				},
-				peixunfangshiList:[],    //培训方式数据
-				peixunleixingList:[],    //培训类型数据
+				peixunfangshiList: [],    //培训方式数据
+				peixunleixingList: [],    //培训类型数据
+				peixunkejianList: [], // 培训课件数据
 				peixunzhuangtaiList:[],  //培训状态
 				rules: {
 					trainTitle: [
@@ -201,9 +202,10 @@
 			if (this.$route.query.id) {
 				this.lvsuo_texts = "修改律所";
 			} else {
-				this.wayData();
-				this.typeData();
-				this.stateData();
+				this.wayData()
+				this.typeData()
+				this.stateData()
+				this.manakejians()
 			}
 		},
 		mounted() {
@@ -243,7 +245,6 @@
 					}
 				})
 			},
-
 			//获取培训状态数据字典
 			stateData(){
 				getSelectDetail({
@@ -252,6 +253,28 @@
 				}).then(res=>{
 					if(res.code == '200'){
 						this.peixunzhuangtaiList = res.content.resultList
+					}
+				})
+			},
+			// 查询课件
+			manakejians() {
+				let obj ={
+					token: sessionStorage.getItem("token")
+				}
+				manakejians(obj).then(res => {
+					if (res.code == '200') {
+						this.peixunkejianList = res.content.dataList
+					}
+				})
+			},
+			// 获取内部律师列表
+			getInnerLawyerList() {
+				let obj = {
+					token: sessionStorage.getItem("token")
+				}
+				getInnerLawyerList(obj).then(res => {
+					if (res) {
+						console.log('律师', res)
 					}
 				})
 			},
