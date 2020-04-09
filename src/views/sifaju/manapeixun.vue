@@ -8,104 +8,106 @@
 		</div>
 		<div>
 			<!-- 查询条件 -->
-			<el-form :model="queryCondition" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-				<el-row class="tightp_top" style="border: 0;">
-					<el-col :span="8">
-						<el-form-item label="培训方式：" prop="wayValue">
-							<el-select v-model="queryCondition.wayValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
-								<el-option :value="possess">全部</el-option>
-								<el-option
-									v-for="item in wayList"
-									:key="item.dictDataCode"
-									:label="item.dictDataName"
-									:value="item.dictDataCode">
-								</el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>	
-					<el-col :span="8">
-						<el-form-item label="培训级别：" prop="levelValue">
-							<el-select v-model="queryCondition.levelValue" placeholder="请选择"  @change="getData()">
-								<el-option :value="possess">全部</el-option>
-								<el-option
-									v-for="item in levelList"
-									:key="item.dictDataCode"
-									:label="item.dictDataName"
-									:value="item.dictDataCode">
-								</el-option>
-						</el-select>
-						</el-form-item>
-					</el-col>	
-					<el-col :span="8">
-						<el-form-item label="培训类型：" prop="typeValue">
-							<el-select v-model="queryCondition.typeValue" placeholder="请选择" style="margin-right: 30px;"  @change="getData()">
-								<el-option :value="possess">全部</el-option>
+			<div class="biaoge_header">
+				<el-form :model="queryCondition" ref="ruleForm">
+					<el-row type="flex" align="middle" justify="start">
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="培训方式：" prop="wayValue">
+								<el-select v-model="queryCondition.wayValue" placeholder="请选择" @change="getData()">
 									<el-option
-										v-for="item in typeList"
+										v-for="item in wayList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>	
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="培训级别：" prop="levelValue">
+								<el-select v-model="queryCondition.levelValue" placeholder="请选择"  @change="getData()">
+									<el-option
+										v-for="item in levelList"
 										:key="item.dictDataCode"
 										:label="item.dictDataName"
 										:value="item.dictDataCode">
 									</el-option>
 							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row class="tightp_top" style="border: 0;">
-					<el-col :span="8">
-						<el-form-item label="培训状态：" prop="stateValue">
-							<el-select v-model="queryCondition.stateValue" placeholder="请选择"  @change="getData()">
-								<el-option :value="possess">全部</el-option>
-									<el-option
-										v-for="item in stateList"
-										:key="item.dictDataCode"
-										:label="item.dictDataName"
-										:value="item.dictDataCode">
-									</el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>	
-					<el-col :span="8">
-						<el-form-item label="培训时间：" prop="value1">
-							<el-date-picker
-								v-model="queryCondition.value1"
-								type="date"
-								placeholder="选择日期"
-								format="yyyy-MM-dd"
-								value-format="yyyy-MM-dd"
-								style='margin-right:20px'
-								@change="getData()"
-								>
-							</el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="自定义：" prop="value6">
-							<el-date-picker
-									v-model="queryCondition.value6"
-									type="daterange"
+							</el-form-item>
+						</el-col>	
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="培训类型：" prop="typeValue">
+								<el-select v-model="queryCondition.typeValue" placeholder="请选择" @change="getData()">
+										<el-option
+											v-for="item in typeList"
+											:key="item.dictDataCode"
+											:label="item.dictDataName"
+											:value="item.dictDataCode">
+										</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row type="flex" align="middle" justify="start">
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="培训状态：" prop="stateValue">
+								<el-select v-model="queryCondition.stateValue" placeholder="请选择"  @change="getData()">
+										<el-option
+											v-for="item in stateList"
+											:key="item.dictDataCode"
+											:label="item.dictDataName"
+											:value="item.dictDataCode">
+										</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>	
+						<el-col :span="8">
+							<el-form-item class="c-query-range-date" label="培训时间：" prop="value1">
+								<el-date-picker
+								class="c-query-range-date"
+									v-model="queryCondition.value1"
+									type="date"
+									placeholder="选择日期"
 									format="yyyy-MM-dd"
 									value-format="yyyy-MM-dd"
-									range-separator="至"
-									start-placeholder="开始日期"
-									end-placeholder="结束日期"
-								@change="getData()">
+									@change="getData()"
+									>
 								</el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row class="tightp_top" style="border: 0;">
-					<el-col :span="8">
-						<el-form-item label="主题搜索" prop="expName">
-							<el-input v-model="queryCondition.expName" placeholder="请输入要搜的培训主题"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-button type="primary" @click="getData()">搜索</el-button>
-					</el-col>
-				</el-row>
-			</el-form>
-			<div>
-				<el-button type="success" @click="zhiding">+ 制定培训计划</el-button>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item class="c-query-range-date" label="自定义：" prop="value6">
+								<el-date-picker
+								class="c-query-range-date"
+										v-model="queryCondition.value6"
+										type="daterange"
+										format="yyyy-MM-dd"
+										value-format="yyyy-MM-dd"
+										range-separator="至"
+										start-placeholder="开始日期"
+										end-placeholder="结束日期"
+									@change="getData()">
+									</el-date-picker>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row type="flex" align="middle" justify="start">
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="主题搜索：" prop="expName">
+								<el-input v-model="queryCondition.expName" placeholder="请输入要搜的培训主题"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="16"  class="c-query-input">
+							<div class="f-right">
+								<el-button type="primary" @click="getData()">搜索</el-button>
+							</div>
+						</el-col>
+					</el-row>
+				</el-form>
+				<!-- 制定培训计划 -->
+				<div class="biaoge_header_button">
+					<el-button type="success" @click="zhiding">+ 制定培训计划</el-button>
+				</div>
 			</div>
 			<!-- 表格 -->
 			<div class="biaoge_content">
@@ -349,174 +351,91 @@
 
 <style lang="scss">
 .p_conright {
-	.publice{
-		width: 100vw;
-	}
-	.publice_top{
-		width: 90%;
-		padding: 0 5%;
-		height: 80px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		background: -webkit-linear-gradient(left,#0fa3d5, #1b79c2);
-	}
-	.p_top_left img{
-		width: 55px;
-		height: 57px;
-		margin-right: 20px;
-	}
-	.p_top_left{
-		display: flex;
-		align-items: center;
-		color: #fff;
-		font-size: 28px;
-		font-weight: 600;
-
-	}
-	.p_top_right img{
-		width: 52px;
-		height: 52px;
-		border-radius: 3px;
-		margin-right: 20px;
-	}
-	.p_top_right{
-		display: flex;
-		align-items: center;
-
-	}
-	.name_p{
-		width: 100px;
-		text-align: left;
-		color: #fff;
-
-	}
-	.name_p>div:nth-child(1){
-		font-size: 20px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	.name_p>div:nth-child(2){
-		font-size: 14px;
-		margin-top: 10px;
-	}
-	.publice_content{
+	.biaoge_header {
 		width: 100%;
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-	}
-	.active2{
-		background: -webkit-linear-gradient(left,#0fa3d5, #1b79c2);
-	}
-	.p_conright{
-		width: 100%;
-	}
-	.tightp_top{
-		width: 96%;
-		padding: 0 2%;
-		height: 70px;
-		background: #fff;
+		padding: 20px;
 		border-bottom: 1px solid #eee;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		.el-form {
+			margin-bottom: 20px;
+      .el-row {
+        .el-form-item {
+          margin: 0;
+        }
+        margin-bottom: 10px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .el-col-twoline {
+          display: inline-block;
+          position: relative;
+        }
+        .el-date-editor--daterange.el-input__inner {
+          width: 100%;
+        }
+        .el-form-item__label {
+          width: 85px;
+          float: left;
+          text-align: right;
+        }
+        .el-form-item__content {
+          display: block;
+          padding-left: 85px;
+        }
+        .el-form-item {
+          white-space: nowrap;
+        }
+        .el-select {
+          display: block;
+          position: relative;
+        }
+        .el-form-item.c-query-select {
+          white-space: nowrap;
+          display: block;
+          .el-input {
+            width: 100%;
+            .el-input__inner {
+              width: 100%;
+            }
+          }
+          .el-form-item__label .c-left {
+            text-align: left;
+          }
+        } // 搜索重置按钮
+        .c-query-input {
+          display: block;
+          white-space: nowrap;
+          // .el-button {
+          //   width: 128px;
+          //   padding: 0;
+          //   margin-left: 20px;
+          // }
+          .el-button:nth-child(1) {
+            margin-left: 0;
+          }
+        } // 搜索重置按钮右浮动
+        .f-right {
+          float: right;
+        }
+        .c-query-range-date {
+          white-space: nowrap;
+          width: 100%;
+        }
+        div.el-form-item.c-query-range-date {
+          margin-right: 0;
+        }
+      }
+      .el-input-number {
+        .el-input__inner {
+          text-align: left;
+        }
+      }
+    }
+		.biaoge_header_button {
+			text-align: left;
+		}
 	}
-	/* .right_select{
-		margin-left: 40px;
-	} */
-	.p_search{
-		width: 400px;
-		height: 38px;
-		border: 1px solid #999;
-		border-radius: 5px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		overflow: hidden;
-	}
-	.p_search input{
-		padding-left: 20px;
-		border: 0;
-	}
-	.p_search .searchp{
-		width: 100px;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background:-webkit-linear-gradient(left,#0fa3d5, #1b79c2);
-	}
-	.p_page{
-		width: 94%;
-		padding: 0 3%;
-		display: flex;
-		justify-content: flex-end;
+	.biaoge_content {
 		margin-top: 20px;
 	}
-	.el-tabs__content{
-		display: none;
-	}
-	.p_conright .el-table th{
-		background: #1884c7 !important;
-		color: #fff;
-	}
-	.top_manalvs{
-		width: 96%;
-		padding: 0 2%;
-		height: 70px;
-		display: flex;
-		align-items: center;
-		background: #fff;
-		border-bottom: 1px solid #eee;
-	}
-	.mana_tab{
-		width: 94%;
-		padding: 20px 3%;
-		display: flex;
-		align-items: center;
-		font-size: 14px;
-		background: #f7f7f7;
-		div{
-			padding: 0 20px;
-		}
-		.lvshixiac{
-			position: relative;
-			color: #0077AA;
-			font-weight: 600;
-		}
-		.lvshixiac:after{
-			width: 80px;
-			height: 2px;
-			background: #0077AA;
-			position: absolute;
-			top: 30px;
-			left: 10px;
-			content: '';
-
-		}
-	}
-	.zuzhijifou{
-		width: 35%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.peixun_shijian{
-		display: flex;
-		align-items: center;
-		.yuefen{
-			width: 40px;
-			height: 40px;
-			border: 1px solid #eee;
-			margin: 0 10px;
-			border-radius: 5px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-	}
-}	
+}
 </style>
