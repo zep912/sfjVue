@@ -146,14 +146,14 @@
 </template>
 
 <script>
-	import {manapeixun,getSelectDetail} from '../../http/api.js'
+	import {manapeixun, getSelectDetail, handleDelete} from '../../http/api.js'
 	import * as crud from '../../assets/js/co-crud.js'
 	import util from '@/assets/js/co-util'
   export default {
     data() {
       return {
 				queryCondition: {
-					token:sessionStorage.getItem("token"),
+					token: sessionStorage.getItem("token"),
 					trainMode: null,
 					trainStatus: null,
 					trainType: null,
@@ -246,6 +246,21 @@
 		zhiding(){
 			this.$router.push({
 				path:'/n_pxplan'
+			})
+		},
+		// 删除
+		handleDelete (index, row) {
+			let obj = {
+				token: sessionStorage.getItem("token"),
+				planId: row.planId
+			}
+			handleDelete(obj).then(res => {
+				if (res) {
+					this.$message({
+						message: '删除成功',
+						type: 'success'
+					})
+				}
 			})
 		},
 		// 分页

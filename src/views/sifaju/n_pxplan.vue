@@ -128,7 +128,7 @@
 				</el-row>
 			</el-form>
 		</div>
-		<NPxplanTree></NPxplanTree>
+		<!-- <NPxplanTree></NPxplanTree> -->
 		<div>
 			<el-button type="primary" @click="submitConsultInfo">提交</el-button>
 			<el-button>取消</el-button>
@@ -140,12 +140,12 @@
 
 	import {getSelectDetail} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
-	import NPxplanTree from './n_pxplan_tree'
+	// import NPxplanTree from './n_pxplan_tree'
 	// import util from '@/assets/js/co-util'
 	export default {
-		components: {
-			NPxplanTree
-		},
+		// components: {
+		// 	NPxplanTree
+		// },
 		data() {
 			return {
 				//新增和修改律所信息
