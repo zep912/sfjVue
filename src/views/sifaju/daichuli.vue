@@ -156,6 +156,18 @@
 </template>
 
 <script>
+	export default {
+	  data() {
+	    return {
+		  value1: '',
+		  value: '',
+		  options: []
+	    }
+	  },
+	  methods:{
+
+	  }
+	}
 </script>
 
 <style lang="scss">

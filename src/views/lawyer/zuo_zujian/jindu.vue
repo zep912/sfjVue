@@ -7,29 +7,7 @@
 				▼
 			</div>
 			<div class="indexcon_leftcon">
-				<div class="shouye_jindu">
-					<div class="jindu_zuo">
-						<div>
-							08:00
-							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						</div>
-					</div>
-					<div class="jindu_you">
-						<div>
-							<div class="jindu_qian">
-								<div>签到</div>
-								<div class="jindu_shu">1</div>
-								<div class="jindu_xiugai">修改记录</div>
-							</div>
-							<div class="zhuang">状态：正常</div>
-						</div>
-						<div class="jindu_zhiwen">
-							<img src="../../../assets/image/u1879.png" alt="">
-							<div>更多操作</div>
-						</div>
-					</div>
-				</div>
-				<div class="shouye_jindu">
+				<!-- <div class="shouye_jindu">
 					<div class="jindu_zuo">
 						<div>
 							10:00
@@ -40,39 +18,10 @@
 						<div>
 							<div class="jindu_qian">
 								<div>签到</div>
-								<!-- <div class="jindu_shu">1</div> <div class="jindu_xiugai">修改记录</div> -->
 							</div>
 							<div class="zhuang">XXXXXXXXXXXXXXXXXXXXXXXX</div>
 						</div>
 					</div>
-				</div>
-				<div class="shouye_jindu">
-					<div class="jindu_zuo" style="height: 115px;">
-						<div>
-							10:00
-							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						</div>
-					</div>
-					<div class="jindu_younow">
-		
-						<div>
-							
-								<div class="jindu_topchuli">
-									<div>待处理：<router-link :to="{name: 'wodefaqi'}"><span>37</span></router-link>项</div>
-									<div>其中超时：<router-link :to="{name: 'wodefaqi'}"><span>37</span></router-link>项</div>
-								</div>
-								<div class="jindu_topchuli">
-									<div>待处理：<router-link :to="{name: 'wodefaqi'}"><span>37</span></router-link>项</div>
-									<div>其中超时：<router-link :to="{name: 'wodefaqi'}"><span>37</span></router-link>项</div>
-								</div>
-							
-							
-						</div>
-						<router-link :to="{name: 'zhize'}">
-							<div class="zhize" @click="zhize">职责</div>
-						</router-link>
-					</div>
-		
 				</div>
 				<div class="shouye_jindu">
 					<div class="jindu_zuo">
@@ -85,7 +34,6 @@
 						<div>
 							<div class="jindu_qian">
 								<div>智慧司法需求对接会议</div>
-								<!-- <div class="jindu_shu">1</div> <div class="jindu_xiugai">修改记录</div> -->
 							</div>
 							<div class="zhuang">会议地点：1920会议室</div>
 						</div>
@@ -108,30 +56,55 @@
 										<div class="jindu_xiugai xuexihong">2</div>
 									</div>
 								</div>
-								<!-- <div class="zhuang">会议地点：1920会议室</div> -->
 							</router-link>
 						</div>
 						
 					</div>
-				</div>
-				<div class="shouye_jindu">
+				</div> -->
+				<div class="shouye_jindu" v-for="(item, index) in timeList" :key="index">
 					<div class="jindu_zuo">
-						<div>
-							<span>10:00 </span>
+						<div style="position: relative;">
+							{{item.nodeTime}}
 							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
+							<div style="position:ablsolute; left: 0; top: 50px;text-align:left;font-size: 14px;">现在</div>
 						</div>
 					</div>
-					<div class="jindu_you jindubai">
-						<div style="width: 100%;">
-							<div class="jindu_qian liangqi">
-								<div>上班签到</div>
-								<div class="xuexi_you" style="opacity: 0;">
-									<div class="jindu_shu">1/3</div>
-									<div class="jindu_xiugai xuexihong">2</div>
-								</div>
+					<!-- 签到（退） -->
+					<div v-if="item.nodeType === '1'" class="jindu_you">
+						<div>
+							<div class="jindu_qian">
+								<div>{{item.nodeTitle}}</div>
+								<!-- <div class="jindu_shu">1</div> -->
+								<!-- <div class="jindu_xiugai">修改记录</div> -->
 							</div>
-							<!-- <div class="zhuang">会议地点：1920会议室</div> -->
+							<!-- <div class="zhuang">{{item.nodeContent}}</div> -->
 						</div>
+						<!-- <div class="jindu_zhiwen">
+							<img src="../../../assets/image/u1879.png" alt="">
+							<div>更多操作</div>
+						</div> -->
+					</div>
+					<!-- 待办事项 -->
+					<div v-if="item.nodeType === '2'" class="jindu_you">
+					</div>
+					<!-- 文本消息 -->
+					<div v-if="item.nodeType === '3'" class="jindu_you">
+					</div>
+					<!-- 即时信息 -->
+					<div v-if="item.nodeType === '4'" class="jindu_younow">
+						<div>
+							<div class="jindu_topchuli">
+								<div><span class="label-left">待处理</span><router-link :to="{path: '/lvshi'}"><span class="count top-blue">{{item.nodeContent}}</span></router-link>项</div>
+								<div><span class="label-left">其中超时</span><router-link :to="{path: '/lvshi'}"><span class="count btm-red">{{item.nodeContent3}}</span></router-link>项</div>
+							</div>
+							<div class="jindu_topchuli">
+								<div><span class="label-left">我发起</span><router-link :to="{name: 'wodefaqi'}"><span class="count top-blue">{{item.nodeContent2}}</span></router-link>项</div>
+								<div><span class="label-left">其中超时</span><router-link :to="{name: 'wodefaqi'}"><span class="count btm-red">{{item.nodeContent4}}</span></router-link>项</div>
+							</div>
+						</div>
+						<router-link :to="{name: 'zhize'}">
+							<div class="zhize" @click="zhize">职责</div>
+						</router-link>
 					</div>
 				</div>
 			</div>
@@ -142,10 +115,13 @@
 </template>
 
 <script>
+import * as api from "@/http/lawyer"
+
 	export default {
 	  data() {
 	    return {
-	      input: ''
+		  value1: new Date(),
+		  timeList: []
 	    }
 	  },
 	  methods:{
@@ -154,7 +130,23 @@
 		  },
 		  xuexijihua(){
 			this.$emit('active','4')
+		  },
+		  getWorkAxis() {
+			  let params = {
+				token: sessionStorage.getItem("token")
+				// token: '64d1d05f5ccb4670a6d342f3b3c002ce'
+			  }
+			  api.getWorkAxis(params).then(res => {
+				  console.log(res)
+				  if(res.code === 200) {
+					this.timeList = res.content.dataList
+				  }
+			  })
+			  
 		  }
+	  },
+	  created() {
+		  this.getWorkAxis()
 	  }
 	}
 </script>
@@ -175,6 +167,7 @@
 		// width: 94%;
 		height: 90%;
 		background: #f6f6f6;
+		padding-top: 10px;
 		// padding: 0px 3%;
 	}
 	
@@ -289,6 +282,9 @@
 		overflow: hidden;
 		display: block !important;
 	}
+	.jindu_younow a {
+		text-decoration: none;
+	}
 	
 	.jindu_younow>div {
 		display: flex;
@@ -308,7 +304,23 @@
 	.jindu_topchuli>div {
 		line-height: 22px;
 	}
-	
+	.label-left {
+		display: inline-block;
+		width: 80px;
+		text-align: left;
+	}
+	.count {
+		display: inline-block;
+		width: 50px;
+	}
+	.top-blue {
+		font-size: 16px;
+    	color: #158CCB;
+	}
+	.btm-red {
+		font-size: 14px;
+    	color: #FF6666;	
+	}
 	.zhize {
 		width: 100%;
 		height: 40px;

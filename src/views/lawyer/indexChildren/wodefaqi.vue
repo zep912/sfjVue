@@ -5,145 +5,48 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<el-select v-model="value" style="width:90px" placeholder="请选择">
-						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-					<div class="time">年</div>
-					<el-select v-model="value" style="width:90px" placeholder="请选择">
-						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-					<div class="time">月</div>
-					<el-select v-model="value" style="width:90px" placeholder="请选择">
-						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-					<div class="time">日</div>
+					<el-date-picker 
+						v-model="defultMonth"
+						type="month"
+						format="yyyy 年 MM 月"
+						value-format="yyyy-MM"
+						:clearable="false"
+						style="width: 300px;margin-left: 10px;"></el-date-picker>
 				</div>
 				<div>
 					自定义
-					<el-date-picker v-model="value1" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+					<el-date-picker v-model="timeArr" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
 					 style="width: 260px;margin-left: 10px;">
 					</el-date-picker>
 				</div>
 				<div>
 					<div class="sousuo">
 						<input type="text" placeholder="请输入关键字查询">
-						<div class="search">
+						<div class="search" @click="getStartedList">
 							<img src="../../../assets/image/u2290.png" alt="">
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="daichu_nirong">
-				<div class="daichuli">
-					<div class="daichuli_top">
-						<div></div>
-						待我处理（33）
-					</div>
-					<div class="dauchuli_neirong">
-						<div class="daichuli_one">
-							<div class="daichuli_left">
-								<div>待响应</div>
-								<div class="daichuli_zhong">
-									<div>学校门口限行牌写的是8点到9点，我7点半被拍了，能申诉吗</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
-								</div>
-							</div>
-							<div class="daichuli_you">
-								<div>超时：2小时</div>
-								<div>06-25 13:20</div>
-							</div>
-						</div>
-						<div class="daichuli_one">
-							<div class="daichuli_left">
-								<div>待响应</div>
-								<div class="daichuli_zhong">
-									<div>学校门口限行牌写的是8点到9点，我7点半被拍了，能申诉吗</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
-								</div>
-							</div>
-							<div class="daichuli_you">
-								<div>超时：2小时</div>
-								<div>06-25 13:20</div>
-							</div>
-						</div>
-						<div class="daichuli_one">
-							<div class="daichuli_left">
-								<div>待响应</div>
-								<div class="daichuli_zhong">
-									<div>学校门口限行牌写的是8点到9点，我7点半被拍了，能申诉吗</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
-								</div>
-							</div>
-							<div class="daichuli_you">
-								<div>超时：2小时</div>
-								<div>06-25 13:20</div>
-							</div>
-						</div>
-						<div class="gengsduo">点击加载更多</div>
-					</div>
-				</div>
-				<div class="daichuli yihchuli">
-					<div class="daichuli_top yihchuli">
-						<div class="yihchulibeijing"></div>
-						我已处理（超时）（33）
-					</div>
-					<div class="dauchuli_neirong">
-						<div class="daichuli_one">
-							<div class="daichuli_left">
-								<div class="yihchulibeijing">待响应</div>
-								<div class="daichuli_zhong">
-									<div class="yihchuli">学校门口限行牌写的是8点到9点，我7点半被拍了，能申诉吗</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
-								</div>
-							</div>
-							<div class="daichuli_you">
-								<div>超时：2小时</div>
-								<div>06-25 13:20</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="daichuli yichuli">
-					<div class="daichuli_top yichuli">
-						<div class="yichulibeijing"></div>
-						我已处理（超时）（33）
-					</div>
-					<div class="dauchuli_neirong">
-						<div class="daichuli_one">
-							<div class="daichuli_left">
-								<div class="yichulibeijing">待审批</div>
-								<div class="daichuli_zhong">
-									<div class="yichuli">学校门口限行牌写的是8点到9点，我7点半被拍了，能申诉吗</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
-								</div>
-							</div>
-							<div class="daichuli_you">
-								<div>超时：2小时</div>
-								<div>06-25 13:20</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="daichuli yiguidang">
+				<div v-for="(item, index) in dataList" :key="index" class="daichuli yiguidang">
 					<div class="daichuli_top yiguidang">
 						<div class="yiguidangbeijing"></div>
-						2017-07-10
+						{{item.time}}
 					</div>
 					<div class="dauchuli_neirong">
 						<div class="daichuli_one">
 							<div class="daichuli_left">
-								<div class="yiguidangbeijing">已归档</div>
+								<div class="yiguidangbeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
-									<div class="yiguidang">学校门口限行牌写的是8点到9点，我7点半被拍了，能申诉吗</div>
+									<div class="yiguidang">{{item.dataTitle}}</div>
 									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div>超时：2小时</div>
-								<div>06-25 13:20</div>
+								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
+								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
+								<div>{{item.taskStartTime}}</div>
 							</div>
 						</div>
 					</div>
@@ -156,6 +59,60 @@
 </template>
 
 <script>
+import * as api from "@/http/lawyer"
+import {formatDate} from '../../../utils/date.js';
+export default {
+	  data() {
+	    return {
+		  defultMonth: '',
+		  timeArr: [], // 自定义时间
+		  dataList: []
+	    }
+	  },
+	  methods:{
+		  getStartedList() {
+			  let params = {
+				token:sessionStorage.getItem("token"),
+				// systemList:[
+				// 	{
+				// 		systemCode:'mock'
+				// 	}
+				// ],
+				// instanceList:[
+				// 	{
+				// 		instanceDefKey:'mock'
+				// 	}
+				// ],
+				// taskKeyList:[
+				// 	{
+				// 		taskDefKey:'mock'
+				// 	}
+				// ],
+				taskTime: this.defultMonth,
+				taskStartTime: this.timeArr&&this.timeArr[0] ? this.timeArr[0] : null,
+				taskEndTime: this.timeArr&&this.timeArr[1] ? this.timeArr[1] : null,
+				pageNum:'0',
+				pageSize:'9999'
+			}
+			  api.getStartedList(params).then(res => {
+				  console.log(res)
+				  if(res.code === 200) {
+					this.dataList = res.content.dataList.map(i => {
+						i.taskStartTime = formatDate(new Date(i.taskStartTime), 'MM-dd hh:ss:mm')
+						i.time = formatDate(new Date(i.taskStartTime), 'MM-dd')
+						return i
+					})
+				  }
+			  })
+			  
+		  }
+	  },
+	  created() {
+		  this.defultMonth = formatDate(new Date(), 'yyyy-MM')
+		  this.$nextTick(() => {this.getStartedList()})
+		  
+	  }
+	}
 </script>
 
 <style lang="scss">
@@ -357,15 +314,14 @@
 		white-space: nowrap;
 	}
 
-	.daichuli_you>div:nth-child(1) {
-		color: #ff6666;
-		font-size: 16px;
-	}
-
-	.daichuli_you>div:nth-child(2) {
+	.daichuli_you>div {
 		color: #666;
 		font-size: 14px;
 		margin-top: 10px;
+	}
+	.daichuli_you .over {
+		color: #ff6666;
+		font-size: 16px;
 	}
 
 	.gengsduo {
