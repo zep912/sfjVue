@@ -9,28 +9,18 @@
 			</el-breadcrumb>
 		</div>
 		<div style="width: 96%;padding: 20px 2%;">
-			<el-form :model="addForm"
-					 :rules="rules"
-					 ref="addForm"
-					 label-width="100px"
-					 class="demo-ruleForm">
-				<div class="flex"
-					 style="align-items: flex-start;">
-					<el-form-item class="flex"
-								  prop="peixunzhuti" style="width: 90% !important;margin-bottom:0px !important;">
-						<span class="text_betten">培训主题<i></i></span><span class="name_span">*</span>
-						<el-input maxlength="100"
-								  v-model="addForm.peixunzhuti"
-								  style="width: 80%;"
-								  placeholder="请输入培训主题"></el-input>
-					</el-form-item>
-				</div>
-				<div class="add_lvshi">
-					<div class="add_child">
-						<el-form-item class="flex"
-									  prop="peixunfangshi">
-							<span class="text_betten">培训方式<i></i></span><span class="name_span">*</span>
-								<el-select v-model="addForm.peixunfangshi" placeholder="请选择" style="width: 82%;">
+			<el-form :model="addForm" :rules="rules" ref="addForm" label-width="100px" class="demo-ruleForm">
+				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="8">
+						<el-form-item label="培训主题" prop="peixunzhuti">
+							<el-input maxlength="100"  v-model="addForm.peixunzhuti"  style="width: 80%;"  placeholder="请输入培训主题"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="8">
+						<el-form-item label="培训方式" prop="peixunfangshi">
+							<el-select v-model="addForm.peixunfangshi" placeholder="请选择" style="width: 82%;">
 									<el-option
 										v-for="item in peixunfangshiList"
 										:key="item.dictDataCode"
@@ -39,65 +29,51 @@
 									</el-option>
 								</el-select>
 						</el-form-item>
-						<el-form-item class="flex"
-									  prop="peixunleixing">
-							<span class="text_betten">培训类型<i></i></span><span class="name_span">*</span>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="培训类型" prop="peixunleixing">
 							<el-select v-model="addForm.peixunleixing" placeholder="请选择" style="width: 82%;">
-								<el-option
-										v-for="item in peixunleixingList"
+									<el-option
+										v-for="item in peixunfangshiList"
 										:key="item.dictDataCode"
 										:label="item.dictDataName"
 										:value="item.dictDataCode">
-								</el-option>
-							</el-select>
+									</el-option>
+								</el-select>
 						</el-form-item>
-						<el-form-item class="flex"
-									  >
-							<span class="text_betten">开始时间<i></i></span><span class="name_span">*</span>
+					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="8">
+						<el-form-item label="开始时间" prop="peixunfangshi">
 							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 						</el-form-item>
-					</div>
-					<div class="add_child">
-						<el-form-item class="flex"
-									  prop="shiyonggangwei">
-							<span class="text_betten">适用岗位<i></i></span><span class="name_span">*</span>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="截止时间" prop="peixunfangshi">
+							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="8">
+						<el-form-item label="适用岗位" prop="peixunfangshi">
 							<el-input v-model="addForm.shiyonggangwei" style="width: 82%;" placeholder="全部社会律师"></el-input>
-<!--							:class="{'waring_info_border':checkSize_type.personPhone}" @blur="checkSize(submitConsultLocale.consultData.personPhone,'personPhone')"-->
 						</el-form-item>
-						<el-form-item class="flex">
-							<span class="text_betten">培训状态<i></i></span><span class="name_span" style="opacity: 0;">*</span>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="培训状态" prop="peixunzhuangtai">
 							<el-select v-model="addForm.peixunzhuangtai" placeholder="请选择" style="width: 82%;">
-								<el-option
-										v-for="item in peixunzhuangtaiList"
+									<el-option
+										v-for="item in peixunfangshiList"
 										:key="item.dictDataCode"
 										:label="item.dictDataName"
 										:value="item.dictDataCode">
-								</el-option>
-							</el-select>
+									</el-option>
+								</el-select>
 						</el-form-item>
-						<el-form-item class="flex"
-						>
-							<span class="text_betten">截止时间<i></i></span><span class="name_span">*</span>
-							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
-						</el-form-item>
-					</div>
-				</div>
-
-				<div class="flex"
-					 style="align-items: flex-start;margin: 20px 0;">
-
-				</div>
-				<div>
-					<el-form-item class="flex"
-								  style="align-items: flex-start;margin: 20px 0;">
-					</el-form-item>
-
-<!--					<div style="display: flex;align-items: center;justify-content: center;margin-top: 50px;">-->
-<!--						<el-button type="primary"-->
-<!--								   @click="baocun">提交</el-button>-->
-<!--						<el-button @click="quxiao">取消</el-button>-->
-<!--					</div>-->
-				</div>
+					</el-col>
+				</el-row>
 			</el-form>
 		</div>
 	</div>
