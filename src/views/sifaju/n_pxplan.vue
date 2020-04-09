@@ -12,13 +12,13 @@
 			<el-form :model="queryCondition" :rules="rules" ref="queryCondition">
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="培训主题" prop="peixunzhuti">
-							<el-input maxlength="100"  v-model="queryCondition.peixunzhuti" placeholder="请输入培训主题"></el-input>
+						<el-form-item label="培训主题" prop="trainTitle">
+							<el-input maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="培训方式" prop="peixunfangshi">
-							<el-select v-model="queryCondition.peixunfangshi" placeholder="请选择">
+						<el-form-item label="培训方式" prop="trainMode">
+							<el-select v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in peixunfangshiList"
 										:key="item.dictDataCode"
@@ -31,15 +31,15 @@
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="适用岗位" prop="peixunfangshi">
-							<el-input v-model="queryCondition.shiyonggangwei" placeholder="全部社会律师"></el-input>
+						<el-form-item label="适用岗位" prop="matchPos">
+							<el-input v-model="queryCondition.matchPos" placeholder="全部社会律师"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="培训类型" prop="peixunleixing">
-							<el-select v-model="queryCondition.peixunleixing" placeholder="请选择">
+						<el-form-item label="培训类型" prop="trainType">
+							<el-select v-model="queryCondition.trainType" placeholder="请选择">
 									<el-option
-										v-for="item in peixunfangshiList"
+										v-for="item in peixunleixingList"
 										:key="item.dictDataCode"
 										:label="item.dictDataName"
 										:value="item.dictDataCode">
@@ -49,13 +49,13 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
-						<el-form-item label="开始时间" prop="peixunfangshi">
+					<el-col :span="12">
+						<el-form-item label="开始时间" prop="startTime">
 							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="截止时间" prop="peixunfangshi">
+					<el-col :span="12">
+						<el-form-item label="截止时间" prop="endTime">
 							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 						</el-form-item>
 					</el-col>
@@ -74,18 +74,18 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="公开类型" prop="peixunzhuangtai">
-							<el-radio-group v-model="queryCondition.peixunzhuangtai">
-								<el-radio :label="3">公开</el-radio>
-								<el-radio :label="6">不公开</el-radio>
+						<el-form-item label="公开类型" prop="openType">
+							<el-radio-group v-model="queryCondition.openType">
+								<el-radio :label="2">公开</el-radio>
+								<el-radio :label="1">不公开</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="负责人" prop="peixunfangshi">
-							<el-select v-model="queryCondition.peixunzhuangtai" placeholder="请选择">
+						<el-form-item label="负责人" prop="principalUserId">
+							<el-select v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunfangshiList"
 									:key="item.dictDataCode"
@@ -138,51 +138,61 @@
 
 <script>
 
-	import {getSelectDetail} from "../../http/api"
+	import {getSelectDetail, plan} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
+	import SingleDate from '../../components/SingleDate'
 	// import NPxplanTree from './n_pxplan_tree'
 	// import util from '@/assets/js/co-util'
 	export default {
-		// components: {
-		// 	NPxplanTree
-		// },
+		components: {
+			SingleDate
+		},
 		data() {
 			return {
 				//新增和修改律所信息
 				queryCondition: {
-					peixunzhuti:'',     //培训主题
-					peixunfangshi: '',  //培训方式
-					peixunleixing:'',   //培训类型
-					shiyonggangwei:'',  //适用岗位
-					peixunzhuangtai:'',  //培训状态
-					page: crud.getQueryCondition({})
+					trainTitle:'',     //培训主题
+					trainMode: '',  //培训方式
+					matchPos:'',  //适用岗位
+					trainType:'',   //培训类型
+					startTime: '', // 开始时间
+					endTime: '', // 截止时间
+					peixunzhuangtai: '', // 培训课件
+					openType:'',  // 公开类型
+					principalUserId: '', // 负责人
+					peixunfangshi: '' // 培训人数
 				},
 				peixunfangshiList:[],    //培训方式数据
 				peixunleixingList:[],    //培训类型数据
 				peixunzhuangtaiList:[],  //培训状态
 				rules: {
-					peixunzhuti: [
-						{
-							required: true,
-							message: "请输入培训主题",
-							trigger: "blur"
-						}
+					trainTitle: [
+						{required: true,message: "请输入培训主题",trigger: "blur"}
 					],
-					peixunfangshi: [
-						{
-							required: true,
-							message: "请选择培训方式",
-							trigger: "change"
-						}
+					trainMode: [
+						{required: true,message: "请选择培训方式",trigger: "change"}
 					],
-					peixunleixing:[
-						{
-							required: true,
-							message: "请选择培训类型",
-							trigger: "change"
-						}
+					matchPos: [
+						{required: true,message: "请输入适用岗位",trigger: "blur"}
+					],
+					trainType:[
+						{required: true,message: "请选择培训类型",trigger: "change"}
+					],
+					startTime: [
+						{required: true,message: "请输入开始时间",trigger: "change"}
+					],
+					endTime: [
+						{required: true,message: "请输入截止时间",trigger: "change"}
+					],
+					peixunzhuangtai: [
+						{required: true,message: "请选择培训课件",trigger: "change"}
+					],
+					openType: [
+						{required: true,message: "请选择公开类型",trigger: "change"}
+					],
+					principalUserId: [
+						{required: true,message: "请选择负责人",trigger: "change"}
 					]
-
 				},
 				peixunjihua: []
 			}
@@ -257,7 +267,21 @@
 			},
 			// 提交
 			submitConsultInfo () {
-
+				this.$refs.queryCondition.validate((valid) => {
+					if (valid) {
+						plan().then(res => {
+							if (res) {
+								this.$message({
+									message: '删除成功',
+									type: 'success'
+								})
+							}
+						})
+					} else {
+						console.log('error submit!!')
+            return false
+					}
+				})
 			}
 		}
 	}
