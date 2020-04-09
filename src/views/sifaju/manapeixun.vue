@@ -146,7 +146,7 @@
 </template>
 
 <script>
-	import {manapeixun, getSelectDetail, handleDelete} from '../../http/api.js'
+	import {manapeixun, getSelectDetail, deleteTrainPlan} from '../../http/api.js'
 	import * as crud from '../../assets/js/co-crud.js'
 	import util from '@/assets/js/co-util'
   export default {
@@ -248,18 +248,33 @@
 				path:'/n_pxplan'
 			})
 		},
+		// 修改
+		handleEdit (index, row) {
+			this.$router.push({
+				path:'/n_pxplan',
+				query: {id: row.planId}
+			})
+		},
+		// 查看
+		chakan(index, row){
+			this.$router.push({
+				path:'/n_pxplan',
+				query: {id: row.planId,type: 'view'}
+			})
+		},
 		// 删除
 		handleDelete (index, row) {
 			let obj = {
 				token: sessionStorage.getItem("token"),
 				planId: row.planId
 			}
-			handleDelete(obj).then(res => {
+			deleteTrainPlan(obj).then(res => {
 				if (res) {
 					this.$message({
 						message: '删除成功',
 						type: 'success'
 					})
+					this.getData()
 				}
 			})
 		},
@@ -274,13 +289,7 @@
       this.queryCondition.page.pages = pageIndex
       this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
       this.getData()
-		},
-		// 查看
-		chakan(){
-			// this.$router.push({
-			// 	path:
-			// })
-		},
+		}
 	}
 }
 </script>

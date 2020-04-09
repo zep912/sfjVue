@@ -32,7 +32,14 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
 						<el-form-item label="适用岗位" prop="matchPos">
-							<el-input v-model="queryCondition.matchPos" placeholder="全部社会律师"></el-input>
+							<el-select v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
+								<el-option
+									v-for="item in positionList"
+									:key="item.value"
+									:label="item.label"
+									:value="item.value">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -87,10 +94,10 @@
 						<el-form-item label="负责人" prop="principalUserId">
 							<el-select v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
-									v-for="item in peixunfangshiList"
+									v-for="item in personList"
 									:key="item.dictDataCode"
-									:label="item.dictDataName"
-									:value="item.dictDataCode">
+									:label="item.personName"
+									:value="item.personId">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -149,6 +156,7 @@
 		},
 		data() {
 			return {
+				type: '',
 				//新增和修改律所信息
 				queryCondition: {
 					trainTitle:'',     //培训主题
@@ -165,7 +173,17 @@
 				peixunfangshiList: [],    //培训方式数据
 				peixunleixingList: [],    //培训类型数据
 				peixunkejianList: [], // 培训课件数据
-				peixunzhuangtaiList:[],  //培训状态
+				positionList:[
+					{
+						label: '内部律师',
+						value: 1
+					},
+					{
+						label: '外部律师',
+						value: 2
+					}
+				],  // 适用岗位
+				personList: [], // 负责人
 				rules: {
 					trainTitle: [
 						{required: true,message: "请输入培训主题",trigger: "blur"}
@@ -199,12 +217,15 @@
 			}
 		},
 		created() {
+			if (this.$route.query.type) {
+				this.type = this.$route.query.type
+			}
 			if (this.$route.query.id) {
-				this.lvsuo_texts = "修改律所";
+				this.lvsuo_texts = "修改培训计划";
 			} else {
 				this.wayData()
 				this.typeData()
-				this.stateData()
+				// this.stateData()
 				this.manakejians()
 			}
 		},
@@ -256,6 +277,13 @@
 					}
 				})
 			},
+			// 适用岗位
+			changeMatchPos (event) {
+				console.log(111, event)
+				if (event) {
+					this.getInnerLawyerList()
+				}
+			},
 			// 查询课件
 			manakejians() {
 				let obj ={
@@ -274,7 +302,8 @@
 				}
 				getInnerLawyerList(obj).then(res => {
 					if (res) {
-						console.log('律师', res)
+						console.log('律师', res.content)
+						this.personList = res.content.dataList
 					}
 				})
 			},
