@@ -4,64 +4,22 @@
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/sifaju' }">职责</el-breadcrumb-item>
 			  <el-breadcrumb-item :to="{path:'falv_liebiao'}">普法宣传</el-breadcrumb-item>
-			  <el-breadcrumb-item>新增法律法规</el-breadcrumb-item>
+			  <el-breadcrumb-item>新增{{titleList[$route.query.pageType]}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
-		<!-- <div class="add_lvshi falvf_content">
-			<div class="add_child">
-				<div class="flex">
-					<span class="text_betten">标题<i></i></span><span class="name_span" >*</span>
-					<el-input v-model="tijiaodata.lawTitle" style="width: 60%;" placeholder="请输入内容"></el-input>
-				</div>
-				<div class="flex">
-					<span class="text_betten">颁布单位<i></i></span><span class="name_span" >*</span>
-					<el-input v-model="tijiaodata.enactOrg" style="width: 60%;" placeholder="请输入内容"></el-input>
-				</div>
-				<div class="flex">
-					<span class="text_betten">颁布日期<i></i></span><span class="name_span" >*</span>
-					<el-date-picker
-					  v-model="tijiaodata.enactDate"
-					  type="date"
-					  placeholder="选择日期" style="width: 60%;">
-					</el-date-picker>
-				</div>
-			</div>
-			<div class="add_child">
-				<div class="flex">
-					<span class="text_betten">效力级别<i></i></span><span class="name_span" >*</span>
-					<el-select v-model="tijiaodata.scopeLevel" style="width: 60%;">
-						<el-option v-for="(item,index) in lvSelectList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
-					</el-select>
-				</div>
-				<div class="flex">
-					<span class="text_betten">时效性<i></i></span><span class="name_span" style="opacity: 0;">*</span>
-					<el-select v-model="tijiaodata.lawTimeliness" style="width: 60%;">
-						<el-option v-for="(item,index) in timeDataList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
-					</el-select>
-				</div>
-				<div class="flex">
-					<span class="text_betten">执行日期<i></i></span><span class="name_span" >*</span>
-					<el-date-picker
-					  v-model="tijiaodata.enactDate"
-					  type="date"
-					  placeholder="选择日期" style="width: 60%;">
-					</el-date-picker>
-				</div>
-			</div>
-		</div> -->
 		<div class="formWrap">
-			<el-form :model="form" :rules="rules" ref="form">
+			<el-form :model="form" v-if="$route.query.pageType == '0'" :rules="rules" ref="form1">
 				<el-row :gutter="0" style="margin-top:20px;">
 					<el-col :span="10">
-						<el-form-item class="itemWrap"  prop="title">
+						<el-form-item class="itemWrap"  prop="lawTitle">
 							<span class="textSpan">标题<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.title" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="10" :offset="2">
-						<el-form-item class="itemWrap"  prop="xiaolijibie">
+						<el-form-item class="itemWrap"  prop="scopeLevel">
 							<span class="textSpan">效力级别<i></i></span><span class="name_span" >*</span>
-							<el-select v-model="form.xiaolijibie" style="width: 60%;">
+							<el-select v-model="form.scopeLevel" style="width: 60%;">
 								<el-option v-for="(item,index) in lvSelectList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
 							</el-select>
 						</el-form-item>
@@ -69,15 +27,15 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :span="10">
-						<el-form-item class="itemWrap"  prop="banbudanwei">
+						<el-form-item class="itemWrap"  prop="enactOrg">
 							<span class="textSpan">颁布单位<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.banbudanwei" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.enactOrg" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="10" :offset="2">
-						<el-form-item class="itemWrap"  prop="sixiaoxing">
+						<el-form-item class="itemWrap"  prop="lawTimeliness">
 							<span class="textSpan">时效性<i></i></span><span class="name_span" >*</span>
-							<el-select v-model="form.sixiaoxing" style="width: 60%;">
+							<el-select v-model="form.lawTimeliness" style="width: 60%;">
 								<el-option v-for="(item,index) in timeDataList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
 							</el-select>
 						</el-form-item>
@@ -85,10 +43,10 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :span="10">
-						<el-form-item class="itemWrap"  prop="banburiqi">
+						<el-form-item class="itemWrap"  prop="enactDate">
 							<span class="textSpan">颁布日期<i></i></span><span class="name_span" >*</span>
 							<el-date-picker
-								v-model="form.banburiqi"
+								v-model="form.enactDate"
 								type="date"
 								format="yyyy-MM-dd"
       					value-format="yyyy-MM-dd"
@@ -97,222 +55,287 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="10" :offset="2">
-						<el-form-item class="itemWrap"  prop="zixingriqi">
+						<el-form-item class="itemWrap"  prop="execDate">
 							<span class="textSpan">执行日期<i></i></span><span class="name_span" >*</span>
 							<el-date-picker
-								v-model="form.zixingriqi"
+								v-model="form.execDate"
 								type="date"
 								format="yyyy-MM-dd"
-      					value-format="yyyy-MM-dd"
+      							value-format="yyyy-MM-dd"
 								placeholder="选择日期" style="width: 60%;">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<!-- <div class="flex" style="margin: 20px 0;"> -->
-					<el-row :gutter="0">
-						<el-col :span="20">
-							<el-form-item class="itemWrap"  prop="uploadImg">
-								<span class="textSpan">上传附件<i></i></span><span class="name_span">*</span>
-<!--								<single-upload @on-success="onOileUploadSuc" :fileName="form.fileName" :showValidate="showValidateUpload"></single-upload>-->
-<!--							<single-upload></single-upload>-->
-							</el-form-item>
-						</el-col>
-					</el-row>
-				<!-- </div> -->
+				<el-row :gutter="0">
+					<el-col :span="20">
+						<el-form-item class="itemWrap"  prop="fileId">
+							<span class="textSpan">上传附件<i></i></span><span class="name_span">*</span>
+							<el-upload ref="uploadWord" :action="uploadUrl" :data="{token: uploadData.token}" :show-file-list="false"
+									   :on-success="uploadSuccess" :before-upload="beforeUpload">
+								<span v-if="form.fileId" style="margin-right: 10px; color: #333333">{{fileName}}</span>
+								<el-button size="small" type="primary">点击上传</el-button>
+							</el-upload>
+						</el-form-item>
+					</el-col>
+				</el-row>
 				<div style="display: flex;align-items: center;justify-content: center;margin-top: 50px;">
-					<el-button type="primary" @click="onSubmit">提交</el-button>
-					<el-button @click="quxiao">取消</el-button>
+					<el-button type="primary" @click="onSubmit('form1')">提交</el-button>
+					<el-button @click="cancel">取消</el-button>
+				</div>
+			</el-form>
+			<el-form :model="form" v-if="$route.query.pageType == '1'" :rules="rules" ref="form2">
+				<el-row :gutter="0" style="margin-top:20px;">
+					<el-col :span="24">
+						<el-form-item class="itemWrap"  prop="lawTitle">
+							<span class="textSpan">标题<i></i></span><span class="name_span" >*</span>
+							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :span="10">
+						<el-form-item class="itemWrap"  prop="explainType">
+							<span class="textSpan">类型<i></i></span><span class="name_span" >*</span>
+							<el-select v-model="form.explainType" style="width: 60%;">
+								<el-option v-for="(item,index) in explainTypeList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="10" :offset="2">
+						<el-form-item class="itemWrap"  prop="explainModel">
+							<span class="textSpan">形式<i></i></span><span class="name_span" >*</span>
+							<el-select v-model="form.explainModel" style="width: 60%;">
+								<el-option v-for="(item,index) in explainModelList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :span="10">
+						<el-form-item class="itemWrap"  prop="enactOrg">
+							<span class="textSpan">颁布单位<i></i></span><span class="name_span" >*</span>
+							<el-input maxlength="100" v-model="form.enactOrg" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="10" :offset="2">
+						<el-form-item class="itemWrap"  prop="enactDate">
+							<span class="textSpan">颁布日期<i></i></span><span class="name_span" >*</span>
+							<el-date-picker
+											v-model="form.enactDate"
+											type="date"
+											format="yyyy-MM-dd"
+											value-format="yyyy-MM-dd"
+											placeholder="选择日期" style="width: 60%;">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :span="20">
+						<el-form-item class="itemWrap"  prop="fileId">
+							<span class="textSpan">上传附件<i></i></span><span class="name_span">*</span>
+							<el-upload ref="uploadWord" :action="uploadUrl" :data="{token: uploadData.token}" :show-file-list="false"
+									   :on-success="uploadSuccess" :before-upload="beforeUpload">
+								<span v-if="form.fileId" style="margin-right: 10px; color: #333333">{{fileName}}</span>
+								<el-button size="small" type="primary">点击上传</el-button>
+							</el-upload>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<div style="display: flex;align-items: center;justify-content: center;margin-top: 50px;">
+					<el-button type="primary" @click="onSubmit('form2')">提交</el-button>
+					<el-button @click="cancel">取消</el-button>
+				</div>
+			</el-form>
+			<el-form :model="form" v-if="$route.query.pageType == '2'" :rules="rules" ref="form3">
+				<el-row :gutter="0" style="margin-top:20px;">
+					<el-col :span="24">
+						<el-form-item class="itemWrap"  prop="lawTitle">
+							<span class="textSpan">标题<i></i></span><span class="name_span" >*</span>
+							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :span="10">
+						<el-form-item class="itemWrap"  prop="pactType">
+							<span class="textSpan">类型<i></i></span><span class="name_span" >*</span>
+							<el-select v-model="form.pactType" style="width: 60%;">
+								<el-option v-for="(item,index) in pactTypeList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :span="10">
+						<el-form-item class="itemWrap"  prop="pactModel">
+							<span class="textSpan">形式<i></i></span><span class="name_span" >*</span>
+							<el-select v-model="form.pactModel" style="width: 60%;">
+								<el-option v-for="(item,index) in pactModelList" :value="item.dictDataCode" :key="index" :label="item.dictDataName"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :span="20">
+						<el-form-item class="itemWrap"  prop="fileId">
+							<span class="textSpan">上传附件<i></i></span><span class="name_span">*</span>
+							<el-upload ref="uploadWord" :action="uploadUrl" :data="{token: uploadData.token}" :show-file-list="false"
+									   :on-success="uploadSuccess" :before-upload="beforeUpload">
+								<span v-if="form.fileId" style="margin-right: 10px; color: #333333">{{fileName}}</span>
+								<el-button size="small" type="primary">点击上传</el-button>
+							</el-upload>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<div style="display: flex;align-items: center;justify-content: center;margin-top: 50px;">
+					<el-button type="primary" @click="onSubmit('form3')">提交</el-button>
+					<el-button @click="cancel">取消</el-button>
 				</div>
 			</el-form>
 		</div>
-		<!-- <div class="falvf_content">
-			<div class="flex" style="margin: 20px 0;">
-				<span class="text_betten">上传附件<i></i></span><span class="name_span">*</span>
-				<el-upload
-					class="upload-demo"
-					drag
-					:action="uploadUrl"
-					:data="uploadType"
-					multiple>
-					<i class="el-icon-upload"></i>
-					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-					<div class="el-upload__tip" slot="tip">附件格式为word 必须带文档结构图</div>
-				</el-upload>
-			</div>
-			<div style="display: flex;align-items: center;justify-content: center;margin-top: 50px;">
-				  <el-button type="primary" @click="tijiao">提交</el-button>
-				<el-button>取消</el-button>
-			</div>
-		</div> -->
 	</div>
 </template>
 
 <script>
-    // import SingleUpload from '../../components/'
-	import {add_falvfagui,getSelectDetail,imgBaseurl,pfxcXjflfg,pfxcXjflfgRead} from '../../http/api.js'
+import {getSelectDetail,imgBaseurl,pfxcXjflfg,pfxcXjflfgRead} from '../../http/api.js'
 export default {
-	// components: {SingleUpload},
 	data() {
 		return {
+			// 面包屑标题
+			titleList: ['法律法规', '司法解释', '国际条约惯例'],
 			uploadData: {
-				token: sessionStorage.getItem("token"), 
+				token: sessionStorage.getItem("token"),
 			},
-			form: {
-				title: '',
-				xiaolijibie: '',
-				banbudanwei: '',
-				sixiaoxing: '',
-				banburiqi: '',
-				zixingriqi: '',
-				fileId: '',
-				fileName: '',
-				uploadImg: []
-			},
+			fileName: '',
 			rules: {
-					title: [
-						{ required: true, message: '请输入标题', trigger: 'blur' }
-					],
-					xiaolijibie: [
-            { required: true, message: '请选择效力级别', trigger: 'change' }
-					],
-					banbudanwei: [
-						{ required: true, message: '请输入颁布单位', trigger: 'blur' }
-					],
-					sixiaoxing: [
-            { required: true, message: '请选择时效性', trigger: 'change' }
-					],
-					banburiqi: [
-            { required: true, message: '请选择日期', trigger: 'change' }
-					],
-					zixingriqi: [
-            { required: true, message: '请选择日期', trigger: 'change' }
-          ],
-				},
+				lawTitle: [
+					{ required: true, message: '请输入标题', trigger: 'blur' }
+				],
+				scopeLevel: [
+					{ required: true, message: '请选择效力级别', trigger: 'change' }
+				],
+				enactOrg: [
+					{ required: true, message: '请输入颁布单位', trigger: 'blur' }
+				],
+				lawTimeliness: [
+					{ required: true, message: '请选择时效性', trigger: 'change' }
+				],
+				enactDate: [
+					{ required: true, message: '请选择日期', trigger: 'change' }
+				],
+				pactType: [
+					{ required: true, message: '请选择分类', trigger: 'change' }
+				],
+				pactModel: [
+					{ required: true, message: '请选择形式', trigger: 'change' }
+				],
+				explainType: [
+					{ required: true, message: '请选择分类', trigger: 'change' }
+				],
+				explainModel: [
+					{ required: true, message: '请选择形式', trigger: 'change' }
+				],
+				fileId: [
+					{ required: true, message: '请上传文件', trigger: 'change' }
+				]
+			},
 			showValidateUpload: false,
 			input: '',
-			fileList: [],
 			lvSelectList: [],  //效力级别
-			timeDataList: [],  //时效性
-			tijiaodata:{
+			timeDataList: [],  //时效
+			pactTypeList: [],
+			pactModelList: [],
+			explainTypeList: [],
+			explainModelList: [],
+			form:{
 				token: sessionStorage.getItem("token"),                //类型：String  必有字段  备注：用户身份标识
-				lawId:"",                //类型：String  可有字段  备注：id为空是为添加，id不为空时为修改
-				lawTitle:"",                //类型：String  必有字段  备注：标题
-				scopeLevel:"",                //类型：String  必有字段  备注：效力级别
-				enactOrg:"",                //类型：String  必有字段  备注：颁布单位
-				lawTimeliness:"",                //类型：String  必有字段  备注：时效性
-				enactDate:"",                //类型：String  必有字段  备注：颁布日期
-				execDate:"",                //类型：String  必有字段  备注：执行日期
-				fileId:"f106d4c5cdb146a8b9346b40fcfae051"                //类型：String  必有字段  备注：上传的文件ID
+				lawId: '',                //类型：String  可有字段  备注：id为空是为添加，id不为空时为修改
+				lawTitle: '',                //类型：String  必有字段  备注：标题
+				scopeLevel: '',                //类型：String  必有字段  备注：效力级别
+				enactOrg: '',                //类型：String  必有字段  备注：颁布单位
+				lawTimeliness: '',                //类型：String  必有字段  备注：时效性
+				enactDate: '',                //类型：String  必有字段  备注：颁布日期
+				execDate: '',                //类型：String  必有字段  备注：执行日期
+				pactType: '',                //类型：String  可有字段  备注：国际条约分类，取字典数据(guojitiaoyuefenlei)
+				pactModel: '',                //类型：String  可有字段  备注：国际条约分类，取字典形式(sifajieshixingshi)
+				explainType: '',                //类型：String  可有字段  备注：司法解释分类，取字典数据(sifajieshileixing)
+				explainModel: '',                //类型：String  可有字段  备注：司法解释形式，取字典数据(sifajieshixingshi)
+				fileId: ''                //类型：String  必有字段  备注：上传的文件ID
 			},
-			uploadUrl:imgBaseurl+'/support/uploadFile'
+			uploadUrl: imgBaseurl+'/support/saveFileToHtml'
 		};
 	},
 	mounted() {
-		this.editId = this.$route.query.id;
+		this.form.lawId = this.$route.query.id;
 		this.getSelectData();
-		if(this.editId) {
+		if(this.form.lawId) {
 			pfxcXjflfgRead({
-				lawId: this.editId
+				lawId: this.form.lawId
 			}).then(res=> {
-				let da = res.content;
 				if(res.code === 200) {
-					this.form = {
-						title: da.lawTitle,
-						xiaolijibie: da.scopeLevel,
-						banbudanwei: da.enactOrg,
-						sixiaoxing: da.lawTimeliness,
-						banburiqi: da.enactDate,
-						zixingriqi: da.execDate,
-						fileId: da.fileId,
-						fileName: da.fileName,
-					}
+					this.form = res.content;
+					this.fileName = res.content.fileName;
 				}
 			})
 		}
 	},
 	methods:{
-		select_type(){
-			this.shanchang=true;
+		cancel() {
+			this.$router.back(-1);
 		},
-		close(){
-			this.shanchang=false;
+		beforeUpload(file) {
+			const fileType = file.name.substring(file.name.lastIndexOf('.') + 1);
+			const isDoc = fileType === 'doc';
+			const isDocx = fileType === 'docx';
+			if (!isDoc && !isDocx) {
+				this.$refs.uploadWord.abort(file);
+				this.$message({
+					message: '上传文件只能是 doc、docx格式!',
+					type: 'warning'
+				});
+			}
+			if (isDoc || isDocx) this.fileName = file.name;
+			return isDoc || isDocx;
 		},
-		handleRemove(file, fileList) {
-	        console.log(file, fileList);
+		uploadSuccess(res) {
+			this.form.fileId = res.content.fileList[0].fileId;
 		},
-		handlePreview(file) {
-			console.log(file);
-		},
-		handleExceed(files, fileList) {
-			this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-		},
-		beforeRemove(file) {
-			return this.$confirm(`确定移除 ${ file.name }？`);
-		},
-		quxiao() {
-
-		},
-		onOileUploadSuc(files) {
-			this.form.fileId = files[0].fileId;
-		},
-		onSubmit() {
-			this.$refs['form'].validate((valid) => {
+		onSubmit(form) {
+			this.$refs[form].validate((valid) => {
 				this.showValidateUpload = this.form.fileId?false:true;
-				if(valid&&this.form.fileId) {
-					pfxcXjflfg({
-						"lawId": this.editId,                //类型：String  可有字段  备注：id为空是为添加，id不为空时为修改
-						"lawTitle":this.form.title,                //类型：String  必有字段  备注：标题
-						"scopeLevel": this.form.xiaolijibie,                //类型：String  必有字段  备注：效力级别
-						"enactOrg": this.form.banbudanwei,                //类型：String  必有字段  备注：颁布单位
-						"lawTimeliness": this.form.sixiaoxing,                //类型：String  必有字段  备注：时效性
-						"enactDate": this.form.banburiqi,                //类型：String  必有字段  备注：颁布日期
-						"execDate": this.form.zixingriqi,                //类型：String  必有字段  备注：执行日期
-						"fileId": this.form.fileId    
-					}).then(res=> {
+				if(valid) {
+					let listType = {
+						form1: ['token', 'lawId', 'lawTitle', 'scopeLevel', 'enactOrg', 'lawTimeliness', 'enactDate', 'execDate', 'fileId'],
+						form2: ['token', 'lawId', 'lawTitle', 'enactOrg', 'enactDate', 'explainType', 'explainModel', 'fileId'],
+						form3: ['token', 'lawId', 'lawTitle', 'pactType', 'pactModel', 'fileId'],
+					},
+					request = {};
+					listType[form].forEach(name => {
+						request[name] = this.form[name];
+					})
+					pfxcXjflfg(request).then(res=> {
 						if(res.code == 200) {
-                this.$message({
-                  message: this.editId?'修改成功':'新增成功',
-                  type: 'success'
-                });
-                setTimeout(()=>{
-                  this.$router.go(-1)
-                },1500)
-              }
+							this.$message({
+							  message: this.form.lawId?'修改成功':'新增成功',
+							  type: 'success'
+							});
+							setTimeout(()=>{
+							  this.$router.go(-1)
+							}, 2000)
+              			}
 					});
 				}
 			});
-			console.log(this.form);
-		},
-		onImgUploadSucess(response, file, fileList) {
-			console.log(fileList, 998, this.form.uploadImg);
-		},
-		tijiao(){
-			add_falvfagui(this.tijiaodata).then(res=>{
-				if(res.code==200){
-					this.$message({
-					  message: '添加成功',
-					  type: 'success'
-					});
-					setTimeout(()=> {
-						this.$router.go(-1)
-					}, 1500);
-				}else{
-					this.$message.error(res.msg);
-				}
-			})
-		},
-		onRemoveFile(file, fileList) {
-			console.log(file, fileList);
 		},
 		//获取select下拉数据
 		async getSelectData(){
-			const type = ['xiaolijibie','shixiaoxing'];
-			const domData = ['lvSelectList','timeDataList'];
+			const type = ['xiaolijibie', 'shixiaoxing', 'sifajieshileixing', 'sifajieshixingshi', 'guojitiaoyuefenlei', 'guojitiaoyuexingshi'];
+			const domData = ['lvSelectList', 'timeDataList', 'explainTypeList', 'explainModelList', 'pactTypeList', 'pactModelList'];
 			for(let dataInfo = 0; dataInfo<type.length;dataInfo++){
 				let dataInfoData = await getSelectDetail({ dictCode:type[dataInfo],userId:'111' });
 				this[domData[dataInfo]] = dataInfoData.content.resultList;
-				// console.log(dataInfoData)
 			}
 		},
   	},
@@ -333,7 +356,7 @@ export default {
 		align-items: center;
 		justify-content: space-between;
 	}
-		
+
 	.add_lvshi>div{
 		width: 50%;
 	}
@@ -358,7 +381,7 @@ export default {
 		width: 100px;
 		height: 100px;
 		border: 1px solid #eee;
-		
+
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -424,7 +447,7 @@ export default {
 		color: #d81e06;
 		display: flex;
 		align-items: center;
-		
+
 	}
 	.tishi_toast img{
 		width: 30px;

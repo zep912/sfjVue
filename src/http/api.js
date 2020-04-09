@@ -166,9 +166,9 @@ export const lawyerxuexi = data => {
 export const lusuolist1 = data => {
     return $http.post('doc/paraphrase/getCaseParaphraseList', data);
 };
-export const lusuolist2 = data => {
-    return $http.post('doc/lawRegulations/getLawRegulationsList', data);
-};
+// export const getLawRegulationsList = data => {
+//     return $http.post('doc/lawRegulations/getLawRegulationsList', data);
+// };
 //律师审核
 export const lvshishenhe = data => {
     return $http.post('lawyer/getLawyerDetail', data);
