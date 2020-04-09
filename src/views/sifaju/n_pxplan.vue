@@ -113,7 +113,7 @@
 							<el-table :data="peixunjihua" border style="width: 100%">
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
 								<el-table-column  prop="trainTitle" label="姓名"></el-table-column>
-								<el-table-column  prop="trainUserTotal"  label="所属科室"></el-table-column>
+								<el-table-column  prop="trainUserTotal"  label="所属律师"></el-table-column>
 								<el-table-column  prop="trainMode"  label="联系电话"></el-table-column>
 								<el-table-column label="操作" >
 									<template slot-scope="scope">
@@ -145,7 +145,7 @@
 
 <script>
 
-	import {getSelectDetail, plan, manakejians, getInnerLawyerList} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
 	// import NPxplanTree from './n_pxplan_tree'
@@ -227,6 +227,7 @@
 				this.typeData()
 				// this.stateData()
 				this.manakejians()
+				this.queryLawyerList()
 			}
 		},
 		mounted() {
@@ -282,7 +283,31 @@
 				console.log(111, event)
 				if (event) {
 					this.getInnerLawyerList()
+				} else {
+					this.getLawyerListByOffice()
 				}
+			},
+			// 获取内部律师列表
+			getInnerLawyerList() {
+				let obj = {
+					token: sessionStorage.getItem("token")
+				}
+				getInnerLawyerList(obj).then(res => {
+					if (res) {
+						console.log('律师', res.content)
+						this.personList = res.content.dataList
+					}
+				})
+			},
+			// 查询外部律师列表
+			getLawyerListByOffice () {
+				let obj = {
+					token: sessionStorage.getItem("token")
+				}
+				getLawyerListByOffice(obj).then(res => {
+					console.log('律师', res.content)
+					this.personList = res.content.dataList
+				})
 			},
 			// 查询课件
 			manakejians() {
@@ -295,15 +320,16 @@
 					}
 				})
 			},
-			// 获取内部律师列表
-			getInnerLawyerList() {
-				let obj = {
-					token: sessionStorage.getItem("token")
+			// 查询律师
+			queryLawyerList () {
+				let obj ={
+					token: sessionStorage.getItem("token"),
+					pageNum: '1'
 				}
-				getInnerLawyerList(obj).then(res => {
-					if (res) {
-						console.log('律师', res.content)
-						this.personList = res.content.dataList
+				queryLawyerList(obj).then(res => {
+					if (res.code == '200') {
+						console.log('查询律师', res.content)
+						this.peixunjihua = res.content.dataList
 					}
 				})
 			},
