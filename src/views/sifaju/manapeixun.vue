@@ -12,8 +12,8 @@
 				<el-form :model="queryCondition" ref="ruleForm">
 					<el-row type="flex" align="middle" justify="start">
 						<el-col :span="8">
-							<el-form-item class="c-query-select" label="培训方式：" prop="wayValue">
-								<el-select v-model="queryCondition.wayValue" placeholder="请选择" @change="getData()">
+							<el-form-item class="c-query-select" label="培训方式：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
 									<el-option
 										v-for="item in wayList"
 										:key="item.dictDataCode"
@@ -36,8 +36,8 @@
 							</el-form-item>
 						</el-col>	
 						<el-col :span="8">
-							<el-form-item class="c-query-select" label="培训类型：" prop="typeValue">
-								<el-select v-model="queryCondition.typeValue" placeholder="请选择" @change="getData()">
+							<el-form-item class="c-query-select" label="培训类型：" prop="trainType">
+								<el-select v-model="queryCondition.trainType" placeholder="请选择" @change="getData()">
 										<el-option
 											v-for="item in typeList"
 											:key="item.dictDataCode"
@@ -50,8 +50,8 @@
 					</el-row>
 					<el-row type="flex" align="middle" justify="start">
 						<el-col :span="8">
-							<el-form-item class="c-query-select" label="培训状态：" prop="stateValue">
-								<el-select v-model="queryCondition.stateValue" placeholder="请选择"  @change="getData()">
+							<el-form-item class="c-query-select" label="培训状态：" prop="trainStatus">
+								<el-select v-model="queryCondition.trainStatus" placeholder="请选择"  @change="getData()">
 										<el-option
 											v-for="item in stateList"
 											:key="item.dictDataCode"
@@ -93,8 +93,8 @@
 					</el-row>
 					<el-row type="flex" align="middle" justify="start">
 						<el-col :span="8">
-							<el-form-item class="c-query-select" label="主题搜索：" prop="expName">
-								<el-input v-model="queryCondition.expName" placeholder="请输入要搜的培训主题"></el-input>
+							<el-form-item class="c-query-select" label="主题搜索：" prop="trainTitle">
+								<el-input v-model="queryCondition.trainTitle" placeholder="请输入主题搜索"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="16"  class="c-query-input">
@@ -111,58 +111,22 @@
 			</div>
 			<!-- 表格 -->
 			<div class="biaoge_content">
-				<el-table
-				    :data="peixunjihua"
-				    border
-				    style="width: 100%">
-				    <el-table-column
-				      type="index"
-				      label="序号"
-				      width="80">
-				    </el-table-column>
-				    <el-table-column
-				      prop="trainTitle"
-				      label="培训主题">
-				    </el-table-column>
-				    <el-table-column
-				      prop="trainUserTotal"
-				      label="培训人数">
-				    </el-table-column>
-					<el-table-column
-					  prop="trainType"
-					  label="培训方式">
-					</el-table-column>
-					<el-table-column
-					  prop="planStatusDesc"
-					  label="培训状态">
-					</el-table-column>
-					<el-table-column
-					  prop="trainLevel"
-					  label="培训类型">
-					</el-table-column>
-					<el-table-column
-					  prop="startDate"
-					  label="培训时间">
-					</el-table-column>
-					<el-table-column
-					  prop="startDate"
-					  label="地点">
-					</el-table-column>
-					<el-table-column label="操作">
-					  <template slot-scope="scope">
-						<el-button
-						  size="mini"
-						  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-						<el-button
-						  size="mini"
-						  type="danger"
-						  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-						  <el-button
-						    size="mini"
-						    type="danger"
-						    @click="chakan(scope.$index, scope.row)">查看</el-button>
-					  </template>
-					</el-table-column>
+				<el-table :data="peixunjihua" border style="width: 100%">
+				    <el-table-column  type="index" label="序号" width="80"> </el-table-column>
+				    <el-table-column  prop="trainTitle" label="培训主题"></el-table-column>
+				    <el-table-column  prop="trainUserTotal"  label="培训人数"></el-table-column>
+						<el-table-column  prop="trainMode"  label="培训方式"></el-table-column>
+						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
+						<el-table-column  prop="trainType" label="培训类型"></el-table-column>
+						<el-table-column  prop="startDate" label="培训时间"></el-table-column>
+						<el-table-column  prop="trainAddr" label="地点"></el-table-column>
+						<el-table-column label="操作" width="240">
+							<template slot-scope="scope">
+								<el-button  size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+								<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+								<el-button size="mini" type="danger"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+							</template>
+						</el-table-column>
 				  </el-table>
 			</div>
 			<!-- 分页 -->
@@ -184,37 +148,18 @@
 <script>
 	import {manapeixun,getSelectDetail} from '../../http/api.js'
 	import * as crud from '../../assets/js/co-crud.js'
+	import util from '@/assets/js/co-util'
   export default {
     data() {
       return {
 				queryCondition: {
 					token:sessionStorage.getItem("token"),
-					wayValue: '',
-					levelValue:'',
-					typeValue:'',
-					stateValue:'',
-					activeName: 'second',
-					expName:'',  //搜素条件
-					value1: '',
-					value6:"",
-					pageSize: 10,
-					pageNum: 1,
-					total: 10,
+					trainMode: null,
+					trainStatus: null,
+					trainType: null,
+					trainTitle: '',
 					page: crud.getQueryCondition({})
 				},
-				token:sessionStorage.getItem("token"),
-				wayValue: '',
-				levelValue:'',
-				typeValue:'',
-				stateValue:'',
-				activeName: 'second',
-				expName:'',  //搜素条件
-				value1: '',
-				value6:"",
-				pageSize: 10,
-				pageNum: 1,
-				total: 10,
-				possess:'',   //搜素条件全部
 				levelList:[],   //培训等级
 				wayList:[],   //培训方式
 				typeList:[],   //培训类型
@@ -232,121 +177,97 @@
 	},
 	methods: {
     //获取培训方式数据字典
-	wayData(){
-		getSelectDetail({
-			dictCode:'peixunfangshi',
-			userId:'1'
-		}).then(res=>{
-			if(res.code == '200'){
-				this.wayList = res.content.resultList
-			}
-		})
-	},
-	//获取培训等级数据字典
-	levelData(){
-		getSelectDetail({
-			dictCode:'peixundengji',
-			userId:'2'
-		}).then(res=>{
-			if(res.code == '200'){
-				this.levelList = res.content.resultList
-			}
-		})
-	},
-	//获取培训类型数据字典
-	typeData(){
-		getSelectDetail({
-			dictCode:'peixunleixing',
-			userId:'3'
-		}).then(res=>{
-			if(res.code == '200'){
-				this.typeList = res.content.resultList
-			}
-		})
-	},
-	//获取培训状态数据字典
-	stateData(){
-		getSelectDetail({
-			dictCode:'peixujihuazhuangtai',
-			userId:'4'
-		}).then(res=>{
-			if(res.code == '200'){
-				this.stateList = res.content.resultList
-			}
-		})
-	},
-    getData() {
-      	manapeixun({
-		      token:this.token,
-          trainDate:this.value1,                //类型：String  可有字段  备注：培训时间
-          startDate:this.value6[0],                //类型：String  可有字段  备注：开始时间
-          endDate:this.value6[1],                //类型：String  可有字段  备注：结束时间
-          trainMode:this.wayValue,                //类型：String  可有字段  备注：培训方式
-          trainStatus:this.stateValue,                //类型：String  可有字段  备注：培训状态
-          trainType:this.typeValue,                //类型：String  可有字段  备注：培训类型
-          trainTitle:this.expName,                //类型：String  可有字段  备注：培训主题
-          pageSize:this.pageSize,                //类型：String  可有字段  备注：每页显示几条
-          pageNum:this.pageNum
-        }).then(res=>{
-          if(res){
-            this.peixunjihua = res.content.dataList
-            this.total = res.content.pageInfo.total
-          }
-        })
-    },
+		wayData(){
+			getSelectDetail({
+				dictCode:'peixunfangshi',
+				userId:'1'
+			}).then(res=>{
+				if(res.code == '200'){
+					// console.log(111, res.content.resultList)
+					this.wayList = [{dictCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					// this.wayList = res.content.resultList
+				}
+			})
+		},
+		//获取培训等级数据字典
+		levelData(){
+			getSelectDetail({
+				dictCode:'peixundengji',
+				userId:'2'
+			}).then(res=>{
+				if(res.code == '200'){
+					this.levelList = [{dictCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					// this.levelList = res.content.resultList
+				}
+			})
+		},
+		//获取培训类型数据字典
+		typeData(){
+			getSelectDetail({
+				dictCode:'peixunleixing',
+				userId:'3'
+			}).then(res=>{
+				if(res.code == '200'){
+					this.typeList = [{dictCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					// this.typeList = res.content.resultList
+				}
+			})
+		},
+		//获取培训状态数据字典
+		stateData(){
+			getSelectDetail({
+				dictCode:'peixujihuazhuangtai',
+				userId:'4'
+			}).then(res=>{
+				if(res.code == '200'){
+					this.stateList = [{dictCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					// this.stateList = res.content.resultList
+				}
+			})
+		},
+		// 查询表格
+		getData() {
+			let request = JSON.parse(JSON.stringify(this.queryCondition))
+			console.log(333, request.page.limit)
+			request.pageSize = request.page.limit
+			request.pageNum = request.page.pageIndex
+			delete request.page
+			util.dealNullQueryCondition(request)
+			manapeixun(request).then(res=>{
+				if(res){
+					let {content} = res
+					let {dataList, pageInfo} = content
+					this.peixunjihua = dataList
+					this.queryCondition.pageRequest = crud.getCurrentPage(pageInfo)
+				}
+			})
+		},
+		// 新增
 		zhiding(){
 			this.$router.push({
 				path:'/n_pxplan'
 			})
-    },
+		},
+		// 分页
     handleSizeChange (limit) {
       this.queryCondition.page.limit = limit
       this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
-      this.searchForm()
-    },
+      this.getData()
+		},
+		// 分页
     handleCurrentChange (pageIndex) {
       this.queryCondition.page.pages = pageIndex
       this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
-      this.searchForm()
-    },
-		onSearch() {
-			console.log(this.value6);
+      this.getData()
 		},
-		handleClick(tab, event) {
-			console.log(tab, event);
-		},
-		lvsuo(e){
-			this.lvs = e
-		},
-		toggleSelection(rows) {
-		  if (rows) {
-			rows.forEach(row => {
-			  this.$refs.multipleTable.toggleRowSelection(row);
-			});
-		  } else {
-			this.$refs.multipleTable.clearSelection();
-		  }
-		},
-		handleSelectionChange(val) {
-		  this.multipleSelection = val;
-		},
+		// 查看
 		chakan(){
 			// this.$router.push({
 			// 	path:
 			// })
 		},
-		//获取select下拉数据
-		// async getSelectData(){
-		// 	const type = ['peixunleixing','peixundengji','peixujihuazhuangtai'];
-		// 	const domData = ['problem'];
-		// 	for(let dataInfo = 0; dataInfo<type.length;dataInfo++){
-		// 		let dataInfoData = await getSelectDetail({ dictCode:type[dataInfo],userId:'111' });
-		// 		this.selectDataInfo[domData[dataInfo]] = dataInfoData.content.resultList;
-		// 		console.log(dataInfoData)
-		// 	}
-		// },
 	}
-  }
+}
 </script>
 
 <style lang="scss">
