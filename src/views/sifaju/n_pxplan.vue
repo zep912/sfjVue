@@ -128,6 +128,7 @@
 				</el-row>
 			</el-form>
 		</div>
+		<NPxplanTree></NPxplanTree>
 		<div>
 			<el-button type="primary" @click="submitConsultInfo">提交</el-button>
 			<el-button>取消</el-button>
@@ -138,13 +139,12 @@
 <script>
 
 	import {getSelectDetail} from "../../http/api"
-	import SingleDate from "../../components/SingleDate"
 	import * as crud from '../../assets/js/co-crud.js'
+	import NPxplanTree from './n_pxplan_tree'
 	// import util from '@/assets/js/co-util'
 	export default {
 		components: {
-			SingleDate
-
+			NPxplanTree
 		},
 		data() {
 			return {
