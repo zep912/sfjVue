@@ -166,9 +166,9 @@ export const lawyerxuexi = data => {
 export const lusuolist1 = data => {
     return $http.post('doc/paraphrase/getCaseParaphraseList', data);
 };
-export const lusuolist2 = data => {
-    return $http.post('doc/lawRegulations/getLawRegulationsList', data);
-};
+// export const getLawRegulationsList = data => {
+//     return $http.post('doc/lawRegulations/getLawRegulationsList', data);
+// };
 //律师审核
 export const lvshishenhe = data => {
     return $http.post('lawyer/getLawyerDetail', data);
@@ -185,17 +185,23 @@ export const lvsuochakan2 = data => {
 //管理课件数
 export const manakejians = data => {
     return $http.post('train/getTrainCoursewareList', data);
-};
-
+}
 //新增或修改计划提交
 export const plan = data =>{
     return $http.post('train/saveTrainPlan', data);
 }
-
+// 删除培训计划
+export const deleteTrainPlan = data => {
+    return $http.post('train/deleteTrainPlan', data)
+}
+// 律师分页查询
+export const queryLawyerList = data => {
+    return $http.post('train/queryLawyerList', data)
+}
 //管理培训
 export const manapeixun = data => {
     return $http.post('train/getTrainPlanList', data);
-};
+}
 //敏感词
 export const minganci = data => {
     return $http.post('/admin/words/getWordsList', data);

@@ -1,5 +1,5 @@
 import $http from './http';
-export const imgBaseurl = 'http://192.168.0.133:9001/jjkj/sfj/api'
+export const imgBaseurl = 'http://59.44.27.201:9010/jjkj/sfj/api'
 // 公共法律服务平台-政务公开-下拉过滤条件字典接口
 export const getDictionaryListZwgkSelectList = data =>{
   return $http.post('/support/getDictionaryList',data);
