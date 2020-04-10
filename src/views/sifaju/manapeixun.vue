@@ -1,6 +1,6 @@
 <template>
 	<div class="p_conright">
-		<div class="top_manalvs">
+		<div class="manalvs">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/sifaju' }">职责</el-breadcrumb-item>
 			  <el-breadcrumb-item>培训管理</el-breadcrumb-item>
@@ -22,7 +22,7 @@
 									</el-option>
 								</el-select>
 							</el-form-item>
-						</el-col>	
+						</el-col>
 						<el-col :span="8">
 							<el-form-item class="c-query-select" label="培训级别：" prop="levelValue">
 								<el-select v-model="queryCondition.levelValue" placeholder="请选择"  @change="getData()">
@@ -34,7 +34,7 @@
 									</el-option>
 							</el-select>
 							</el-form-item>
-						</el-col>	
+						</el-col>
 						<el-col :span="8">
 							<el-form-item class="c-query-select" label="培训类型：" prop="trainType">
 								<el-select v-model="queryCondition.trainType" placeholder="请选择" @change="getData()">
@@ -60,7 +60,7 @@
 										</el-option>
 								</el-select>
 							</el-form-item>
-						</el-col>	
+						</el-col>
 						<el-col :span="8">
 							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
 								<el-date-picker
@@ -327,6 +327,9 @@
 
 <style lang="scss">
 .p_conright {
+	.manalvs {
+		padding: 20px 0 0 20px;
+	}
 	.biaoge_header {
 		width: 100%;
 		padding: 20px;
