@@ -62,10 +62,10 @@
 							</el-form-item>
 						</el-col>	
 						<el-col :span="8">
-							<el-form-item class="c-query-range-date" label="培训时间：" prop="value1">
+							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
 								<el-date-picker
 								class="c-query-range-date"
-									v-model="queryCondition.value1"
+									v-model="queryCondition.trainDate"
 									type="date"
 									placeholder="选择日期"
 									format="yyyy-MM-dd"
@@ -158,6 +158,8 @@
 					trainStatus: null,
 					trainType: null,
 					trainTitle: '',
+					trainDate: '',
+					value6: [],
 					pageRequest: crud.getQueryCondition({})
 				},
 				levelList:[],   //培训等级
@@ -228,7 +230,7 @@
 		// 查询表格
 		getData() {
 			let request = JSON.parse(JSON.stringify(this.queryCondition))
-			console.log(333, request.pageRequest)
+			console.log(333, request)
 			request.pageSize = request.pageRequest.limit
 			request.pageNum = request.pageRequest.pageIndex
 			delete request.pageRequest
