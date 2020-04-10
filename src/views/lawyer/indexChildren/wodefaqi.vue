@@ -21,7 +21,7 @@
 				</div>
 				<div>
 					<div class="sousuo">
-						<input type="text" placeholder="请输入关键字查询">
+						<input type="text" v-model="keyWord" placeholder="请输入关键字查询">
 						<div class="search" @click="getStartedList">
 							<img src="../../../assets/image/u2290.png" alt="">
 						</div>
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 			<div class="daichu_nirong">
-				<div v-for="(item, index) in dataList" :key="index" class="daichuli yiguidang">
+				<div v-for="(item, index) in showDataList" :key="index" class="daichuli yiguidang">
 					<div class="daichuli_top yiguidang">
 						<div class="yiguidangbeijing"></div>
 						{{item.time}}
@@ -37,10 +37,15 @@
 					<div class="dauchuli_neirong">
 						<div class="daichuli_one">
 							<div class="daichuli_left">
-								<div class="yiguidangbeijing">{{item.dataTag}}</div>
+								<div :class="item.dataTag === '已归档'? 'gray_bg': ''">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
-									<div class="yiguidang">{{item.dataTitle}}</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
+									<div :class="['dai_title', item.dataTag === '已归档'? 'gray_co': '']">{{item.dataTitle}}</div>
+									<div class="dai_content">
+										<span v-if="item.dataContent1">{{item.dataContent1}}</span>
+										<span v-if="item.dataContent2">{{item.dataContent2}}</span>
+										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
+										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
+									</div>
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -51,7 +56,7 @@
 						</div>
 					</div>
 				</div>
-
+				<div v-if="showMore" class="gengsduo" @click="loadMore">点击加载更多</div>
 			</div>
 		</div>
 		</div>
@@ -66,7 +71,10 @@ export default {
 	    return {
 		  defultMonth: '',
 		  timeArr: [], // 自定义时间
-		  dataList: []
+		  keyWord: null,
+		  dataList: [],
+		  showDataList: [],
+		  showMore: false
 	    }
 	  },
 	  methods:{
@@ -91,6 +99,7 @@ export default {
 				taskTime: this.defultMonth,
 				taskStartTime: this.timeArr&&this.timeArr[0] ? this.timeArr[0] : null,
 				taskEndTime: this.timeArr&&this.timeArr[1] ? this.timeArr[1] : null,
+				keyWord: this.keyWord,
 				pageNum:'0',
 				pageSize:'9999'
 			}
@@ -99,12 +108,40 @@ export default {
 				  if(res.code === 200) {
 					this.dataList = res.content.dataList.map(i => {
 						i.taskStartTime = formatDate(new Date(i.taskStartTime), 'MM-dd hh:ss:mm')
-						i.time = formatDate(new Date(i.taskStartTime), 'MM-dd')
+						i.time = formatDate(new Date(i.taskStartTime), 'yyyy-MM-dd')
 						return i
 					})
-				  }
+					if (this.dataList.length > 2) {
+						this.showDataList = this.dataList.slice(0, 2)
+						this.showMore = true
+					} else {
+						this.showDataList = this.dataList
+						this.showMore = false
+					}
+				  } else {
+                    this.$message({
+                        message: res.msg,
+                        type: "error"
+                    });
+                }
 			  })
 			  
+		  },
+		  loadMore () {
+			let curLength = this.showDataList.length
+			let totalLength = this.dataList.length
+			if (curLength >= totalLength) {
+				this.showMore = false
+				return
+			} else if (curLength < totalLength) {
+				if (curLength + 2 >= totalLength) {
+					this.showDataList = this.dataList
+					this.showMore = false
+				} else {
+					this.showDataList = this.dataList.slice(0, curLength + 2)
+					this.showMore = true
+				}
+			}
 		  }
 	  },
 	  created() {
@@ -230,7 +267,7 @@ export default {
 		justify-content: center;
 		width: 50px;
 		height: 38px;
-
+		cursor: pointer;
 	}
 
 	.daichu_nirong {
@@ -292,28 +329,18 @@ export default {
 	}
 
 	.daichuli_zhong {
-		width: 70%;
+		width: 90%;
 		text-align: left;
 
 	}
 
-	.daichuli_zhong>div:nth-child(1) {
+	.daichuli_zhong .dai_title {
 		color: #ff6666;
 		font-size: 18px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
-	.daichuli_zhong>div:nth-child(2) {
-		color: #999;
-		font-size: 15px;
-		margin-top: 10px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
 	.daichuli_you>div {
 		color: #666;
 		font-size: 14px;
@@ -331,8 +358,12 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		width: 100%;
+		background: #F2F2F2;
+		border: 1px solid #c0c4cc;
+		border-top: 0;
+		cursor: pointer;
 	}
-
 	.yihchuli {
 		color: #ff9933 !important;
 	}
@@ -355,5 +386,24 @@ export default {
 
 	.yiguidangbeijing {
 		background: rgba(153, 153, 153, 1) !important;
+	}
+	.daichuli_zhong .dai_content {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		color: #999;
+		margin-top: 15px;
+	}
+	.daichuli_zhong .dai_content span {
+		color: #999;
+		font-size: 15px;
+		margin-top: 10px;
+		margin-right: 10px;
+	}
+	.gray_co {
+		color: rgba(153, 153, 153, 1)!important;
+	}
+	.gray_bg {
+		background: rgba(153, 153, 153, 1)!important;
 	}
 </style>

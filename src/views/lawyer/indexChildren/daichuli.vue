@@ -21,7 +21,7 @@
 				</div>
 				<div>
 					<div class="sousuo">
-						<input type="text" placeholder="请输入关键字查询">
+						<input type="text" v-model="keyWord" placeholder="请输入关键字查询">
 						<div class="search" @click="getPendingList">
 							<img src="../../../assets/image/u2290.png" alt="">
 						</div>
@@ -38,10 +38,16 @@
 					<div class="dauchuli_neirong">
 						<div v-for="(item, index) in showPendingList" :key="index" class="daichuli_one">
 							<div class="daichuli_left">
-								<div>{{item.dataTag}}</div>
+								<div class="dataTag">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
-									<div>{{item.dataTitle}}</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
+									<div class="dai_title">{{item.dataTitle}}</div>
+									<div class="dai_content">
+										<span v-if="item.dataContent1">{{item.dataContent1}}</span>
+										<span v-if="item.dataContent2">{{item.dataContent2}}</span>
+										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
+										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
+									</div>
+									
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -63,10 +69,15 @@
 					<div class="dauchuli_neirong">
 						<div class="daichuli_one" v-for="(item, index) in overTimeList.slice(0, 1)" :key="index">
 							<div class="daichuli_left">
-								<div class="yihchulibeijing">{{item.dataTag}}</div>
+								<div class="dataTag yihchulibeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
-									<div class="yihchuli">{{item.dataTitle}}</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
+									<div class="yichuliover_title">{{item.dataTitle}}</div>
+									<div class="dai_content">
+										<span v-if="item.dataContent1">{{item.dataContent1}}</span>
+										<span v-if="item.dataContent2">{{item.dataContent2}}</span>
+										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
+										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
+									</div>
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -87,10 +98,15 @@
 					<div class="dauchuli_neirong">
 						<div class="daichuli_one" v-for="(item, index) in handledList.slice(0, 1)" :key="index">
 							<div class="daichuli_left">
-								<div class="yichulibeijing">{{item.dataTag}}</div>
+								<div class="dataTag yichulibeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
-									<div class="yichuli">{{item.dataTitle}}</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
+									<div class="yichuli_title">{{item.dataTitle}}</div>
+									<div class="dai_content">
+										<span v-if="item.dataContent1">{{item.dataContent1}}</span>
+										<span v-if="item.dataContent2">{{item.dataContent2}}</span>
+										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
+										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
+									</div>
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -111,10 +127,15 @@
 					<div class="dauchuli_neirong">
 						<div class="daichuli_one" v-for="(item, index) in completedList.slice(0, 1)" :key="index">
 							<div class="daichuli_left">
-								<div class="yiguidangbeijing">{{item.dataTag}}</div>
+								<div class="dataTag yiguidangbeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
-									<div class="yiguidang">{{item.dataTitle}}</div>
-									<div>我爸在农村给别人种地现在欠我们五万元，现在他家还有好多人要账，但是只有我家是工资，他们都是买化那就发得分能力考试哪个款式风格</div>
+									<div class="yiguidang fz_18">{{item.dataTitle}}</div>
+									<div class="dai_content">
+										<span v-if="item.dataContent1">{{item.dataContent1}}</span>
+										<span v-if="item.dataContent2">{{item.dataContent2}}</span>
+										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
+										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
+									</div>
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -140,6 +161,7 @@ import {formatDate} from '../../../utils/date.js';
 	    return {
 		  defultMonth: '',
 		  timeArr: [], // 自定义时间
+		  keyWord: null,
 		  showPendingList: [],
 		  pendingList: [], // 待处理列表数据
 		  handledList: [], // 已处理列表
@@ -170,6 +192,7 @@ import {formatDate} from '../../../utils/date.js';
 				taskTime: this.defultMonth,
 				taskStartTime: this.timeArr&&this.timeArr[0] ? this.timeArr[0] : null,
 				taskEndTime: this.timeArr&&this.timeArr[1] ? this.timeArr[1] : null,
+				keyWord: this.keyWord,
 				pageNum:'0',
 				pageSize:'9999'
 			}
@@ -191,7 +214,7 @@ import {formatDate} from '../../../utils/date.js';
 					})
 					this.completedList = completedList.map(i => {
 						i.taskStartTime = formatDate(new Date(i.taskStartTime), 'MM-dd hh:ss:mm')
-						i.time = formatDate(new Date(i.taskStartTime), 'MM-dd')
+						i.time = formatDate(new Date(i.taskStartTime), 'yyyy-MM-dd')
 						return i
 					})
 					if (this.pendingList.length > 3) {
@@ -201,7 +224,12 @@ import {formatDate} from '../../../utils/date.js';
 						this.showPendingList = this.pendingList
 						this.showMore = false
 					}
-				  }
+				  } else {
+                    this.$message({
+                        message: res.msg,
+                        type: "error"
+                    });
+                }
 			  })
 		  },
 		  loadMore () {
@@ -216,7 +244,7 @@ import {formatDate} from '../../../utils/date.js';
 					this.showMore = false
 				} else {
 					this.showPendingList = this.pendingList.slice(0, curLength + 3)
-					this.showMore = false
+					this.showMore = true
 				}
 			}
 		  }
@@ -391,7 +419,7 @@ import {formatDate} from '../../../utils/date.js';
 		align-items: center;
 	}
 
-	.daichuli_left>div:nth-child(1) {
+	.dataTag {
 		width: 55px;
 		height: 55px;
 		border-radius: 5px;
@@ -405,26 +433,30 @@ import {formatDate} from '../../../utils/date.js';
 	}
 
 	.daichuli_zhong {
-		width: 70%;
+		width: 90%;
 		text-align: left;
 
 	}
 
-	.daichuli_zhong>div:nth-child(1) {
+	.daichuli_zhong .dai_title {
 		color: #ff6666;
 		font-size: 18px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
-	.daichuli_zhong>div:nth-child(2) {
+	.daichuli_zhong .dai_content {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		color: #999;
+		margin-top: 15px;
+	}
+	.daichuli_zhong .dai_content span {
 		color: #999;
 		font-size: 15px;
 		margin-top: 10px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		margin-right: 10px;
 	}
 
 	.daichuli_you>div {
@@ -445,6 +477,8 @@ import {formatDate} from '../../../utils/date.js';
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		border: none;
+		cursor: pointer;
 	}
 
 	.yihchuli {
@@ -469,5 +503,16 @@ import {formatDate} from '../../../utils/date.js';
 
 	.yiguidangbeijing {
 		background: rgba(153, 153, 153, 1) !important;
+	}
+	.yichuli_title {
+		font-size: 18px;
+		color:#199ed8;
+	}
+	.yichuliover_title {
+		font-size: 18px;
+		color: #ff9933;
+	}
+	.fz_18 {
+		font-size: 18px;
 	}
 </style>
