@@ -73,8 +73,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8" v-if="this.query.type === 'view'">
-						<el-form-item label="状态" prop="trainType">
-							<span class="el-text">{{}}</span>
+						<el-form-item label="培训状态" prop="trainType">
+							<span class="el-text">{{queryCondition.trainStatus}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -107,7 +107,7 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
 						<el-form-item label="培训课件:" prop="couId">
-							<span class="el-text" v-if="this.query.type === 'view'">{{ueryCondition.couId}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couId}}</span>
 							<el-select v-else v-model="queryCondition.couId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunkejianList"
@@ -243,6 +243,7 @@
 				peixunleixingList: [],    //培训类型数据
 				peixunkejianList: [], // 培训课件数据
 				peixunjibieList: [], // 培训级别数据
+				peixunzhuangtaiList: [], // 培训状态数据
 				positionList:[
 					{
 						label: '内部律师',
