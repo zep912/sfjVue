@@ -12,15 +12,17 @@
 			<el-form :model="queryCondition" :rules="rules" ref="queryCondition">
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="16">
-						<el-form-item label="培训主题" prop="trainTitle">
-							<el-input maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
+						<el-form-item label="培训主题:" prop="trainTitle">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTitle}}</span>
+							<el-input v-else maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="培训方式" prop="trainMode">
-							<el-select v-model="queryCondition.trainMode" placeholder="请选择">
+						<el-form-item label="培训方式:" prop="trainMode">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainMode}}</span>
+							<el-select v-else v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in peixunfangshiList"
 										:key="item.dictDataCode"
@@ -31,8 +33,9 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="适用岗位" prop="matchPos">
-							<el-select v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
+						<el-form-item label="适用岗位:" prop="matchPos">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPos}}</span>
+							<el-select v-else  v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
 								<el-option
 									v-for="item in positionList"
 									:key="item.value"
@@ -45,7 +48,7 @@
 				</el-row>
 				<el-row>
 					<el-col :span="8">
-						<el-form-item label="培训级别" prop="trainLevel" v-if="queryCondition.trainMode === '2'">
+						<el-form-item label="培训级别:" prop="trainLevel" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 							<el-select v-model="queryCondition.trainLevel" placeholder="请选择">
 									<el-option
 										v-for="item in peixunjibieList"
@@ -57,8 +60,9 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="培训类型" prop="trainType">
-							<el-select v-model="queryCondition.trainType" placeholder="请选择">
+						<el-form-item label="培训类型:" prop="trainType">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainType}}</span>
+							<el-select v-else  v-model="queryCondition.trainType" placeholder="请选择">
 									<el-option
 										v-for="item in peixunleixingList"
 										:key="item.dictDataCode"
@@ -66,6 +70,11 @@
 										:value="item.dictDataCode">
 									</el-option>
 								</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8" v-if="this.query.type === 'view'">
+						<el-form-item label="状态" prop="trainType">
+							<span class="el-text">{{}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -82,14 +91,14 @@
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="16" v-if="queryCondition.trainMode === '2'">
+					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 						<el-form-item label="培训地点" prop="trainAddr">
 							<el-input v-model="queryCondition.trainAddr" placeholder="请输入培训地点"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="16" v-if="queryCondition.trainMode === '2'">
+					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 						<el-form-item label="培训主要内容概述" prop="trainContent">
 							<el-input type="textarea" :rows="4" v-model="queryCondition.trainContent" placeholder="请输入培训主要内容概述"></el-input>
 						</el-form-item>
@@ -97,8 +106,9 @@
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
-						<el-form-item label="培训课件" prop="couId">
-							<el-select v-model="queryCondition.couId" placeholder="请选择">
+						<el-form-item label="培训课件:" prop="couId">
+							<span class="el-text" v-if="this.query.type === 'view'">{{ueryCondition.couId}}</span>
+							<el-select v-else v-model="queryCondition.couId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunkejianList"
 									:key="item.resId"
@@ -110,9 +120,10 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8" v-if="queryCondition.trainMode === '2'">
-						<el-form-item label="课件类型" prop="openType">
-							<el-radio-group v-model="queryCondition.openType">
+					<el-col :span="8" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
+						<el-form-item label="课件类型:" prop="openType">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openType}}</span>
+							<el-radio-group v-else v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
 								<el-radio :label="1">不公开</el-radio>
 							</el-radio-group>
@@ -127,8 +138,9 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="负责人" prop="principalUserId">
-							<el-select v-model="queryCondition.principalUserId" placeholder="请选择">
+						<el-form-item label="负责人:" prop="principalUserId">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserId}}</span>
+							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
 									v-for="item in personList"
 									:key="item.dictDataCode"
@@ -141,19 +153,31 @@
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-					<el-form-item label="培训人数" prop="trainUserTotal">
-						<el-input v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
+					<el-form-item label="培训人数:" prop="trainUserTotal">
+						<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainUserTotal}}</span>
+						<el-input v-else v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
 					</el-form-item>
 				</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-form-item label="培训人员" prop="">
-							<el-table :data="peixunjihua" border style="width: 100%">
+					<el-form-item label="培训人员:" prop="">
+						<el-table :data="peixunjihua" border style="width: 100%" v-if="this.query.type === 'view'">
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
 								<el-table-column  prop="trainTitle" label="姓名"></el-table-column>
 								<el-table-column  prop="trainUserTotal"  label="所属律师"></el-table-column>
 								<el-table-column  prop="trainMode"  label="联系电话"></el-table-column>
-								<el-table-column label="操作" >
+								<el-table-column  prop="trainMode"  label="学习次数"></el-table-column>
+								<el-table-column  prop="trainMode"  label="累计时长"></el-table-column>
+								<el-table-column  prop="trainMode"  label="学习进度"></el-table-column>
+								<el-table-column  prop="trainMode"  label="学习状态"></el-table-column>
+							</el-table>
+							<el-table :data="peixunjihua" border style="width: 100%" v-else>
+								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
+								<el-table-column  prop="trainTitle" label="姓名"></el-table-column>
+								<el-table-column  prop="trainUserTotal" label="所属科室" v-if="queryCondition.trainMode === '2'"></el-table-column>
+								<el-table-column  prop="trainUserTotal" label="所属律师" v-else></el-table-column>
+								<el-table-column  prop="trainMode"  label="联系电话"></el-table-column>
+								<el-table-column label="操作">
 									<template slot-scope="scope">
 										<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 									</template>
@@ -430,25 +454,26 @@
 			submitConsultInfo () {
 				this.$refs.queryCondition.validate((valid) => {
 					if (valid) {
-						let {token, trainTitle, trainMode, matchPos, trainType, startDate, endDate, startTime, endTime, couId, openType, principalUserId, trainAddr, trainContent, trainLevel, trainStatus} = this.queryCondition
-						let obj = {
-							token,
-							trainTitle,
-							trainMode,
-							matchPos,
-							trainAddr,
-							trainContent,
-							trainType,
-							trainLevel,
-							startDate,
-							startTime,
-							endDate,
-							endTime,
-							openType,
-							couId,
-							principalUserId,
-							trainStatus
-						}
+						// let {token, trainTitle, trainMode, matchPos, trainType, startDate, endDate, startTime, endTime, couId, openType, principalUserId, trainAddr, trainContent, trainLevel, trainStatus} = this.queryCondition
+						// let obj = {
+						// 	token,
+						// 	trainTitle,
+						// 	trainMode,
+						// 	matchPos,
+						// 	trainAddr,
+						// 	trainContent,
+						// 	trainType,
+						// 	trainLevel,
+						// 	startDate,
+						// 	startTime,
+						// 	endDate,
+						// 	endTime,
+						// 	openType,
+						// 	couId,
+						// 	principalUserId,
+						// 	trainStatus
+						// }
+						let obj = JSON.parse(JSON.stringify(this.queryCondition))
 						plan(obj).then(res => {
 							if (res.code == '200') {
 								this.$message({
@@ -505,6 +530,7 @@
 					.el-form-item__content {
 						display: block;
 						padding-left: 130px;
+						text-align: left;
 					}
 					.el-form-item {
 						white-space: nowrap;

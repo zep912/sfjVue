@@ -259,7 +259,7 @@
 		chakan(index, row){
 			this.$router.push({
 				path:'/n_pxplan',
-				query: {id: row.planId,type: 'view'}
+				query: {id: row.planId, type: 'view'}
 			})
 		},
 		// 删除
