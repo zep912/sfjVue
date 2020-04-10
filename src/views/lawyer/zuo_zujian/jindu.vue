@@ -2,109 +2,87 @@
 	<div class="lawcontent">
 		<div class="zuo_jindu">
 			<div class="indexcon_lefttop">
-				<el-date-picker v-model="value1" type="date" placeholder="选择日期">
-				</el-date-picker>
+				<el-date-picker 
+						v-model="value1"
+						type="date"
+						format="yyyy 年 MM 月 dd 日"
+						value-format="yyyy-MM-dd"
+						:clearable="false"
+						@change = "getWorkAxis"
+						style="width: 300px;margin-left: 10px;"></el-date-picker>
 				▼
 			</div>
 			<div class="indexcon_leftcon">
-				<!-- <div class="shouye_jindu">
-					<div class="jindu_zuo">
-						<div>
-							10:00
-							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						</div>
-					</div>
-					<div class="jindu_you">
-						<div>
-							<div class="jindu_qian">
-								<div>签到</div>
-							</div>
-							<div class="zhuang">XXXXXXXXXXXXXXXXXXXXXXXX</div>
-						</div>
-					</div>
-				</div>
-				<div class="shouye_jindu">
-					<div class="jindu_zuo">
-						<div>
-							10:00
-							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						</div>
-					</div>
-					<div class="jindu_you jindubai">
-						<div>
-							<div class="jindu_qian">
-								<div>智慧司法需求对接会议</div>
-							</div>
-							<div class="zhuang">会议地点：1920会议室</div>
-						</div>
-					</div>
-				</div>
-				<div class="shouye_jindu">
-					<div class="jindu_zuo">
-						<div>
-							<span style="opacity: 0;">10:00 </span>
-							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						</div>
-					</div>
-					<div class="jindu_you jindubai" @click="xuexijihua">
-						<div style="width: 100%;">
-							<router-link :to="{name: 'xuexijihua'}" >
-								<div class="jindu_qian liangqi">
-									<div>课件学习计划</div>
-									<div class="xuexi_you">
-										<div class="jindu_shu">1/3</div>
-										<div class="jindu_xiugai xuexihong">2</div>
-									</div>
-								</div>
-							</router-link>
-						</div>
-						
-					</div>
-				</div> -->
+				
 				<div class="shouye_jindu" v-for="(item, index) in timeList" :key="index">
 					<div class="jindu_zuo">
 						<div style="position: relative;">
-							{{item.nodeTime}}
-							<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-							<div style="position:ablsolute; left: 0; top: 50px;text-align:left;font-size: 14px;">现在</div>
+							<span :class="item.nodeType === '4'? 'blue_co': ''">{{item.nodeTime}}</span>
+							<div v-if="item.nodeType === '4'" class="now_tag">现在</div>
 						</div>
 					</div>
+					<!-- <div class="line"></div> -->
 					<!-- 签到（退） -->
 					<div v-if="item.nodeType === '1'" class="jindu_you">
-						<div>
+						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
+						<div class="jindubai">
 							<div class="jindu_qian">
 								<div>{{item.nodeTitle}}</div>
-								<!-- <div class="jindu_shu">1</div> -->
-								<!-- <div class="jindu_xiugai">修改记录</div> -->
 							</div>
-							<!-- <div class="zhuang">{{item.nodeContent}}</div> -->
 						</div>
-						<!-- <div class="jindu_zhiwen">
-							<img src="../../../assets/image/u1879.png" alt="">
-							<div>更多操作</div>
-						</div> -->
 					</div>
+
 					<!-- 待办事项 -->
 					<div v-if="item.nodeType === '2'" class="jindu_you">
-					</div>
-					<!-- 文本消息 -->
-					<div v-if="item.nodeType === '3'" class="jindu_you">
-					</div>
-					<!-- 即时信息 -->
-					<div v-if="item.nodeType === '4'" class="jindu_younow">
-						<div>
-							<div class="jindu_topchuli">
-								<div><span class="label-left">待处理</span><router-link :to="{path: '/lvshi'}"><span class="count top-blue">{{item.nodeContent}}</span></router-link>项</div>
-								<div><span class="label-left">其中超时</span><router-link :to="{path: '/lvshi'}"><span class="count btm-red">{{item.nodeContent3}}</span></router-link>项</div>
+						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
+						<div class="jindubai">
+							<div class="jindu_qian">
+								{{item.nodeTitle}}
 							</div>
-							<div class="jindu_topchuli">
-								<div><span class="label-left">我发起</span><router-link :to="{name: 'wodefaqi'}"><span class="count top-blue">{{item.nodeContent2}}</span></router-link>项</div>
-								<div><span class="label-left">其中超时</span><router-link :to="{name: 'wodefaqi'}"><span class="count btm-red">{{item.nodeContent4}}</span></router-link>项</div>
+							<div class="jindu_content">
+								<span v-if="item.nodeContent">{{item.nodeContent}}</span>
+								<span v-if="item.nodeContent">{{item.nodeContent1}}</span>
+								<span v-if="item.nodeContent">{{item.nodeContent2}}</span>
+								<span v-if="item.nodeContent">{{item.nodeContent3}}</span>
 							</div>
 						</div>
-						<router-link :to="{name: 'zhize'}">
-							<div class="zhize" @click="zhize">职责</div>
-						</router-link>
+					</div>
+
+					<!-- 文本消息 -->
+					<div v-if="item.nodeType === '3'" class="jindu_you">
+						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
+						<!-- <div class="jindu_tu_big el-icon-location"></div> -->
+						<div class="jindubai">
+							<div class="jindu_qian">
+								{{item.nodeTitle}}
+							</div>
+							<div class="jindu_content">
+								<span v-if="item.nodeContent">{{item.nodeContent}}</span>
+								<span v-if="item.nodeContent">{{item.nodeContent1}}</span>
+								<span v-if="item.nodeContent">{{item.nodeContent2}}</span>
+								<span v-if="item.nodeContent">{{item.nodeContent3}}</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- 即时信息 -->
+					<div v-if="item.nodeType === '4'" class="jindu_you">
+						<div class="jindu_tu_big el-icon-location"></div>
+						<div class="jindu_younow">
+							<div>
+								<div class="jindu_topchuli">
+									<div><span class="label-left">待处理</span><router-link :to="{path: '/lvshi'}"><span class="count top-blue">{{item.nodeContent}}</span></router-link><span class="btm-gray">项</span></div>
+									<div><span class="label-left btm-gray">其中超时</span><router-link :to="{path: '/lvshi'}"><span class="count btm-red">{{item.nodeContent3}}</span></router-link><span class="btm-gray">项</span></div>
+								</div>
+								<div class="jindu_topchuli">
+									<div><span class="label-left">我发起</span><router-link :to="{name: 'wodefaqi'}"><span class="count top-blue">{{item.nodeContent2}}</span></router-link><span class="btm-gray">项</span></div>
+									<div><span class="label-left btm-gray">其中超时</span><router-link :to="{name: 'wodefaqi'}"><span class="count btm-red">{{item.nodeContent4}}</span></router-link><span class="btm-gray">项</span></div>
+								</div>
+							</div>
+							<router-link :to="{name: 'zhize'}">
+								<div class="zhize" @click="zhize">职责</div>
+							</router-link>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -116,11 +94,11 @@
 
 <script>
 import * as api from "@/http/lawyer"
-
+import {formatDate} from '../../../utils/date.js';
 	export default {
 	  data() {
 	    return {
-		  value1: new Date(),
+		  value1: formatDate(new Date(), 'yyyy-MM-dd'),
 		  timeList: []
 	    }
 	  },
@@ -133,14 +111,20 @@ import * as api from "@/http/lawyer"
 		  },
 		  getWorkAxis() {
 			  let params = {
-				token: sessionStorage.getItem("token")
+				token: sessionStorage.getItem("token"),
+				execTime: this.value1
 				// token: '64d1d05f5ccb4670a6d342f3b3c002ce'
 			  }
 			  api.getWorkAxis(params).then(res => {
 				  console.log(res)
 				  if(res.code === 200) {
 					this.timeList = res.content.dataList
-				  }
+				  } else {
+                    this.$message({
+                        message: res.msg,
+                        type: "error"
+                    });
+                }
 			  })
 			  
 		  }
@@ -164,11 +148,10 @@ import * as api from "@/http/lawyer"
 	}
 	
 	.indexcon_leftcon {
-		// width: 94%;
 		height: 90%;
 		background: #f6f6f6;
 		padding-top: 10px;
-		// padding: 0px 3%;
+		position: relative;
 	}
 	
 	.indexcon_lefttop .el-input {
@@ -184,39 +167,67 @@ import * as api from "@/http/lawyer"
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		// padding-bottom: 10px;
+		// position: relative;
 	}
-	
-	.shouye_jindu>div {
-		display: flex;
-		align-items: center;
-	}
-	
 	.jindu_tu {
 		width: 20px;
 		height: 20px;
-		position: relative;
-		left: 10px;
+		position: absolute;
+		left: -10px;
+		top: 50%;
+		transform: translateY(-50%);
 		z-index: 100;
+		background: #f6f6f6;
 	}
-	
+	.jindu_tu_big {
+		width: 30px;
+		height: 30px;
+		position: absolute;
+		left: -15px;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 100;
+		background: #f6f6f6;
+		font-size: 30px;
+	}
+
 	.jindu_zuo {
-		height: 66px;
-		border-right: 1px solid #999;
+		height: 100%;
+		width: 25%;
+		position: relative;
+	}
+	.now_tag {
+		width: 100px;
+		height: 50px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		top: -20px;
+		font-size: 14px;
+		color:rgb(35, 86, 131);
+	}
+	.blue_co {
+		color:rgb(35, 86, 131);
 	}
 	
 	.jindu_you {
 		width: 60%;
 		padding: 10px 2%;
-		background: #e9eef3;
+		background: #f6f6f6;
+		padding-left: 30px;
+		border-left: 1px solid #999;
+		position: relative;
+	}
+	.jindubai {
+		padding: 10px;
+		background: #fff;
+		position: relative;
 		border-radius: 5px;
-		margin-left: 20px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
 	}
 	
 	.jindu_qian {
-		display: flex;
+		text-align: left;
 		align-items: center;
 		color: #333;
 	}
@@ -248,6 +259,14 @@ import * as api from "@/http/lawyer"
 		font-size: 12px;
 		color: #999;
 	}
+	.jindu_content {
+		width: 100%;
+		margin-top: 5px;
+		font-size: 12px;
+		color: #999;
+		display: flex;
+		justify-content: space-between;
+	}
 	
 	.jindu_zhiwen {
 		display: flex;
@@ -275,10 +294,10 @@ import * as api from "@/http/lawyer"
 	}
 	
 	.jindu_younow {
-		width: 64%;
+		// width: 100%;
 		border-radius: 5px;
 		background: #fff;
-		margin-left: 20px;
+		// margin-left: 20px;
 		overflow: hidden;
 		display: block !important;
 	}
@@ -298,7 +317,10 @@ import * as api from "@/http/lawyer"
 	
 	.jindu_topchuli {
 		border-right: 1px solid #eee;
-		padding: 15px 0;
+		padding: 10px 0;
+	}
+	.jindu_topchuli:nth-child(2) {
+		border-right:none;
 	}
 	
 	.jindu_topchuli>div {
@@ -306,12 +328,12 @@ import * as api from "@/http/lawyer"
 	}
 	.label-left {
 		display: inline-block;
-		width: 80px;
+		width: 70px;
 		text-align: left;
 	}
 	.count {
 		display: inline-block;
-		width: 50px;
+		width: 30px;
 	}
 	.top-blue {
 		font-size: 16px;
@@ -321,18 +343,18 @@ import * as api from "@/http/lawyer"
 		font-size: 14px;
     	color: #FF6666;	
 	}
+	.btm-gray {
+		font-size: 14px;
+		color: #999999;
+	}
 	.zhize {
 		width: 100%;
-		height: 40px;
+		height: 36px;
 		background: #0087cc;
 		color: #fff;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-	
-	.jindubai {
-		background: #fff;
 	}
 	.xuexihong {
 		background: #ff6666;
