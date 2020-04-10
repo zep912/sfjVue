@@ -156,15 +156,21 @@
               if (this.selMonth) {
                 // 如果日有值
                 if (this.selDay) {
-                  this.dateInfo.startTime = `${this.selYear}-${this.selMonth}-${this.selDay} 00:00:00`;
-                  this.dateInfo.endTime = `${this.selYear}-${this.selMonth}-${this.selDay} 23:59:59`;
+                  this.dateInfo.startDate = `${this.selYear}-${this.selMonth}-${this.selDay}`;
+                  this.dateInfo.startTime = '00:00:00'
+                  this.dateInfo.endDate = `${this.selYear}-${this.selMonth}-${this.selDay}`;
+                  this.dateInfo.endTime = '23:59:59'
                 } else {
-                  this.dateInfo.startTime = `${this.selYear}-${this.selMonth}-01 00:00:00`;
-                  this.dateInfo.endTime = `${this.selYear}-${this.selMonth}-${this.getDays(this.selYear, this.selMonth)} 23:59:59`;
+                  this.dateInfo.startDate = `${this.selYear}-${this.selMonth}-01`;
+                  this.dateInfo.startTime = '00:00:00'
+                  this.dateInfo.endDate = `${this.selYear}-${this.selMonth}-${this.getDays(this.selYear, this.selMonth)}`;
+                  this.dateInfo.endTime = '23:59:59'
                 }
               } else {
-                this.dateInfo.startTime = `${this.selYear}-01-01 00:00:00`;
-                this.dateInfo.endTime = `${this.selYear}-12-31 23:59:59`;
+                this.dateInfo.startDate = `${this.selYear}-01-01`;
+                this.dateInfo.startTime = '00:00:00'
+                this.dateInfo.endDate = `${this.selYear}-12-31`;
+                this.dateInfo.endTime = '23:59:59'
               }
             }
             console.log(this.dateInfo);

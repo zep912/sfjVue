@@ -11,11 +11,13 @@
 		<div class="tianjia-header">
 			<el-form :model="queryCondition" :rules="rules" ref="queryCondition">
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
+					<el-col :span="16">
 						<el-form-item label="培训主题" prop="trainTitle">
 							<el-input maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
 						<el-form-item label="培训方式" prop="trainMode">
 							<el-select v-model="queryCondition.trainMode" placeholder="请选择">
@@ -28,8 +30,6 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
 						<el-form-item label="适用岗位" prop="matchPos">
 							<el-select v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
@@ -40,6 +40,20 @@
 									:value="item.value">
 								</el-option>
 							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="8">
+						<el-form-item label="培训级别" prop="trainLevel" v-if="queryCondition.trainMode === '2'">
+							<el-select v-model="queryCondition.trainLevel" placeholder="请选择">
+									<el-option
+										v-for="item in peixunjibieList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -67,10 +81,24 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row>
+					<el-col :span="16" v-if="queryCondition.trainMode === '2'">
+						<el-form-item label="培训地点" prop="trainAddr">
+							<el-input v-model="queryCondition.trainAddr" placeholder="请输入培训地点"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="16" v-if="queryCondition.trainMode === '2'">
+						<el-form-item label="培训主要内容概述" prop="trainContent">
+							<el-input type="textarea" :rows="4" v-model="queryCondition.trainContent" placeholder="请输入培训主要内容概述"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
-						<el-form-item label="培训课件" prop="peixunzhuangtai">
-							<el-select v-model="queryCondition.peixunzhuangtai" placeholder="请选择">
+					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
+						<el-form-item label="培训课件" prop="couId">
+							<el-select v-model="queryCondition.couId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunkejianList"
 									:key="item.resId"
@@ -80,7 +108,17 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="8" v-if="queryCondition.trainMode === '2'">
+						<el-form-item label="课件类型" prop="openType">
+							<el-radio-group v-model="queryCondition.openType">
+								<el-radio :label="2">公开</el-radio>
+								<el-radio :label="1">不公开</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8" v-else>
 						<el-form-item label="公开类型" prop="openType">
 							<el-radio-group v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
@@ -88,8 +126,6 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
 						<el-form-item label="负责人" prop="principalUserId">
 							<el-select v-model="queryCondition.principalUserId" placeholder="请选择">
@@ -102,9 +138,11 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-					<el-form-item label="培训人数" prop="peixunfangshi">
-						<el-input v-model="queryCondition.shiyonggangwei" placeholder="全部社会律师"></el-input>
+					<el-form-item label="培训人数" prop="shiyonggangwei">
+						<el-input v-model="queryCondition.shiyonggangwei" placeholder="自动获取 人"></el-input>
 					</el-form-item>
 				</el-col>
 				</el-row>
@@ -148,8 +186,8 @@
 	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
+	import util from '@/assets/js/co-util'
 	// import NPxplanTree from './n_pxplan_tree'
-	// import util from '@/assets/js/co-util'
 	export default {
 		components: {
 			SingleDate
@@ -165,14 +203,18 @@
 					trainType:'',   //培训类型
 					startTime: '', // 开始时间
 					endTime: '', // 截止时间
-					peixunzhuangtai: '', // 培训课件
+					couId: '', // 培训课件
 					openType:'',  // 公开类型
 					principalUserId: '', // 负责人
-					peixunfangshi: '' // 培训人数
+					trainAddr: '',
+					trainContent: '',
+					trainLevel: '',
+					trainStatus: ''
 				},
 				peixunfangshiList: [],    //培训方式数据
 				peixunleixingList: [],    //培训类型数据
 				peixunkejianList: [], // 培训课件数据
+				peixunjibieList: [], // 培训级别数据
 				positionList:[
 					{
 						label: '内部律师',
@@ -203,7 +245,13 @@
 					endTime: [
 						{required: true,message: "请输入截止时间",trigger: "change"}
 					],
-					peixunzhuangtai: [
+					trainAddr: [
+						{required: true,message: "请输入培训地点",trigger: "blur"}
+					],
+					trainContent: [
+						{required: true,message: "请输入培训主要内容概述",trigger: "blur"}
+					],
+					couId: [
 						{required: true,message: "请选择培训课件",trigger: "change"}
 					],
 					openType: [
@@ -225,6 +273,7 @@
 			} else {
 				this.wayData()
 				this.typeData()
+				this.levelData()
 				// this.stateData()
 				this.manakejians()
 				this.queryLawyerList()
@@ -237,7 +286,11 @@
 			//根据日期查询
 			getDateInfo(){
 				const dateInfo = this.$refs.getDate.getDateInfo();
-				console.log(dateInfo);
+				let {startDate, startTime, endDate, endTime} = dateInfo
+				this.queryCondition.startDate = startDate
+				this.queryCondition.endDate = endDate
+				this.queryCondition.startTime = startTime
+				this.queryCondition.endTime = endTime
 				// this.getStartedList(dateInfo);
 			},
 			// 初始化获取时间
@@ -264,6 +317,17 @@
 				}).then(res=>{
 					if(res.code == '200'){
 						this.peixunleixingList = res.content.resultList
+					}
+				})
+			},
+			// 获取培训等级数据字段
+			levelData() {
+				getSelectDetail({
+					dictCode:'peixundengji',
+					userId:'1'
+				}).then(res => {
+					if (res.code == '200') {
+						this.peixunjibieList = res.content.resultList
 					}
 				})
 			},
@@ -347,10 +411,29 @@
 			submitConsultInfo () {
 				this.$refs.queryCondition.validate((valid) => {
 					if (valid) {
-						plan().then(res => {
-							if (res) {
+						let {token, trainTitle, trainMode, matchPos, trainType, startDate, endDate, startTime, endTime, couId, openType, principalUserId, trainAddr, trainContent, trainLevel, trainStatus} = this.queryCondition
+						let obj = {
+							token,
+							trainTitle,
+							trainMode,
+							matchPos,
+							trainAddr,
+							trainContent,
+							trainType,
+							trainLevel,
+							startDate,
+							startTime,
+							endDate,
+							endTime,
+							openType,
+							couId,
+							principalUserId,
+							trainStatus
+						}
+						plan(obj).then(res => {
+							if (res.code == '200') {
 								this.$message({
-									message: '删除成功',
+									message: '提交成功',
 									type: 'success'
 								})
 							}
@@ -396,13 +479,13 @@
 						width: 100%;
 					}
 					.el-form-item__label {
-						width: 85px;
+						width: 130px;
 						float: left;
 						text-align: right;
 					}
 					.el-form-item__content {
 						display: block;
-						padding-left: 85px;
+						padding-left: 130px;
 					}
 					.el-form-item {
 						white-space: nowrap;
