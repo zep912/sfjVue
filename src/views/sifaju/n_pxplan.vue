@@ -143,9 +143,9 @@
 							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
 									v-for="item in personList"
-									:key="item.dictDataCode"
-									:label="item.personName"
-									:value="item.personId">
+									:key="item.value"
+									:label="item.label"
+									:value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -234,7 +234,7 @@
 					endTime: '', // 截止时间
 					couId: '', // 培训课件
 					openType:'',  // 公开类型
-					principalUserId: '', // 负责人
+					principalUserId: sessionStorage.getItem("token"), // 负责人
 					trainAddr: '',
 					trainContent: '',
 					trainLevel: '',
