@@ -111,15 +111,15 @@
 			</div>
 			<!-- 表格 -->
 			<div class="biaoge_content">
-				<el-table :data="peixunjihua" border style="width: 100%">
+				<el-table :data="peixunjihua" border style="width: 100%" :cell-class-name="publishClassName">
 				    <el-table-column  type="index" label="序号" width="80"> </el-table-column>
 				    <el-table-column  prop="trainTitle" label="培训主题"></el-table-column>
 				    <el-table-column  prop="trainUserTotal"  label="培训人数"></el-table-column>
 						<el-table-column  prop="trainMode"  label="培训方式"></el-table-column>
-						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column  prop="trainType" label="培训类型"></el-table-column>
 						<el-table-column  prop="startDate" label="培训时间"></el-table-column>
 						<el-table-column  prop="trainAddr" label="地点"></el-table-column>
+						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column label="操作" width="240">
 							<template slot-scope="scope">
 								<el-button  size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -303,7 +303,22 @@
       this.queryCondition.pageRequest.pageIndex = pageIndex
       this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
       this.getData()
-		}
+		},
+		// 改列表颜色
+    publishClassName ({row, columnIndex}) {
+			console.log(111333, row, columnIndex)
+      if (row.planStatusDesc === '未发布' && columnIndex === 7) {
+        return 'ey-review-Warning'
+      } else if (row.trainStatus === '未开始'  && columnIndex === 7) {
+        return 'ey-review-Blue'
+      } else if (row.trainStatus === '进行中'  && columnIndex === 7)  {
+        return 'ey-review-Success'
+      } else if (row.trainStatus === '已结束'  && columnIndex === 7) {
+				return 'ey-review-Info'
+			} else  {
+        return ''
+      }
+    }
 	}
 }
 </script>
@@ -395,6 +410,18 @@
 	}
 	.biaoge_content {
 		margin-top: 20px;
+	}
+	.ey-review-Blue {
+		color: #409EFF;
+	}
+	.ey-review-Success {
+		color: #67C23A;
+	}
+	.ey-review-Warning {
+		color: #E6A23C;
+	}
+	.ey-review-Info {
+		color: #909399;
 	}
 }
 </style>
