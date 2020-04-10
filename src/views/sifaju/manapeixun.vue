@@ -231,6 +231,12 @@
 		getData() {
 			let request = JSON.parse(JSON.stringify(this.queryCondition))
 			console.log(333, request)
+			if (request.value6 && request.value6.length > 0) {
+				let list = request.value6.slice(',')
+				request.startDate = list[0]
+				request.endDate = list[1]
+				delete request.value6
+			}
 			request.pageSize = request.pageRequest.limit
 			request.pageNum = request.pageRequest.pageIndex
 			delete request.pageRequest
