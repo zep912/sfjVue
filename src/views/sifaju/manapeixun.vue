@@ -134,11 +134,11 @@
 				<el-pagination background
 					@size-change="handleSizeChange"
 					@current-change="handleCurrentChange"
-					:current-page="queryCondition.page.pageIndex"
+					:current-page="queryCondition.pageRequest.pageIndex"
 					:page-sizes="[10]"
-					:page-size="queryCondition.page.limit"
+					:page-size="queryCondition.pageRequest.limit"
 					layout="total, sizes, prev, pager, next, jumper"
-					:total="queryCondition.page.results">
+					:total="queryCondition.pageRequest.results">
 					</el-pagination>
 			</div>
 		</div>
@@ -158,7 +158,7 @@
 					trainStatus: null,
 					trainType: null,
 					trainTitle: '',
-					page: crud.getQueryCondition({})
+					pageRequest: crud.getQueryCondition({})
 				},
 				levelList:[],   //培训等级
 				wayList:[],   //培训方式
@@ -228,17 +228,23 @@
 		// 查询表格
 		getData() {
 			let request = JSON.parse(JSON.stringify(this.queryCondition))
-			console.log(333, request.page.limit)
-			request.pageSize = request.page.limit
-			request.pageNum = request.page.pageIndex
-			delete request.page
+			console.log(333, request.pageRequest)
+			request.pageSize = request.pageRequest.limit
+			request.pageNum = request.pageRequest.pageIndex
+			delete request.pageRequest
 			util.dealNullQueryCondition(request)
 			manapeixun(request).then(res=>{
 				if(res){
 					let {content} = res
 					let {dataList, pageInfo} = content
 					this.peixunjihua = dataList
-					this.queryCondition.pageRequest = crud.getCurrentPage(pageInfo)
+					// console.log(111, pageInfo)
+					let pageResponse = {
+						start: (pageInfo.pageNum*10) - 10,
+						limit: 10,
+						results: pageInfo.total
+					}
+					this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
 				}
 			})
 		},
@@ -280,14 +286,14 @@
 		},
 		// 分页
     handleSizeChange (limit) {
-      this.queryCondition.page.limit = limit
-      this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+      this.queryCondition.pageRequest.limit = limit
+      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
       this.getData()
 		},
 		// 分页
     handleCurrentChange (pageIndex) {
-      this.queryCondition.page.pages = pageIndex
-      this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+      this.queryCondition.pageRequest.pageIndex = pageIndex
+      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
       this.getData()
 		}
 	}
