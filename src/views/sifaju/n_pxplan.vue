@@ -183,16 +183,17 @@
 									</template>
 								</el-table-column>
 							</el-table>
-							<!-- <div class="p_page">
-								<el-pagination background
-									@size-change="handleSizeChange"
-									@current-change="handleCurrentChange"
-									:current-page="queryCondition.page.pageIndex"
-									:page-size="queryCondition.page.limit"
-									layout="total, sizes, prev, pager, next, jumper"
-									:total="queryCondition.page.results">
-									</el-pagination>
-							</div> -->
+							<div class="p_page">
+							<el-pagination background
+								@size-change="handleSizeChange"
+								@current-change="handleCurrentChange"
+								:current-page="queryCondition.pageRequest.pageIndex"
+								:page-sizes="[10]"
+								:page-size="queryCondition.pageRequest.limit"
+								layout="total, sizes, prev, pager, next, jumper"
+								:total="queryCondition.pageRequest.results">
+								</el-pagination>
+						</div>
 						</el-form-item>
 				</el-row>
 			</el-form>
@@ -237,7 +238,8 @@
 					trainContent: '',
 					trainLevel: '',
 					trainStatus: '',
-					trainUserTotal: ''
+					trainUserTotal: '',
+					pageRequest: crud.getQueryCondition({})
 				},
 				peixunfangshiList: [],    //培训方式数据
 				peixunleixingList: [],    //培训类型数据
@@ -391,12 +393,23 @@
 					token: sessionStorage.getItem("token"),
 					matchPos: event,
 					deptList: [],
-					pageNum: 1
+					ageSize: this.queryCondition.pageRequest.limit,
+					pageNum: this.queryCondition.pageRequest.pageIndex
 				}
 				refreshLawyerList(obj).then(res => {
-					console.log('律师', res.content)
-					this.personList = res.content.dataList
-				})
+					if (res.code == '200') {
+						console.log('律师', res.content)
+							let {content} = res
+							let {dataList, pageInfo} = content
+								this.peixunjihua = dataList
+								let pageResponse = {
+								start: (pageInfo.pageNum*10) - 10,
+								limit: 10,
+								results: pageInfo.total
+							}
+							this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
+					}
+				})	
 			},
 			// 获取内部律师列表
 			// getInnerLawyerList() {
@@ -433,27 +446,38 @@
 			},
 			// 查询律师
 			queryLawyerList () {
-				let obj ={
+				let obj = {
 					token: sessionStorage.getItem("token"),
-					pageNum: '1'
+					pageSize: this.queryCondition.pageRequest.limit,
+					pageNum: this.queryCondition.pageRequest.pageIndex
 				}
 				queryLawyerList(obj).then(res => {
 					if (res.code == '200') {
-						console.log('查询律师', res.content)
-						this.peixunjihua = res.content.dataList
+					console.log('查询律师', res.content)
+					let {content} = res
+					let {dataList, pageInfo} = content
+						this.peixunjihua = dataList
+						let pageResponse = {
+						start: (pageInfo.pageNum*10) - 10,
+						limit: 10,
+						results: pageInfo.total
+					}
+					this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
 			},
 			// 分页
-			handleSizeChange (limit) {
-				this.queryCondition.page.limit = limit
-				this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
-			},
-			// 分页
-			handleCurrentChange (pageIndex) {
-				this.queryCondition.page.pages = pageIndex
-				this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
-			},
+    handleSizeChange (limit) {
+      this.queryCondition.pageRequest.limit = limit
+      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+      this.queryLawyerList()
+		},
+		// 分页
+    handleCurrentChange (pageIndex) {
+      this.queryCondition.pageRequest.pageIndex = pageIndex
+      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+      this.queryLawyerList()
+		},
 			// 查询计划详情
 			getTrainPlanInfo() {
 				let obj = {
