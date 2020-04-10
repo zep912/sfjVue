@@ -407,6 +407,7 @@
 								limit: 10,
 								results: pageInfo.total
 							}
+							this.queryCondition.trainUserTotal = this.peixunjihua.length
 							this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})	
@@ -462,6 +463,7 @@
 						limit: 10,
 						results: pageInfo.total
 					}
+					this.queryCondition.trainUserTotal = this.peixunjihua.length
 					this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
