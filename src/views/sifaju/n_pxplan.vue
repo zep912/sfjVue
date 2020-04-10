@@ -161,22 +161,22 @@
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-form-item label="培训人员:" prop="">
-						<el-table :data="peixunjihua" border style="width: 100%" v-if="this.query.type === 'view'">
+						<el-table :data="tableData" border style="width: 100%" v-if="this.query.type === 'view'">
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
-								<el-table-column  prop="trainTitle" label="姓名"></el-table-column>
-								<el-table-column  prop="trainUserTotal"  label="所属律师"></el-table-column>
-								<el-table-column  prop="trainMode"  label="联系电话"></el-table-column>
-								<el-table-column  prop="trainMode"  label="学习次数"></el-table-column>
-								<el-table-column  prop="trainMode"  label="累计时长"></el-table-column>
-								<el-table-column  prop="trainMode"  label="学习进度"></el-table-column>
-								<el-table-column  prop="trainMode"  label="学习状态"></el-table-column>
+								<el-table-column  prop="lawyerName" label="姓名"></el-table-column>
+								<el-table-column  prop="orgName"  label="所属律所"></el-table-column>
+								<el-table-column  prop="lawyerPhone"  label="联系电话"></el-table-column>
+								<el-table-column  prop="studyCount"  label="学习次数"></el-table-column>
+								<el-table-column  prop="accTime"  label="累计时长"></el-table-column>
+								<el-table-column  prop="studyProcess"  label="学习进度"></el-table-column>
+								<el-table-column  prop="studyStatus"  label="学习状态"></el-table-column>
 							</el-table>
 							<el-table :data="peixunjihua" border style="width: 100%" v-else>
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
-								<el-table-column  prop="trainTitle" label="姓名"></el-table-column>
-								<el-table-column  prop="trainUserTotal" label="所属科室" v-if="queryCondition.trainMode === '2'"></el-table-column>
-								<el-table-column  prop="trainUserTotal" label="所属律师" v-else></el-table-column>
-								<el-table-column  prop="trainMode"  label="联系电话"></el-table-column>
+								<el-table-column  prop="lawyerName" label="姓名"></el-table-column>
+								<el-table-column  prop="deptName" label="所属科室" v-if="queryCondition.trainMode === '2'"></el-table-column>
+								<el-table-column  prop="deptName" label="所属律所" v-else></el-table-column>
+								<el-table-column  prop="phoneNum"  label="联系电话"></el-table-column>
 								<el-table-column label="操作">
 									<template slot-scope="scope">
 										<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -207,7 +207,7 @@
 
 <script>
 
-	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList, getTrainPlanInfo} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
 	import util from '@/assets/js/co-util'
@@ -290,7 +290,8 @@
 						{required: true,message: "请选择负责人",trigger: "change"}
 					]
 				},
-				peixunjihua: []
+				peixunjihua: [],
+				tableData: []
 			}
 		},
 		created() {
@@ -301,11 +302,12 @@
 				this.query.planId = this.$route.query.id
 				this.lvsuo_texts = "修改培训计划"
 				this.getTrainPlanInfo()
+				this.getLawyerStudyList()
 			} else {
 				this.wayData()
 				this.typeData()
 				this.levelData()
-				// this.stateData()
+				this.stateData()
 				this.manakejians()
 				this.queryLawyerList()
 			}
@@ -376,34 +378,48 @@
 			// 适用岗位
 			changeMatchPos (event) {
 				console.log(111, event)
-				if (event) {
-					this.getInnerLawyerList()
-				} else {
-					this.getLawyerListByOffice()
-				}
+				// if (event) {
+				// 	this.getInnerLawyerList()
+				// } else {
+				// 	this.getLawyerListByOffice()
+				// }
+				this.refreshLawyerList(event)
 			},
-			// 获取内部律师列表
-			getInnerLawyerList() {
+			// 选择岗位后更新律师列表
+			refreshLawyerList (event) {
 				let obj = {
-					token: sessionStorage.getItem("token")
+					token: sessionStorage.getItem("token"),
+					matchPos: event,
+					deptList: [],
+					pageNum: 1
 				}
-				getInnerLawyerList(obj).then(res => {
-					if (res) {
-						console.log('律师', res.content)
-						this.personList = res.content.dataList
-					}
-				})
-			},
-			// 查询外部律师列表
-			getLawyerListByOffice () {
-				let obj = {
-					token: sessionStorage.getItem("token")
-				}
-				getLawyerListByOffice(obj).then(res => {
+				refreshLawyerList(obj).then(res => {
 					console.log('律师', res.content)
 					this.personList = res.content.dataList
 				})
 			},
+			// 获取内部律师列表
+			// getInnerLawyerList() {
+			// 	let obj = {
+			// 		token: sessionStorage.getItem("token")
+			// 	}
+			// 	getInnerLawyerList(obj).then(res => {
+			// 		if (res) {
+			// 			console.log('律师', res.content)
+			// 			this.personList = res.content.dataList
+			// 		}
+			// 	})
+			// },
+			// 查询外部律师列表
+			// getLawyerListByOffice () {
+			// 	let obj = {
+			// 		token: sessionStorage.getItem("token")
+			// 	}
+			// 	getLawyerListByOffice(obj).then(res => {
+			// 		console.log('律师', res.content)
+			// 		this.personList = res.content.dataList
+			// 	})
+			// },
 			// 查询课件
 			manakejians() {
 				let obj ={
@@ -448,6 +464,19 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
+					}
+				})
+			},
+			// 查看学习人进度列表
+			getLawyerStudyList () {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					planId: this.query.planId
+				}
+				getLawyerStudyList(obj).then(res => {
+					if (res.code == '200') {
+						console.log('进度列表', res.content.dataList)
+						this.tableData = res.content.dataList
 					}
 				})
 			},

@@ -194,6 +194,14 @@ export const plan = data =>{
 export const getTrainPlanInfo = data =>{
     return $http.post('train/getTrainPlanInfo', data);
 }
+// 查看学习人进度列表
+export const getLawyerStudyList = data =>{
+    return $http.post('train/getLawyerStudyList', data);
+}
+// 选择岗位后更新律师列表
+export const refreshLawyerList = data =>{
+    return $http.post('train/refreshLawyerList', data);
+}
 // 删除培训计划
 export const deleteTrainPlan = data => {
     return $http.post('train/deleteTrainPlan', data)
