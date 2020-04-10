@@ -122,9 +122,9 @@
 						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column label="操作" width="240">
 							<template slot-scope="scope">
-								<el-button  size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+								<el-button  size="mini" type="primary"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 								<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-								<el-button size="mini" type="danger"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+								<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
 							</template>
 						</el-table-column>
 				  </el-table>
@@ -307,7 +307,9 @@
 		// 改列表颜色
     publishClassName ({row, columnIndex}) {
 			console.log(111333, row, columnIndex)
-      if (row.planStatusDesc === '未发布' && columnIndex === 7) {
+			if (columnIndex === 1) {
+				return 'ey-review-Blue'
+			}else if (row.planStatusDesc === '未发布' && columnIndex === 7) {
         return 'ey-review-Warning'
       } else if (row.planStatusDesc === '未开始'  && columnIndex === 7) {
         return 'ey-review-Blue'
