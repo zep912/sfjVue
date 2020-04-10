@@ -307,13 +307,12 @@
 				this.query.planId = this.$route.query.id
 				this.lvsuo_texts = "修改培训计划"
 				this.getTrainPlanInfo()
-			} else {
-				this.wayData()
-				this.typeData()
-				this.levelData()
-				this.stateData()
-				this.manakejians()
 			}
+			this.wayData()
+			this.typeData()
+			this.levelData()
+			this.stateData()
+			this.manakejians()
 		},
 		mounted() {
 			this.getDateInfo();
@@ -469,6 +468,8 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
+						this.queryCondition.couId = this.queryCondition.couName
+						this.queryCondition.principalUserId = sessionStorage.getItem("token")
 					}
 				})
 			},
