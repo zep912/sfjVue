@@ -190,6 +190,10 @@ export const manakejians = data => {
 export const plan = data =>{
     return $http.post('train/saveTrainPlan', data);
 }
+// 查询培训计划详情
+export const getTrainPlanInfo = data =>{
+    return $http.post('train/getTrainPlanInfo', data);
+}
 // 删除培训计划
 export const deleteTrainPlan = data => {
     return $http.post('train/deleteTrainPlan', data)

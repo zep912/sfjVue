@@ -141,8 +141,8 @@
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-					<el-form-item label="培训人数" prop="shiyonggangwei">
-						<el-input v-model="queryCondition.shiyonggangwei" placeholder="自动获取 人"></el-input>
+					<el-form-item label="培训人数" prop="trainUserTotal">
+						<el-input v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
 					</el-form-item>
 				</el-col>
 				</el-row>
@@ -183,7 +183,7 @@
 
 <script>
 
-	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList, getTrainPlanInfo} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
 	import util from '@/assets/js/co-util'
@@ -194,7 +194,10 @@
 		},
 		data() {
 			return {
-				type: '',
+				query: {
+					type: '',
+					planId: ''
+				},
 				//新增和修改律所信息
 				queryCondition: {
 					trainTitle:'',     //培训主题
@@ -209,7 +212,8 @@
 					trainAddr: '',
 					trainContent: '',
 					trainLevel: '',
-					trainStatus: ''
+					trainStatus: '',
+					trainUserTotal: ''
 				},
 				peixunfangshiList: [],    //培训方式数据
 				peixunleixingList: [],    //培训类型数据
@@ -266,10 +270,12 @@
 		},
 		created() {
 			if (this.$route.query.type) {
-				this.type = this.$route.query.type
+				this.query.type = this.$route.query.type
 			}
 			if (this.$route.query.id) {
-				this.lvsuo_texts = "修改培训计划";
+				this.query.planId = this.$route.query.id
+				this.lvsuo_texts = "修改培训计划"
+				this.getTrainPlanInfo()
 			} else {
 				this.wayData()
 				this.typeData()
@@ -406,6 +412,19 @@
 			handleCurrentChange (pageIndex) {
 				this.queryCondition.page.pages = pageIndex
 				this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+			},
+			// 查询计划详情
+			getTrainPlanInfo() {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					planId: this.query.planId
+				}
+				getTrainPlanInfo(obj).then(res => {
+					if (res.code == '200') {
+						console.log('详情', res.content)
+						this.queryCondition = res.content
+					}
+				})
 			},
 			// 提交
 			submitConsultInfo () {
