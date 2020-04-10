@@ -249,7 +249,7 @@
 				positionList:[
 					{
 						label: '外部律师',
-						value: 2
+						value: '2'
 					}
 				],  // 适用岗位
 				personList: [
