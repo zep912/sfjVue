@@ -1344,7 +1344,7 @@ const router = new Router({
                     path: '/ditu',
                     name: 'ditu',
                     component: () =>
-                        import ('./views/lawyer/indexChildren/ditu.vue'),
+                        import ('./views/shimin/sifa_ditu.vue'),
                     meta: {
                         title: '司法地图',
                         author: true,

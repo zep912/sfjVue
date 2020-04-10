@@ -9,9 +9,16 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';
 import './assets/iconfont/iconfont.css';
 import axios from 'axios';
 import $ from 'jquery'
+import BaiduMap from 'vue-baidu-map'
+Vue.use(BaiduMap, {
+    /* 需要注册百度地图开发者来获取你的ak */
+    ak: 'u6vzTey4WMBeVAbC3SokRMGT3br2sejy'
+});
+import $http from './http/http';
+Vue.prototype.$http = $http;
+
 // require styles
 import 'swiper/dist/css/swiper.css';
-Vue.prototype.$ = $
 Vue.use(ElementUI);
 Vue.use(VueAwesomeSwiper /* { default global options } */ );
 Vue.prototype.$axios = axios;
