@@ -62,10 +62,10 @@
 							</el-form-item>
 						</el-col>	
 						<el-col :span="8">
-							<el-form-item class="c-query-range-date" label="培训时间：" prop="value1">
+							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
 								<el-date-picker
 								class="c-query-range-date"
-									v-model="queryCondition.value1"
+									v-model="queryCondition.trainDate"
 									type="date"
 									placeholder="选择日期"
 									format="yyyy-MM-dd"
@@ -111,15 +111,15 @@
 			</div>
 			<!-- 表格 -->
 			<div class="biaoge_content">
-				<el-table :data="peixunjihua" border style="width: 100%">
+				<el-table :data="peixunjihua" border style="width: 100%" :cell-class-name="publishClassName">
 				    <el-table-column  type="index" label="序号" width="80"> </el-table-column>
 				    <el-table-column  prop="trainTitle" label="培训主题"></el-table-column>
 				    <el-table-column  prop="trainUserTotal"  label="培训人数"></el-table-column>
 						<el-table-column  prop="trainMode"  label="培训方式"></el-table-column>
-						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column  prop="trainType" label="培训类型"></el-table-column>
 						<el-table-column  prop="startDate" label="培训时间"></el-table-column>
 						<el-table-column  prop="trainAddr" label="地点"></el-table-column>
+						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column label="操作" width="240">
 							<template slot-scope="scope">
 								<el-button  size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -134,11 +134,11 @@
 				<el-pagination background
 					@size-change="handleSizeChange"
 					@current-change="handleCurrentChange"
-					:current-page="queryCondition.page.pageIndex"
-					:page-sizes="[10, 50, 100,200]"
-					:page-size="queryCondition.page.limit"
+					:current-page="queryCondition.pageRequest.pageIndex"
+					:page-sizes="[10]"
+					:page-size="queryCondition.pageRequest.limit"
 					layout="total, sizes, prev, pager, next, jumper"
-					:total="queryCondition.page.results">
+					:total="queryCondition.pageRequest.results">
 					</el-pagination>
 			</div>
 		</div>
@@ -158,7 +158,9 @@
 					trainStatus: null,
 					trainType: null,
 					trainTitle: '',
-					page: crud.getQueryCondition({})
+					trainDate: '',
+					value6: [],
+					pageRequest: crud.getQueryCondition({})
 				},
 				levelList:[],   //培训等级
 				wayList:[],   //培训方式
@@ -228,17 +230,29 @@
 		// 查询表格
 		getData() {
 			let request = JSON.parse(JSON.stringify(this.queryCondition))
-			console.log(333, request.page.limit)
-			request.pageSize = request.page.limit
-			request.pageNum = request.page.pageIndex
-			delete request.page
+			console.log(333, request)
+			if (request.value6 && request.value6.length > 0) {
+				let list = request.value6.slice(',')
+				request.startDate = list[0]
+				request.endDate = list[1]
+				delete request.value6
+			}
+			request.pageSize = request.pageRequest.limit
+			request.pageNum = request.pageRequest.pageIndex
+			delete request.pageRequest
 			util.dealNullQueryCondition(request)
 			manapeixun(request).then(res=>{
 				if(res){
 					let {content} = res
 					let {dataList, pageInfo} = content
 					this.peixunjihua = dataList
-					this.queryCondition.pageRequest = crud.getCurrentPage(pageInfo)
+					// console.log(111, pageInfo)
+					let pageResponse = {
+						start: (pageInfo.pageNum*10) - 10,
+						limit: 10,
+						results: pageInfo.total
+					}
+					this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
 				}
 			})
 		},
@@ -259,7 +273,7 @@
 		chakan(index, row){
 			this.$router.push({
 				path:'/n_pxplan',
-				query: {id: row.planId,type: 'view'}
+				query: {id: row.planId, type: 'view'}
 			})
 		},
 		// 删除
@@ -280,16 +294,31 @@
 		},
 		// 分页
     handleSizeChange (limit) {
-      this.queryCondition.page.limit = limit
-      this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+      this.queryCondition.pageRequest.limit = limit
+      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
       this.getData()
 		},
 		// 分页
     handleCurrentChange (pageIndex) {
-      this.queryCondition.page.pages = pageIndex
-      this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+      this.queryCondition.pageRequest.pageIndex = pageIndex
+      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
       this.getData()
-		}
+		},
+		// 改列表颜色
+    publishClassName ({row, columnIndex}) {
+			console.log(111333, row, columnIndex)
+      if (row.planStatusDesc === '未发布' && columnIndex === 7) {
+        return 'ey-review-Warning'
+      } else if (row.trainStatus === '未开始'  && columnIndex === 7) {
+        return 'ey-review-Blue'
+      } else if (row.trainStatus === '进行中'  && columnIndex === 7)  {
+        return 'ey-review-Success'
+      } else if (row.trainStatus === '已结束'  && columnIndex === 7) {
+				return 'ey-review-Info'
+			} else  {
+        return ''
+      }
+    }
 	}
 }
 </script>
@@ -381,6 +410,18 @@
 	}
 	.biaoge_content {
 		margin-top: 20px;
+	}
+	.ey-review-Blue {
+		color: #409EFF;
+	}
+	.ey-review-Success {
+		color: #67C23A;
+	}
+	.ey-review-Warning {
+		color: #E6A23C;
+	}
+	.ey-review-Info {
+		color: #909399;
 	}
 }
 </style>

@@ -11,14 +11,18 @@
 		<div class="tianjia-header">
 			<el-form :model="queryCondition" :rules="rules" ref="queryCondition">
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
-						<el-form-item label="培训主题" prop="trainTitle">
-							<el-input maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
+					<el-col :span="16">
+						<el-form-item label="培训主题:" prop="trainTitle">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTitle}}</span>
+							<el-input v-else maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="培训方式" prop="trainMode">
-							<el-select v-model="queryCondition.trainMode" placeholder="请选择">
+						<el-form-item label="培训方式:" prop="trainMode">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainMode}}</span>
+							<el-select v-else v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in peixunfangshiList"
 										:key="item.dictDataCode"
@@ -28,11 +32,10 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="适用岗位" prop="matchPos">
-							<el-select v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
+						<el-form-item label="适用岗位:" prop="matchPos">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPos}}</span>
+							<el-select v-else  v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
 								<el-option
 									v-for="item in positionList"
 									:key="item.value"
@@ -42,9 +45,24 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row>
 					<el-col :span="8">
-						<el-form-item label="培训类型" prop="trainType">
-							<el-select v-model="queryCondition.trainType" placeholder="请选择">
+						<el-form-item label="培训级别:" prop="trainLevel" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+							<el-select v-model="queryCondition.trainLevel" placeholder="请选择">
+									<el-option
+										v-for="item in peixunjibieList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="培训类型:" prop="trainType">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainType}}</span>
+							<el-select v-else  v-model="queryCondition.trainType" placeholder="请选择">
 									<el-option
 										v-for="item in peixunleixingList"
 										:key="item.dictDataCode"
@@ -52,6 +70,11 @@
 										:value="item.dictDataCode">
 									</el-option>
 								</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8" v-if="this.query.type === 'view'">
+						<el-form-item label="培训状态" prop="trainType">
+							<span class="el-text">{{queryCondition.trainStatus}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -67,10 +90,25 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row>
+					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+						<el-form-item label="培训地点" prop="trainAddr">
+							<el-input v-model="queryCondition.trainAddr" placeholder="请输入培训地点"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+						<el-form-item label="培训主要内容概述" prop="trainContent">
+							<el-input type="textarea" :rows="4" v-model="queryCondition.trainContent" placeholder="请输入培训主要内容概述"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
-						<el-form-item label="培训课件" prop="peixunzhuangtai">
-							<el-select v-model="queryCondition.peixunzhuangtai" placeholder="请选择">
+					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
+						<el-form-item label="培训课件:" prop="couId">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couId}}</span>
+							<el-select v-else v-model="queryCondition.couId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunkejianList"
 									:key="item.resId"
@@ -80,7 +118,18 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="8" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
+						<el-form-item label="课件类型:" prop="openType">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openType}}</span>
+							<el-radio-group v-else v-model="queryCondition.openType">
+								<el-radio :label="2">公开</el-radio>
+								<el-radio :label="1">不公开</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8" v-else>
 						<el-form-item label="公开类型" prop="openType">
 							<el-radio-group v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
@@ -88,75 +137,93 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-						<el-form-item label="负责人" prop="principalUserId">
-							<el-select v-model="queryCondition.principalUserId" placeholder="请选择">
+						<el-form-item label="负责人:" prop="principalUserId">
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserId}}</span>
+							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
 									v-for="item in personList"
-									:key="item.dictDataCode"
-									:label="item.personName"
-									:value="item.personId">
+									:key="item.value"
+									:label="item.label"
+									:value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
-					<el-form-item label="培训人数" prop="peixunfangshi">
-						<el-input v-model="queryCondition.shiyonggangwei" placeholder="全部社会律师"></el-input>
+					<el-form-item label="培训人数:" prop="trainUserTotal">
+						<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainUserTotal}}</span>
+						<el-input v-else v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
 					</el-form-item>
 				</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-form-item label="培训人员" prop="">
-							<el-table :data="peixunjihua" border style="width: 100%">
+					<el-form-item label="培训人员:" prop="">
+						<el-table :data="tableData" border style="width: 100%" v-if="this.query.type === 'view'">
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
-								<el-table-column  prop="trainTitle" label="姓名"></el-table-column>
-								<el-table-column  prop="trainUserTotal"  label="所属律师"></el-table-column>
-								<el-table-column  prop="trainMode"  label="联系电话"></el-table-column>
-								<el-table-column label="操作" >
+								<el-table-column  prop="lawyerName" label="姓名"></el-table-column>
+								<el-table-column  prop="orgName"  label="所属律所"></el-table-column>
+								<el-table-column  prop="lawyerPhone"  label="联系电话"></el-table-column>
+								<el-table-column  prop="studyCount"  label="学习次数"></el-table-column>
+								<el-table-column  prop="accTime"  label="累计时长"></el-table-column>
+								<el-table-column  prop="studyProcess"  label="学习进度"></el-table-column>
+								<el-table-column  prop="studyStatus"  label="学习状态"></el-table-column>
+							</el-table>
+							<el-table :data="peixunjihua" border style="width: 100%" v-else>
+								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
+								<el-table-column  prop="lawyerName" label="姓名"></el-table-column>
+								<el-table-column  prop="deptName" label="所属科室" v-if="queryCondition.trainMode === '2'"></el-table-column>
+								<el-table-column  prop="deptName" label="所属律所" v-else></el-table-column>
+								<el-table-column  prop="phoneNum"  label="联系电话"></el-table-column>
+								<el-table-column label="操作">
 									<template slot-scope="scope">
 										<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 									</template>
 								</el-table-column>
 							</el-table>
-							<!-- <div class="p_page">
-								<el-pagination background
-									@size-change="handleSizeChange"
-									@current-change="handleCurrentChange"
-									:current-page="queryCondition.page.pageIndex"
-									:page-size="queryCondition.page.limit"
-									layout="total, sizes, prev, pager, next, jumper"
-									:total="queryCondition.page.results">
-									</el-pagination>
-							</div> -->
+							<div class="p_page">
+							<el-pagination background
+								@size-change="handleSizeChange"
+								@current-change="handleCurrentChange"
+								:current-page="pageRequest.pageIndex"
+								:page-sizes="[10]"
+								:page-size="pageRequest.limit"
+								layout="total, sizes, prev, pager, next, jumper"
+								:total="pageRequest.results">
+								</el-pagination>
+						</div>
 						</el-form-item>
 				</el-row>
 			</el-form>
 		</div>
 		<!-- <NPxplanTree></NPxplanTree> -->
-		<div>
+		<div v-if="this.query.type !== 'view'">
 			<el-button type="primary" @click="submitConsultInfo">提交</el-button>
-			<el-button>取消</el-button>
+			<el-button @click="goBack">取消</el-button>
 		</div>
 	</div>
 </template>
 
 <script>
 
-	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
+	import util from '@/assets/js/co-util'
 	// import NPxplanTree from './n_pxplan_tree'
-	// import util from '@/assets/js/co-util'
 	export default {
 		components: {
 			SingleDate
 		},
 		data() {
 			return {
-				type: '',
+				query: {
+					type: '',
+					planId: ''
+				},
+				pageRequest: crud.getQueryCondition({}),
 				//新增和修改律所信息
 				queryCondition: {
 					trainTitle:'',     //培训主题
@@ -165,25 +232,32 @@
 					trainType:'',   //培训类型
 					startTime: '', // 开始时间
 					endTime: '', // 截止时间
-					peixunzhuangtai: '', // 培训课件
+					couId: '', // 培训课件
 					openType:'',  // 公开类型
-					principalUserId: '', // 负责人
-					peixunfangshi: '' // 培训人数
+					principalUserId: sessionStorage.getItem("token"), // 负责人
+					trainAddr: '',
+					trainContent: '',
+					trainLevel: '',
+					trainStatus: '',
+					trainUserTotal: ''
 				},
 				peixunfangshiList: [],    //培训方式数据
 				peixunleixingList: [],    //培训类型数据
 				peixunkejianList: [], // 培训课件数据
+				peixunjibieList: [], // 培训级别数据
+				peixunzhuangtaiList: [], // 培训状态数据
 				positionList:[
-					{
-						label: '内部律师',
-						value: 1
-					},
 					{
 						label: '外部律师',
 						value: 2
 					}
 				],  // 适用岗位
-				personList: [], // 负责人
+				personList: [
+					{
+						label: sessionStorage.getItem("name"),
+						value: sessionStorage.getItem("token")
+					}
+				], // 负责人
 				rules: {
 					trainTitle: [
 						{required: true,message: "请输入培训主题",trigger: "blur"}
@@ -203,7 +277,13 @@
 					endTime: [
 						{required: true,message: "请输入截止时间",trigger: "change"}
 					],
-					peixunzhuangtai: [
+					trainAddr: [
+						{required: true,message: "请输入培训地点",trigger: "blur"}
+					],
+					trainContent: [
+						{required: true,message: "请输入培训主要内容概述",trigger: "blur"}
+					],
+					couId: [
 						{required: true,message: "请选择培训课件",trigger: "change"}
 					],
 					openType: [
@@ -213,22 +293,26 @@
 						{required: true,message: "请选择负责人",trigger: "change"}
 					]
 				},
-				peixunjihua: []
+				peixunjihua: [],
+				tableData: []
 			}
 		},
 		created() {
 			if (this.$route.query.type) {
-				this.type = this.$route.query.type
+				this.query.type = this.$route.query.type
+				this.query.planId = this.$route.query.id
+				this.getLawyerStudyList()
 			}
 			if (this.$route.query.id) {
-				this.lvsuo_texts = "修改培训计划";
-			} else {
-				this.wayData()
-				this.typeData()
-				// this.stateData()
-				this.manakejians()
-				this.queryLawyerList()
+				this.query.planId = this.$route.query.id
+				this.lvsuo_texts = "修改培训计划"
+				this.getTrainPlanInfo()
 			}
+			this.wayData()
+			this.typeData()
+			this.levelData()
+			this.stateData()
+			this.manakejians()
 		},
 		mounted() {
 			this.getDateInfo();
@@ -237,7 +321,11 @@
 			//根据日期查询
 			getDateInfo(){
 				const dateInfo = this.$refs.getDate.getDateInfo();
-				console.log(dateInfo);
+				let {startDate, startTime, endDate, endTime} = dateInfo
+				this.queryCondition.startDate = startDate
+				this.queryCondition.endDate = endDate
+				this.queryCondition.startTime = startTime
+				this.queryCondition.endTime = endTime
 				// this.getStartedList(dateInfo);
 			},
 			// 初始化获取时间
@@ -267,6 +355,17 @@
 					}
 				})
 			},
+			// 获取培训等级数据字段
+			levelData() {
+				getSelectDetail({
+					dictCode:'peixundengji',
+					userId:'1'
+				}).then(res => {
+					if (res.code == '200') {
+						this.peixunjibieList = res.content.resultList
+					}
+				})
+			},
 			//获取培训状态数据字典
 			stateData(){
 				getSelectDetail({
@@ -281,33 +380,37 @@
 			// 适用岗位
 			changeMatchPos (event) {
 				console.log(111, event)
-				if (event) {
-					this.getInnerLawyerList()
-				} else {
-					this.getLawyerListByOffice()
-				}
+				// if (event) {
+				// 	this.getInnerLawyerList()
+				// } else {
+				// 	this.getLawyerListByOffice()
+				// }
+				this.refreshLawyerList()
 			},
-			// 获取内部律师列表
-			getInnerLawyerList() {
+			// 选择岗位后更新律师列表
+			refreshLawyerList () {
 				let obj = {
-					token: sessionStorage.getItem("token")
+					token: sessionStorage.getItem("token"),
+					matchPos: this.queryCondition.matchPos,
+					deptList: [],
+					ageSize: this.pageRequest.limit,
+					pageNum: this.pageRequest.pageIndex
 				}
-				getInnerLawyerList(obj).then(res => {
-					if (res) {
+				refreshLawyerList(obj).then(res => {
+					if (res.code == '200') {
 						console.log('律师', res.content)
-						this.personList = res.content.dataList
+							let {content} = res
+							let {dataList, pageInfo} = content
+								this.peixunjihua = dataList
+								let pageResponse = {
+								start: (pageInfo.pageNum*10) - 10,
+								limit: 10,
+								results: pageInfo.total
+							}
+							this.queryCondition.trainUserTotal = pageResponse.results
+							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
-				})
-			},
-			// 查询外部律师列表
-			getLawyerListByOffice () {
-				let obj = {
-					token: sessionStorage.getItem("token")
-				}
-				getLawyerListByOffice(obj).then(res => {
-					console.log('律师', res.content)
-					this.personList = res.content.dataList
-				})
+				})	
 			},
 			// 查询课件
 			manakejians() {
@@ -319,38 +422,119 @@
 						this.peixunkejianList = res.content.dataList
 					}
 				})
-			},
-			// 查询律师
-			queryLawyerList () {
-				let obj ={
+		},
+			// // 查询律师
+			// queryLawyerList () {
+			// 	let obj = {
+			// 		token: sessionStorage.getItem("token"),
+			// 		pageSize: this.pageRequest.limit,
+			// 		pageNum: this.pageRequest.pageIndex
+			// 	}
+			// 	queryLawyerList(obj).then(res => {
+			// 		if (res.code == '200') {
+			// 		console.log('查询律师', res.content)
+			// 		let {content} = res
+			// 		let {dataList, pageInfo} = content
+			// 			this.peixunjihua = dataList
+			// 			let pageResponse = {
+			// 			start: (pageInfo.pageNum*10) - 10,
+			// 			limit: 10,
+			// 			results: pageInfo.total
+			// 		}
+			// 		this.queryCondition.trainUserTotal = pageResponse.results
+			// 		this.pageRequest = crud.getCurrentPage(pageResponse)
+			// 		}
+			// 	})
+			// },
+			// 分页
+    handleSizeChange (limit) {
+      this.pageRequest.limit = limit
+			this.pageRequest = crud.getQueryCondition(this.pageRequest)
+			this.refreshLawyerList()
+		},
+		// 分页
+    handleCurrentChange (pageIndex) {
+      this.pageRequest.pageIndex = pageIndex
+      this.pageRequest = crud.getQueryCondition(this.pageRequest)
+      this.refreshLawyerList()
+		},
+			// 查询计划详情
+			getTrainPlanInfo() {
+				let obj = {
 					token: sessionStorage.getItem("token"),
-					pageNum: '1'
+					planId: this.query.planId
 				}
-				queryLawyerList(obj).then(res => {
+				getTrainPlanInfo(obj).then(res => {
 					if (res.code == '200') {
-						console.log('查询律师', res.content)
-						this.peixunjihua = res.content.dataList
+						console.log('详情', res.content)
+						this.queryCondition = res.content
+						this.queryCondition.couId = this.queryCondition.couName
+						this.queryCondition.principalUserId = sessionStorage.getItem("token")
 					}
 				})
 			},
-			// 分页
-			handleSizeChange (limit) {
-				this.queryCondition.page.limit = limit
-				this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+			// 查看学习人进度列表
+			getLawyerStudyList () {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					planId: this.query.planId
+				}
+				getLawyerStudyList(obj).then(res => {
+					if (res.code == '200') {
+						console.log('进度列表', res.content.dataList)
+						this.tableData = res.content.dataList
+					}
+				})
 			},
-			// 分页
-			handleCurrentChange (pageIndex) {
-				this.queryCondition.page.pages = pageIndex
-				this.queryCondition.page = crud.getQueryCondition(this.queryCondition.page)
+			// 删除
+			handleDelete(index, row) {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					pageNum: this.pageRequest.pageIndex,
+					lawyerList: [
+						{
+							lawyerId: row.lawyerId
+						}
+					]
+				}
+				removeLawyer(obj).then(res => {
+					if (res.code =='200') {
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						})
+						this.refreshLawyerList()
+					}
+				})
 			},
 			// 提交
 			submitConsultInfo () {
 				this.$refs.queryCondition.validate((valid) => {
 					if (valid) {
-						plan().then(res => {
-							if (res) {
+						// let {token, trainTitle, trainMode, matchPos, trainType, startDate, endDate, startTime, endTime, couId, openType, principalUserId, trainAddr, trainContent, trainLevel, trainStatus} = this.queryCondition
+						// let obj = {
+						// 	token,
+						// 	trainTitle,
+						// 	trainMode,
+						// 	matchPos,
+						// 	trainAddr,
+						// 	trainContent,
+						// 	trainType,
+						// 	trainLevel,
+						// 	startDate,
+						// 	startTime,
+						// 	endDate,
+						// 	endTime,
+						// 	openType,
+						// 	couId,
+						// 	principalUserId,
+						// 	trainStatus
+						// }
+						let obj = JSON.parse(JSON.stringify(this.queryCondition))
+						plan(obj).then(res => {
+							if (res.code == '200') {
 								this.$message({
-									message: '删除成功',
+									message: '提交成功',
 									type: 'success'
 								})
 							}
@@ -359,6 +543,12 @@
 						console.log('error submit!!')
             return false
 					}
+				})
+			},
+			// 取消
+			goBack () {
+				this.$router.push({
+					path:'/manapeixun'
 				})
 			}
 		}
@@ -396,13 +586,14 @@
 						width: 100%;
 					}
 					.el-form-item__label {
-						width: 85px;
+						width: 130px;
 						float: left;
 						text-align: right;
 					}
 					.el-form-item__content {
 						display: block;
-						padding-left: 85px;
+						padding-left: 130px;
+						text-align: left;
 					}
 					.el-form-item {
 						white-space: nowrap;

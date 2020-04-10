@@ -190,6 +190,22 @@ export const manakejians = data => {
 export const plan = data =>{
     return $http.post('train/saveTrainPlan', data);
 }
+// 查询培训计划详情
+export const getTrainPlanInfo = data =>{
+    return $http.post('train/getTrainPlanInfo', data);
+}
+// 查看学习人进度列表
+export const getLawyerStudyList = data =>{
+    return $http.post('train/getLawyerStudyList', data);
+}
+// 选择岗位后更新律师列表
+export const refreshLawyerList = data =>{
+    return $http.post('train/refreshLawyerList', data);
+}
+// 删除律师
+export const removeLawyer = data =>{
+    return $http.post('train/removeLawyer', data);
+}
 // 删除培训计划
 export const deleteTrainPlan = data => {
     return $http.post('train/deleteTrainPlan', data)
