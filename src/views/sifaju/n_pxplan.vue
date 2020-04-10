@@ -469,14 +469,14 @@
 			// 分页
     handleSizeChange (limit) {
       this.queryCondition.pageRequest.limit = limit
-      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
-      this.queryLawyerList()
+			this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+			this.queryCondition.matchPos ? this.refreshLawyerList() : this.queryLawyerList()
 		},
 		// 分页
     handleCurrentChange (pageIndex) {
       this.queryCondition.pageRequest.pageIndex = pageIndex
       this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
-      this.queryLawyerList()
+      this.queryCondition.matchPos ? this.refreshLawyerList() : this.queryLawyerList()
 		},
 			// 查询计划详情
 			getTrainPlanInfo() {
