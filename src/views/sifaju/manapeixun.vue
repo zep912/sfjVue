@@ -309,11 +309,11 @@
 			console.log(111333, row, columnIndex)
       if (row.planStatusDesc === '未发布' && columnIndex === 7) {
         return 'ey-review-Warning'
-      } else if (row.trainStatus === '未开始'  && columnIndex === 7) {
+      } else if (row.planStatusDesc === '未开始'  && columnIndex === 7) {
         return 'ey-review-Blue'
-      } else if (row.trainStatus === '进行中'  && columnIndex === 7)  {
+      } else if (row.planStatusDesc === '进行中'  && columnIndex === 7)  {
         return 'ey-review-Success'
-      } else if (row.trainStatus === '已结束'  && columnIndex === 7) {
+      } else if (row.planStatusDesc === '已结束'  && columnIndex === 7) {
 				return 'ey-review-Info'
 			} else  {
         return ''
