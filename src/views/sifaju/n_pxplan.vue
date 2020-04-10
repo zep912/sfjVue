@@ -208,7 +208,7 @@
 
 <script>
 
-	import {getSelectDetail, plan, manakejians, getInnerLawyerList, getLawyerListByOffice, queryLawyerList, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
 	import util from '@/assets/js/co-util'
@@ -248,15 +248,16 @@
 				peixunzhuangtaiList: [], // 培训状态数据
 				positionList:[
 					{
-						label: '内部律师',
-						value: 1
-					},
-					{
 						label: '外部律师',
 						value: 2
 					}
 				],  // 适用岗位
-				personList: [], // 负责人
+				personList: [
+					{
+						label: sessionStorage.getItem("name"),
+						value: sessionStorage.getItem("token")
+					}
+				], // 负责人
 				rules: {
 					trainTitle: [
 						{required: true,message: "请输入培训主题",trigger: "blur"}
@@ -301,8 +302,6 @@
 				this.query.type = this.$route.query.type
 				this.query.planId = this.$route.query.id
 				this.getLawyerStudyList()
-			} else {
-				this.queryLawyerList()
 			}
 			if (this.$route.query.id) {
 				this.query.planId = this.$route.query.id
@@ -387,13 +386,13 @@
 				// } else {
 				// 	this.getLawyerListByOffice()
 				// }
-				this.refreshLawyerList(event)
+				this.refreshLawyerList()
 			},
 			// 选择岗位后更新律师列表
-			refreshLawyerList (event) {
+			refreshLawyerList () {
 				let obj = {
 					token: sessionStorage.getItem("token"),
-					matchPos: event,
+					matchPos: this.queryCondition.matchPos,
 					deptList: [],
 					ageSize: this.pageRequest.limit,
 					pageNum: this.pageRequest.pageIndex
@@ -409,33 +408,11 @@
 								limit: 10,
 								results: pageInfo.total
 							}
-							this.queryCondition.trainUserTotal = this.peixunjihua.length
+							this.queryCondition.trainUserTotal = pageResponse.results
 							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})	
 			},
-			// 获取内部律师列表
-			// getInnerLawyerList() {
-			// 	let obj = {
-			// 		token: sessionStorage.getItem("token")
-			// 	}
-			// 	getInnerLawyerList(obj).then(res => {
-			// 		if (res) {
-			// 			console.log('律师', res.content)
-			// 			this.personList = res.content.dataList
-			// 		}
-			// 	})
-			// },
-			// 查询外部律师列表
-			// getLawyerListByOffice () {
-			// 	let obj = {
-			// 		token: sessionStorage.getItem("token")
-			// 	}
-			// 	getLawyerListByOffice(obj).then(res => {
-			// 		console.log('律师', res.content)
-			// 		this.personList = res.content.dataList
-			// 	})
-			// },
 			// 查询课件
 			manakejians() {
 				let obj ={
@@ -446,41 +423,41 @@
 						this.peixunkejianList = res.content.dataList
 					}
 				})
-			},
-			// 查询律师
-			queryLawyerList () {
-				let obj = {
-					token: sessionStorage.getItem("token"),
-					pageSize: this.pageRequest.limit,
-					pageNum: this.pageRequest.pageIndex
-				}
-				queryLawyerList(obj).then(res => {
-					if (res.code == '200') {
-					console.log('查询律师', res.content)
-					let {content} = res
-					let {dataList, pageInfo} = content
-						this.peixunjihua = dataList
-						let pageResponse = {
-						start: (pageInfo.pageNum*10) - 10,
-						limit: 10,
-						results: pageInfo.total
-					}
-					this.queryCondition.trainUserTotal = this.peixunjihua.length
-					this.pageRequest = crud.getCurrentPage(pageResponse)
-					}
-				})
-			},
+		},
+			// // 查询律师
+			// queryLawyerList () {
+			// 	let obj = {
+			// 		token: sessionStorage.getItem("token"),
+			// 		pageSize: this.pageRequest.limit,
+			// 		pageNum: this.pageRequest.pageIndex
+			// 	}
+			// 	queryLawyerList(obj).then(res => {
+			// 		if (res.code == '200') {
+			// 		console.log('查询律师', res.content)
+			// 		let {content} = res
+			// 		let {dataList, pageInfo} = content
+			// 			this.peixunjihua = dataList
+			// 			let pageResponse = {
+			// 			start: (pageInfo.pageNum*10) - 10,
+			// 			limit: 10,
+			// 			results: pageInfo.total
+			// 		}
+			// 		this.queryCondition.trainUserTotal = pageResponse.results
+			// 		this.pageRequest = crud.getCurrentPage(pageResponse)
+			// 		}
+			// 	})
+			// },
 			// 分页
     handleSizeChange (limit) {
       this.pageRequest.limit = limit
 			this.pageRequest = crud.getQueryCondition(this.pageRequest)
-			this.queryCondition.matchPos ? this.refreshLawyerList() : this.queryLawyerList()
+			this.refreshLawyerList()
 		},
 		// 分页
     handleCurrentChange (pageIndex) {
       this.pageRequest.pageIndex = pageIndex
       this.pageRequest = crud.getQueryCondition(this.pageRequest)
-      this.queryCondition.matchPos ? this.refreshLawyerList() : this.queryLawyerList()
+      this.refreshLawyerList()
 		},
 			// 查询计划详情
 			getTrainPlanInfo() {
@@ -505,6 +482,27 @@
 					if (res.code == '200') {
 						console.log('进度列表', res.content.dataList)
 						this.tableData = res.content.dataList
+					}
+				})
+			},
+			// 删除
+			handleDelete(index, row) {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					pageNum: this.pageRequest.pageIndex,
+					lawyerList: [
+						{
+							lawyerId: row.lawyerId
+						}
+					]
+				}
+				removeLawyer(obj).then(res => {
+					if (res.code =='200') {
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						})
+						this.refreshLawyerList()
 					}
 				})
 			},

@@ -202,6 +202,10 @@ export const getLawyerStudyList = data =>{
 export const refreshLawyerList = data =>{
     return $http.post('train/refreshLawyerList', data);
 }
+// 删除律师
+export const removeLawyer = data =>{
+    return $http.post('train/removeLawyer', data);
+}
 // 删除培训计划
 export const deleteTrainPlan = data => {
     return $http.post('train/deleteTrainPlan', data)
