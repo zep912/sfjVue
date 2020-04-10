@@ -187,11 +187,11 @@
 							<el-pagination background
 								@size-change="handleSizeChange"
 								@current-change="handleCurrentChange"
-								:current-page="queryCondition.pageRequest.pageIndex"
+								:current-page="pageRequest.pageIndex"
 								:page-sizes="[10]"
-								:page-size="queryCondition.pageRequest.limit"
+								:page-size="pageRequest.limit"
 								layout="total, sizes, prev, pager, next, jumper"
-								:total="queryCondition.pageRequest.results">
+								:total="pageRequest.results">
 								</el-pagination>
 						</div>
 						</el-form-item>
@@ -223,6 +223,7 @@
 					type: '',
 					planId: ''
 				},
+				pageRequest: crud.getQueryCondition({}),
 				//新增和修改律所信息
 				queryCondition: {
 					trainTitle:'',     //培训主题
@@ -238,8 +239,7 @@
 					trainContent: '',
 					trainLevel: '',
 					trainStatus: '',
-					trainUserTotal: '',
-					pageRequest: crud.getQueryCondition({})
+					trainUserTotal: ''
 				},
 				peixunfangshiList: [],    //培训方式数据
 				peixunleixingList: [],    //培训类型数据
@@ -299,19 +299,21 @@
 		created() {
 			if (this.$route.query.type) {
 				this.query.type = this.$route.query.type
+				this.query.planId = this.$route.query.id
+				this.getLawyerStudyList()
+			} else {
+				this.queryLawyerList()
 			}
 			if (this.$route.query.id) {
 				this.query.planId = this.$route.query.id
 				this.lvsuo_texts = "修改培训计划"
 				this.getTrainPlanInfo()
-				this.getLawyerStudyList()
 			} else {
 				this.wayData()
 				this.typeData()
 				this.levelData()
 				this.stateData()
 				this.manakejians()
-				this.queryLawyerList()
 			}
 		},
 		mounted() {
@@ -393,8 +395,8 @@
 					token: sessionStorage.getItem("token"),
 					matchPos: event,
 					deptList: [],
-					ageSize: this.queryCondition.pageRequest.limit,
-					pageNum: this.queryCondition.pageRequest.pageIndex
+					ageSize: this.pageRequest.limit,
+					pageNum: this.pageRequest.pageIndex
 				}
 				refreshLawyerList(obj).then(res => {
 					if (res.code == '200') {
@@ -408,7 +410,7 @@
 								results: pageInfo.total
 							}
 							this.queryCondition.trainUserTotal = this.peixunjihua.length
-							this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
+							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})	
 			},
@@ -449,8 +451,8 @@
 			queryLawyerList () {
 				let obj = {
 					token: sessionStorage.getItem("token"),
-					pageSize: this.queryCondition.pageRequest.limit,
-					pageNum: this.queryCondition.pageRequest.pageIndex
+					pageSize: this.pageRequest.limit,
+					pageNum: this.pageRequest.pageIndex
 				}
 				queryLawyerList(obj).then(res => {
 					if (res.code == '200') {
@@ -464,20 +466,20 @@
 						results: pageInfo.total
 					}
 					this.queryCondition.trainUserTotal = this.peixunjihua.length
-					this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
+					this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
 			},
 			// 分页
     handleSizeChange (limit) {
-      this.queryCondition.pageRequest.limit = limit
-			this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+      this.pageRequest.limit = limit
+			this.pageRequest = crud.getQueryCondition(this.pageRequest)
 			this.queryCondition.matchPos ? this.refreshLawyerList() : this.queryLawyerList()
 		},
 		// 分页
     handleCurrentChange (pageIndex) {
-      this.queryCondition.pageRequest.pageIndex = pageIndex
-      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+      this.pageRequest.pageIndex = pageIndex
+      this.pageRequest = crud.getQueryCondition(this.pageRequest)
       this.queryCondition.matchPos ? this.refreshLawyerList() : this.queryLawyerList()
 		},
 			// 查询计划详情
