@@ -199,9 +199,9 @@
 			</el-form>
 		</div>
 		<!-- <NPxplanTree></NPxplanTree> -->
-		<div>
+		<div v-if="this.query.type !== 'view'">
 			<el-button type="primary" @click="submitConsultInfo">提交</el-button>
-			<el-button>取消</el-button>
+			<el-button @click="goBack">取消</el-button>
 		</div>
 	</div>
 </template>
@@ -544,6 +544,12 @@
 						console.log('error submit!!')
             return false
 					}
+				})
+			},
+			// 取消
+			goBack () {
+				this.$router.push({
+					path:'/manapeixun'
 				})
 			}
 		}
