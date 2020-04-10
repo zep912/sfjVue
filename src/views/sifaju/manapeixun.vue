@@ -135,7 +135,7 @@
 					@size-change="handleSizeChange"
 					@current-change="handleCurrentChange"
 					:current-page="queryCondition.page.pageIndex"
-					:page-sizes="[10, 50, 100,200]"
+					:page-sizes="[10]"
 					:page-size="queryCondition.page.limit"
 					layout="total, sizes, prev, pager, next, jumper"
 					:total="queryCondition.page.results">
