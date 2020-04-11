@@ -81,7 +81,7 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
 						<el-form-item label="开始时间" prop="startTime">
-							<single-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<sifa-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
 							<!-- <el-date-picker
 								v-model="queryCondition.startTime"
 								type="datetime"
@@ -91,7 +91,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="截止时间" prop="endTime">
-							<single-date :num="num" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<sifa-date :num="num" :obj="objEnd" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
 							<!-- <el-date-picker
 								v-model="queryCondition.endTime"
 								type="datetime"
@@ -220,18 +220,25 @@
 
 	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
-	import SingleDate from '../../components/SingleDate'
+	import sifaDate from './sifaDate'
 	import util from '@/assets/js/co-util'
 	// import NPxplanTree from './n_pxplan_tree'
 	export default {
 		components: {
-			SingleDate
+			sifaDate
 		},
 		data() {
 			return {
 				num: 3,
 				obj: {
-
+					selYear: '',
+					selMonth: '',
+					selDay: ''
+				},
+				objEnd: {
+					selYear: '',
+					selMonth: '',
+					selDay: ''
 				},
 				query: {
 					type: '',
@@ -487,6 +494,15 @@
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
 						this.queryCondition.principalUserName = sessionStorage.getItem("name")
 						this.queryCondition.trainMode = res.content.trainMode.toString()
+						let list = res.content.startDate.split('-')
+						let arr = res.content.endDate.split('-')
+						this.obj.selYear = list[0]
+						this.obj.selMonth = list[1]
+						this.obj.selDay = list[2]
+						this.objEnd.selYear = arr[0]
+						this.objEnd.selMonth = arr[1]
+						this.objEnd.selDay = arr[2]
+						console.log(111888, list)
 						// let startTime = `${res.content.startDate} ${res.content.startTime}`
 						// let endTime = `${res.content.endDate} ${res.content.endTime}`
 						// this.queryCondition.startTime = new Date(startTime)
