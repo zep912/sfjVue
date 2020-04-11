@@ -14,7 +14,44 @@
 		</div>
 		<div class="zixun_liebiao" v-if="zixun_active==2">
 			<div class="liebiao_top">
-				<div class="liebiao_topzuo">
+				<el-form :model="queryCondition" ref="ruleForm">
+					<el-row type="flex" align="middle" justify="start">
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="效力级别：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择">
+									<el-option
+										v-for="item in options"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="时效性：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择">
+									<el-option
+										v-for="item in options"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<div class="c-input f-right">
+								<input type="text" class="c-query-select" placeholder="请输入搜索内容">
+								<div class="liebiao_search">
+									<img src="../../../assets/image/u2290.png" alt="">
+								</div>
+							</div>
+						</el-col>
+					</el-row>
+				</el-form>
+
+				<!-- <div class="liebiao_topzuo">
 					<div>
 						效力级别：
 						<el-select v-model="xiaolijibie" placeholder="请选择">
@@ -35,8 +72,7 @@
 					<div class="liebiao_search">
 						<img src="../../../assets/image/u2290.png" alt="">
 					</div>
-				</div>
-
+				</div> -->
 			</div>
 			<div class="biaoge">
 				<el-table :data="falvfagui" border style="width: 100%" key="1">
@@ -56,7 +92,6 @@
 					</el-table-column>
 					<el-table-column prop="name" label="操作">
 					</el-table-column>
-
 				</el-table>
 			</div>
 			<div class="zixun_fenye">
@@ -66,7 +101,47 @@
 		</div>
 		<div class="zixun_liebiao" v-if="zixun_active==1">
 			<div class="liebiao_top">
-				<el-button type="success">现场登记</el-button>
+				<el-form :model="queryCondition" ref="ruleForm">
+					<el-row type="flex" align="middle" justify="start">
+						<div>
+							<el-button type="success">现场登记</el-button>
+						</div>
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="问题类型：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
+									<el-option
+										v-for="item in options"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="状态：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
+									<el-option
+										v-for="item in options"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<div class="c-input f-right">
+								<input type="text" placeholder="请输入搜索内容">
+								<div class="c-input_search">
+									<img src="../../../assets/image/u2290.png" alt="">
+								</div>
+							</div>
+						</el-col>
+					</el-row>
+				</el-form>
+
+				<!-- <el-button type="success">现场登记</el-button>
 				<div class="liebiao_topzuo">
 					<div>
 						问题类型：
@@ -88,8 +163,7 @@
 					<div class="liebiao_search">
 						<img src="../../../assets/image/u2290.png" alt="">
 					</div>
-				</div>
-
+				</div> -->
 			</div>
 			<div class="biaoge">
 				<el-table :data="yianshifa" border style="width: 100%" key="2">
@@ -107,7 +181,6 @@
 					</el-table-column>
 					<el-table-column prop="name" label="操作">
 					</el-table-column>
-
 				</el-table>
 			</div>
 			<div class="zixun_fenye">
@@ -122,6 +195,7 @@
 	export default {
 		data() {
 			return {
+				queryCondition: {},
 				input: '',
 				options: [{
 					value: '选项1',
@@ -237,9 +311,103 @@
 		}
 
 		.liebiao_top {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
+			// display: flex;
+			// align-items: center;
+			// justify-content: space-between;
+			.el-form {
+			  margin-bottom: 20px;
+				.el-row {
+					.el-form-item {
+						margin: 0;
+					}
+					margin-bottom: 10px;
+					&:last-child {
+						margin-bottom: 0;
+					}
+					.el-col-twoline {
+						display: inline-block;
+						position: relative;
+					}
+					.el-date-editor--daterange.el-input__inner {
+						width: 100%;
+					}
+					.el-form-item__label {
+						width: 85px;
+						float: left;
+						text-align: right;
+					}
+					.el-form-item__content {
+						display: block;
+						padding-left: 85px;
+					}
+					.el-form-item {
+						white-space: nowrap;
+					}
+					.el-select {
+						display: block;
+						position: relative;
+					}
+					.el-form-item.c-query-select {
+						white-space: nowrap;
+						display: block;
+						.el-input {
+							width: 100%;
+							.el-input__inner {
+								width: 100%;
+							}
+						}
+						.el-form-item__label .c-left {
+							text-align: left;
+						}
+					} 
+					.c-input {
+						display: flex;
+						// white-space: nowrap;
+						justify-content:flex-end;
+						input {
+							width: 120px;
+							height: 36px;
+						}
+						.c-input_search {
+							width: 80px;
+							height: 40px;
+							background: -webkit-linear-gradient(left, #0fa3d5, #1b79c2);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border-radius: 0 5px 5px 0;
+						}
+					}
+					 // 搜索重置按钮
+					.c-query-input {
+						display: block;
+						white-space: nowrap;
+						// .el-button {
+						//   width: 128px;
+						//   padding: 0;
+						//   margin-left: 20px;
+						// }
+						.el-button:nth-child(1) {
+							margin-left: 0;
+						}
+					} // 搜索重置按钮右浮动
+					.f-right {
+						float: right;
+					}
+					.c-query-range-date {
+						white-space: nowrap;
+						width: 100%;
+					}
+					div.el-form-item.c-query-range-date {
+						margin-right: 0;
+					}
+				}
+				.el-input-number {
+					.el-input__inner {
+						text-align: left;
+					}
+				}
+			}
 		}
 
 		.liebiao_topzuo {
