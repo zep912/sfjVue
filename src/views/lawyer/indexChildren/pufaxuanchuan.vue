@@ -8,7 +8,7 @@
 		</div>
 		<div class="zixun_content">
 			<div class="zixun_tab">
-				<div :class="zixun_active==1?'zixun_active':''" @click="zixuntab(1)">以案释法</div>
+				<!-- <div :class="zixun_active==1?'zixun_active':''" @click="zixuntab(1)">以案释法</div> -->
 				<div :class="zixun_active==2?'zixun_active':''" @click="zixuntab(2)">法律法规</div>
 			</div>
 		</div>
@@ -16,14 +16,14 @@
 			<div class="liebiao_top">
 				<el-form :model="queryCondition" ref="ruleForm">
 					<el-row type="flex" align="middle" justify="start">
-						<div>
-							<el-button type="success">新增</el-button>
-						</div>
+						<!-- <div>
+							<el-button type="success" @click="add">新增</el-button>
+						</div> -->
 						<el-col :span="8">
-							<el-form-item class="c-query-select" label="效力级别：" prop="trainMode">
-								<el-select v-model="queryCondition.trainMode" placeholder="请选择">
+							<el-form-item class="c-query-select" label="效力级别：" prop="scopeLevel">
+								<el-select v-model="queryCondition.scopeLevel" placeholder="请选择">
 									<el-option
-										v-for="item in options"
+										v-for="item in xiaolijibieList"
 										:key="item.dictDataCode"
 										:label="item.dictDataName"
 										:value="item.dictDataCode">
@@ -32,10 +32,10 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="8">
-							<el-form-item class="c-query-select" label="时效性：" prop="trainMode">
-								<el-select v-model="queryCondition.trainMode" placeholder="请选择">
+							<el-form-item class="c-query-select" label="时效性：" prop="lawTimeliness">
+								<el-select v-model="queryCondition.lawTimeliness" placeholder="请选择">
 									<el-option
-										v-for="item in options"
+										v-for="item in shixiaoxingList"
 										:key="item.dictDataCode"
 										:label="item.dictDataName"
 										:value="item.dictDataCode">
@@ -45,8 +45,8 @@
 						</el-col>
 						<el-col :span="8">
 							<div class="c-input f-right">
-								<input type="text" class="c-query-select" placeholder="请输入搜索内容">
-								<div class="liebiao_search">
+								<input type="text" v-model="queryCondition.lawTitle" class="c-query-select" placeholder="请输入标题查询">
+								<div class="liebiao_search" @click="getData">
 									<img src="../../../assets/image/u2290.png" alt="">
 								</div>
 							</div>
@@ -55,7 +55,7 @@
 				</el-form>
 			</div>
 			<div class="biaoge">
-				<el-table :data="falvfagui" border style="width: 100%" key="1">
+				<el-table :data="peixunjihua" border style="width: 100%" key="1">
 					<el-table-column type="index" label="序号" width="60">
 					</el-table-column>
 					<el-table-column prop="lawTitle" label="标题">
@@ -70,11 +70,8 @@
 					</el-table-column>
 					<el-table-column prop="execDate" label="实施日期">
 					</el-table-column>
-					<el-table-column prop="execDate" label="发布时间">
-					</el-table-column>
-					<el-table-column label="操作" width="240">
+					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button  size="mini" type="primary"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 							<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
 						</template>
 					</el-table-column>
@@ -98,6 +95,9 @@
 			<div class="liebiao_top">
 				<el-form :model="queryCondition" ref="ruleForm">
 					<el-row type="flex" align="middle" justify="start">
+						<div>
+							<el-button type="success">现场登记</el-button>
+						</div>
 						<el-col :span="8">
 							<el-form-item class="c-query-select" label="问题类型：" prop="trainMode">
 								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
@@ -167,44 +167,82 @@
 	</div>
 </template>
 <script>
+import {getSelectDetail, getLawRegulationsList} from "../../../http/api"
 import * as crud from '../../../assets/js/co-crud.js'
+import util from '@/assets/js/co-util'
 	export default {
 		data() {
 			return {
 				queryCondition: {
 					token: sessionStorage.getItem("token"),
+					scopeLevel: null,
+					lawTimeliness: null,
+					lawTitle: '',
 					pageRequest: crud.getQueryCondition({})
 				},
+				xiaolijibieList: [], // 效力级别
+				shixiaoxingList: [], // 时效性
+				peixunjihua: [],
 				options: [{
 					value: '选项1',
 					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
-				}],
+				},],
 				zixun_active: 2,
-				yianshifa: [],
-				falvfagui: []
+				yianshifa: []
 			}
 		},
 		created() {
+			this.wayData()
+			this.typeData()
 			this.getData()
 		},
 		methods: {
 			zixuntab(e) {
 				this.zixun_active = e
 			},
+			//获取效力级别数据字典
+			wayData(){
+				getSelectDetail({
+					dictCode:'xiaolijibie',
+					userId:'1'
+				}).then(res=>{
+					if(res.code == '200'){
+						this.xiaolijibieList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					}
+				})
+			},
+			//获取时效性数据字典
+			typeData(){
+				getSelectDetail({
+					dictCode:'shixiaoxing',
+					userId:'3'
+				}).then(res=>{
+					if(res.code == '200'){
+						this.shixiaoxingList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					}
+				})
+			},
 			getData () {
-
+				let request = JSON.parse(JSON.stringify(this.queryCondition))
+				request.pageSize = request.pageRequest.limit
+				request.pageNum = request.pageRequest.pageIndex
+				delete request.pageRequest
+				util.dealNullQueryCondition(request)
+				getLawRegulationsList(request).then(res => {
+					if (res.code === 200) {
+						console.log(333, res)
+						let {content} = res
+						let {dataList, pageInfo} = content
+						this.peixunjihua = dataList
+						// console.log(111, pageInfo)
+						let pageResponse = {
+							start: (pageInfo.pageNum*10) - 10,
+							limit: 10,
+							results: pageInfo.total
+						}
+						this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
+					}
+				})
 			},
 			// 分页
 			handleSizeChange (limit) {
@@ -217,6 +255,9 @@ import * as crud from '../../../assets/js/co-crud.js'
 				this.queryCondition.pageRequest.pageIndex = pageIndex
 				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
 				this.getData()
+			},
+			chakan () {
+
 			}
 		}
 	}
