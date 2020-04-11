@@ -117,7 +117,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- 已归档 -->
 				<div class="daichuli yiguidang" v-if="completedList.length > 0">
 					<div class="daichuli_top yiguidang">
