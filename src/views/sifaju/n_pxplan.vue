@@ -81,22 +81,22 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
 						<el-form-item label="开始时间" prop="startTime">
-							<!-- <single-date :num="num" @getDateInfo="getDateInfo" ref="getDate"></single-date> -->
-							<el-date-picker
+							<single-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<!-- <el-date-picker
 								v-model="queryCondition.startTime"
 								type="datetime"
 								placeholder="选择日期时间">
-							</el-date-picker>
+							</el-date-picker> -->
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="截止时间" prop="endTime">
-							<!-- <single-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date> -->
-							<el-date-picker
+							<single-date :num="num" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<!-- <el-date-picker
 								v-model="queryCondition.endTime"
 								type="datetime"
 								placeholder="选择日期时间">
-							</el-date-picker>
+							</el-date-picker> -->
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -230,6 +230,9 @@
 		data() {
 			return {
 				num: 3,
+				obj: {
+
+				},
 				query: {
 					type: '',
 					planId: ''
@@ -326,19 +329,19 @@
 			this.manakejians()
 		},
 		mounted() {
-			// this.getDateInfo()
+			this.getDateInfo()
 		},
 		methods: {
 			//根据日期查询
-			// getDateInfo(){
-			// 	const dateInfo = this.$refs.getDate.getDateInfo();
-			// 	let {startDate, startTime, endDate, endTime} = dateInfo
-			// 	this.queryCondition.startDate = startDate
-			// 	this.queryCondition.endDate = endDate
-			// 	this.queryCondition.startTime = startTime
-			// 	this.queryCondition.endTime = endTime
-			// 	// this.getStartedList(dateInfo);
-			// },
+			getDateInfo(){
+				const dateInfo = this.$refs.getDate.getDateInfo();
+				let {startDate, startTime, endDate, endTime} = dateInfo
+				this.queryCondition.startDate = startDate
+				this.queryCondition.endDate = endDate
+				this.queryCondition.startTime = startTime
+				this.queryCondition.endTime = endTime
+				// this.getStartedList(dateInfo);
+			},
 			// 初始化获取时间
 			getTimeInit(time){
 				console.log(time.startTime);
@@ -390,7 +393,7 @@
 			},
 			// 适用岗位
 			changeMatchPos (event) {
-				console.log(111, event)
+				// console.log(111, event)
 				// if (event) {
 				// 	this.getInnerLawyerList()
 				// } else {
@@ -409,7 +412,7 @@
 				}
 				refreshLawyerList(obj).then(res => {
 					if (res.code == '200') {
-						console.log('律师', res.content)
+						// console.log('律师', res.content)
 							let {content} = res
 							let {dataList, pageInfo} = content
 								this.peixunjihua = dataList
@@ -430,6 +433,7 @@
 				}
 				manakejians(obj).then(res => {
 					if (res.code == '200') {
+						// console.log(111300, res.content.dataList)
 						this.peixunkejianList = res.content.dataList
 					}
 				})
@@ -479,13 +483,14 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
-						let startTime = `${res.content.startDate} ${res.content.startTime}`
-						let endTime = `${res.content.endDate} ${res.content.endTime}`
-						this.queryCondition.startTime = new Date(startTime)
-						this.queryCondition.endTime = new Date(endTime)
 						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
+						this.queryCondition.principalUserName = sessionStorage.getItem("name")
 						this.queryCondition.trainMode = res.content.trainMode.toString()
+						// let startTime = `${res.content.startDate} ${res.content.startTime}`
+						// let endTime = `${res.content.endDate} ${res.content.endTime}`
+						// this.queryCondition.startTime = new Date(startTime)
+						// this.queryCondition.endTime = new Date(endTime)
 						if (this.queryCondition.matchPos) {
 							this.refreshLawyerList()
 						}
@@ -500,7 +505,7 @@
 				}
 				getLawyerStudyList(obj).then(res => {
 					if (res.code == '200') {
-						console.log('进度列表', res.content.dataList)
+						// console.log('进度列表', res.content.dataList)
 						this.tableData = res.content.dataList
 					}
 				})
@@ -522,7 +527,16 @@
 							message: '删除成功',
 							type: 'success'
 						})
-						this.refreshLawyerList()
+						let {content} = res
+							let {dataList, pageInfo} = content
+								this.peixunjihua = dataList
+								let pageResponse = {
+								start: (pageInfo.pageNum*10) - 10,
+								limit: 10,
+								results: pageInfo.total
+							}
+							this.queryCondition.trainUserTotal = pageResponse.results
+							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
 			},
@@ -550,13 +564,13 @@
 						// 	trainStatus
 						// }
 						let obj = JSON.parse(JSON.stringify(this.queryCondition))
-						let startTime = new Date(this.queryCondition.startTime).getTime()
-						let endTime = new Date(this.queryCondition.endTime).getTime()
+						// let startTime = new Date(this.queryCondition.startTime).getTime()
+						// let endTime = new Date(this.queryCondition.endTime).getTime()
 						// console.log(util.formatDate(startTime, 'YYYY-MM-DD hh:mm:ss'))
-						obj.startDate = util.formatDate(startTime, 'YYYY-MM-DD')
-						obj.startTime = util.formatDate(startTime, 'hh:mm:ss')
-						obj.endDate = util.formatDate(endTime, 'YYYY-MM-DD')
-						obj.endTime = util.formatDate(endTime, 'hh:mm:ss')
+						// obj.startDate = util.formatDate(startTime, 'YYYY-MM-DD')
+						// obj.startTime = util.formatDate(startTime, 'hh:mm:ss')
+						// obj.endDate = util.formatDate(endTime, 'YYYY-MM-DD')
+						// obj.endTime = util.formatDate(endTime, 'hh:mm:ss')
 						plan(obj).then(res => {
 							if (res.code == '200') {
 								this.$message({

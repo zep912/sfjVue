@@ -118,13 +118,18 @@
 						<el-table-column  prop="trainMode"  label="培训方式"></el-table-column>
 						<el-table-column  prop="trainType" label="培训类型"></el-table-column>
 						<el-table-column  prop="startDate" label="培训时间"></el-table-column>
-						<el-table-column  prop="trainAddr" label="地点"></el-table-column>
+						<el-table-column  prop="trainAddr" label="地点">
+							<template slot-scope="scope">
+								<el-button v-if="scope.row.trainAddr" size="mini" type="primary" @click="open(scope.$index, scope.row)">查看</el-button>
+								<span v-else>无</span>
+							</template>	
+						</el-table-column>
 						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column label="操作" width="240">
 							<template slot-scope="scope">
-								<el-button  size="mini" type="primary"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-								<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-								<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+								<el-button  size="mini" type="primary" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+								<el-button size="mini" type="danger" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+								<el-button size="mini" type="primary" v-if="scope.row.planStatusDesc === '进行中' || scope.row.planStatusDesc === '已结束'"  @click="chakan(scope.$index, scope.row)">查看</el-button>
 							</template>
 						</el-table-column>
 				  </el-table>
@@ -178,6 +183,10 @@
 		this.stateData();
 	},
 	methods: {
+		open (index, row) {
+			this.$alert(`${row.trainAddr}`, {
+			})
+		},
     //获取培训方式数据字典
 		wayData(){
 			getSelectDetail({
