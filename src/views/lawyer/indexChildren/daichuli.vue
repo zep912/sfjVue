@@ -5,7 +5,7 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<el-date-picker 
+					<el-date-picker
 						v-model="defultMonth"
 						type="month"
 						format="yyyy 年 MM 月"
@@ -47,7 +47,7 @@
 										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
 										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
 									</div>
-									
+
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -239,13 +239,13 @@ import {formatDate} from '../../../utils/date.js';
 				this.showMore = false
 				return
 			} else if (curLength < totalLength) {
-				if (curLength + 3 >= totalLength) {
-					this.showPendingList = this.pendingList
-					this.showMore = false
-				} else {
-					this.showPendingList = this.pendingList.slice(0, curLength + 3)
-					this.showMore = true
-				}
+				// if (curLength + 3 >= totalLength) {
+				this.showPendingList = this.pendingList
+				this.showMore = false
+				// } else {
+				// 	this.showPendingList = this.pendingList.slice(0, curLength + 3)
+				// 	this.showMore = true
+				// }
 			}
 		  }
 	  },
@@ -254,7 +254,7 @@ import {formatDate} from '../../../utils/date.js';
 		this.$nextTick(() => {
 			this.getPendingList()
 		})
-		  
+
 	  }
 	}
 </script>
