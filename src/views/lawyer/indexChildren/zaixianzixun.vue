@@ -12,102 +12,48 @@
 				<div :class="zixun_active==2?'zixun_active':''" @click="zixuntab(2)">针对性咨询</div>
 			</div>
 		</div>
-		<div class="zixun_liebiao" v-if="zixun_active==2">
+		<div class="zixun_liebiao">
 			<div class="liebiao_top">
+				<router-link class="top_btn"  v-if="zixun_active==1"  :to="{path:'zixun_dengji'}">
+						<el-button type="success">现场登记</el-button>
+				</router-link>
 				<div class="liebiao_topzuo">
-					<div>
-						问题类型：
-						<el-select v-model="wentilx" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+					<div class="form_item">
+						<span class="item_label">问题类型：</span>
+						<el-select v-model="wentileixingVal" placeholder="请选择">
+							<el-option v-for="item in wentileixingList" :key="item.dictDataCode" :label="item.dictDataName" :value="item.dictDataCode">
 							</el-option>
 						</el-select>
 					</div>
-					<div>
-						状态：
-						<el-select v-model="zhuangtai" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+					<div class="form_item">
+						<span class="item_label">状态：</span>
+						<el-select v-model="consultStatusVal" placeholder="请选择">
+							<el-option v-for="item in consultStatusData" :key="item.dictDataCode" :label="item.dictDataName" :value="item.dictDataCode">
 							</el-option>
 						</el-select>
 					</div>
 				</div>
 				<div class="liebiao_sousuo">
-					<input type="text" v-model="sousuo" placeholder="请输入搜索内容">
-					<div class="liebiao_search">
+					<input type="text" v-model="questionTitle" placeholder="请输入搜索内容">
+					<div class="liebiao_search" @click="getConsultByLawyerList">
 						<img src="../../../assets/image/u2290.png" alt="">
 					</div>
 				</div>
 
 			</div>
 			<div class="biaoge">
-				<el-table :data="zhendui" border style="width: 100%" key="zhendui">
+				<el-table :data="tableData" border style="width: 100%" key="mianfei">
 					<el-table-column type="index" label="序号" width="60">
 					</el-table-column>
 					<el-table-column prop="questionTitle" label="标题">
 					</el-table-column>
-					<el-table-column prop="questionType" label="问题类型">
-					</el-table-column>
-					<el-table-column prop="personName" label="提问者">
-					</el-table-column>
-					<el-table-column prop="personPhone" label="手机号码">
-					</el-table-column>
-					<el-table-column prop="consultStatus" label="状态">
-					</el-table-column>
-					<el-table-column label="操作">
-						<template slot-scope="scope">
-							<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
-							<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-						</template>
-					</el-table-column>
-
-				</el-table>
-			</div>
-			<div class="zixun_fenye">
-				<el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-				</el-pagination>
-			</div>
-		</div>
-		<div class="zixun_liebiao" v-if="zixun_active==1">
-			<div class="liebiao_top">
-				<router-link :to="{path:'zixun_dengji'}">
-						<el-button type="success">现场登记</el-button>
-				</router-link>
-				<div class="liebiao_topzuo">
-					<div>
-						问题类型：
-						<el-select v-model="value" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-					<div>
-						状态：
-						<el-select v-model="value" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-				</div>
-				<div class="liebiao_sousuo">
-					<input type="text" placeholder="请输入搜索内容">
-					<div class="liebiao_search">
-						<img src="../../../assets/image/u2290.png" alt="">
-					</div>
-				</div>
-
-			</div>
-			<div class="biaoge">
-				<el-table :data="mianfei" border style="width: 100%" key="mianfei">
-					<el-table-column prop="date" label="序号" width="60">
-					</el-table-column>
-					<el-table-column prop="questionTitle" label="标题">
-					</el-table-column>
 					<el-table-column prop="personName" label="提问者">
 					</el-table-column>
 					<el-table-column prop="personPhone" label="手机号码">
 					</el-table-column>
 					<el-table-column prop="questionType" label="问题类型">
 					</el-table-column>
-					<el-table-column prop="consultType" label="问题来源">
+					<el-table-column v-if="zixun_active==2" prop="consultType" label="问题来源">
 					</el-table-column>
 					<el-table-column prop="consultStatus" label="状态">
 					</el-table-column>
@@ -119,91 +65,91 @@
 				</el-table>
 			</div>
 			<div class="zixun_fenye">
-				<el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-				</el-pagination>
+				<el-pagination @current-change="handleCurrentChange_B"
+                               :page-size="10"
+                               :current-page="lvshi_fenye.pageNum"
+                               layout="total, prev, pager, next, jumper"
+                               :total="lvshi_fenye.total">
+                </el-pagination>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+    import {getConsultByLawyerList, getSelectDetail} from "../../../http/api";
 	export default {
 		data() {
 			return {
-				input: '',
-				options: [{
-					value: '选项1',
-					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
-				}],
-				value: '',
-				zhendui:'',
+				token: sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
+				wentileixingList:[],
+				wentileixingVal: null,
+				consultStatusVal: null,
+				questionTitle: null,
+                consultStatusData:[
+                    { dictDataCode: null, dictDataName: "全部" },
+                    { dictDataCode: "1", dictDataName: "待确认" },
+                    { dictDataCode: "2", dictDataName: "解答中" },
+                    { dictDataCode: "3", dictDataName: "待评价" },
+                    { dictDataCode: "4", dictDataName: "已评价" },
+                    { dictDataCode: "5", dictDataName: "律师拒绝" },
+                    { dictDataCode: "6", dictDataName: "系统拒绝" }
+                ],
 				zixun_active: 2,
-				mianfei:"",
-				wentilx:'',
-				zhuangtai:'',
-				sousuo:''
+				lvshi_fenye: {
+                    pageNum: 1,
+                    pageSize: 10,
+                    total: 0
+				},
+				tableData: []
 			}
 		},
-		created() {
-			this.init()
-		},
+		mounted() {
+            this.getSelectDetailData()
+            this.getConsultByLawyerList()
+        },
 		methods: {
-			init() {
-				this.$axios.post(`/api/consult/getConsultByLawyerList`, {
-					"token": sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
-					"consultType": "2", //类型：String  必有字段  备注：咨询类型 1：免费咨询；2：针对性咨询
-					"questionType": this.wentilx, //类型：String  可有字段  备注：问题类型
-					"consultStatus": this.zhuangtai, //类型：String  可有字段  备注：咨询状态 1：待确认；2：解答中；3；待评价；4：已评价；5：律师拒绝；6：系统拒绝；
-					"questionTitle": this.sousuo, //类型：String  可有字段  备注：标题
-					"createTime": "2019-05-19", //类型：String  可有字段  备注：咨询时间 格式yyyy-MM-dd
-					"pageSize": "mock", //类型：String  可有字段  备注：每页显示条数
-					"pageNum": "mock"
-				}, {
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept-Charset': 'utf-8'
-					}
-				}).then((respon) => {
-					if (respon) {
-						this.zhendui = respon.data.content.dataList
-					}
-				})
-				this.$axios.post(`/api/consult/getConsultByLawyerList`, {
-					"token": sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
-					"consultType": "1", //类型：String  必有字段  备注：咨询类型 1：免费咨询；2：针对性咨询
-					"questionType": "d5398164bb80403592691734582c3467", //类型：String  可有字段  备注：问题类型
-					"consultStatus": "1", //类型：String  可有字段  备注：咨询状态 1：待确认；2：解答中；3；待评价；4：已评价；5：律师拒绝；6：系统拒绝；
-					"questionTitle": "查询标题", //类型：String  可有字段  备注：标题
-					"createTime": "2019-05-19", //类型：String  可有字段  备注：咨询时间 格式yyyy-MM-dd
-					"pageSize": "mock", //类型：String  可有字段  备注：每页显示条数
-					"pageNum": "mock"
-				}, {
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept-Charset': 'utf-8'
-					}
-				}).then((respon) => {
-					if (respon) {
-						this.mianfei = respon.data.content.dataList
-					}
-				})
+			// 获取下拉列表数据
+            async getSelectDetailData() {
+                //问题类型
+                let wentileixingData = await getSelectDetail({
+                    dictCode: "wentileixing",
+                    userId: "111"
+                })
+                this.wentileixingList = [
+                    { dictDataCode: null, dictDataName: "全部" },
+                    ...wentileixingData.content.resultList
+                ]
 			},
+			//获取律所针对性咨询列表
+            getConsultByLawyerList() {
+                let params = {
+                    token:this.token,
+                    consultType:this.zixun_active == 2 ? '2' : '1',
+                    questionType:this.wentileixingVal,
+                    consultStatus:this.consultStatusVal,
+                    questionTitle:this.questionTitle,
+                    pageSize:this.lvshi_fenye.pageSize,
+                    pageNum:this.lvshi_fenye.pageNum
+                };
+                getConsultByLawyerList(params).then(success => {
+                    if (success.code == "200") {
+                        this.tableData = success.content.dataList;
+                        this.lvshi_fenye.pageNum = success.content.pageInfo.pageNum
+                        this.lvshi_fenye.total = success.content.pageInfo.total
+                    }
+                });
+            },
+			handleCurrentChange_B(val) {
+                this.lvshi_fenye.pageNum = val;
+                this.getConsultByLawyerList();
+            },
 			zixuntab(e) {
 				this.zixun_active = e
+				this.getConsultByLawyerList()
 			},
-			handleEdit(e,f) {
+			handleEdit(index, row) {
+				console.log(index, row)
 				this.$router.push({
 					path:'/xianchang_chakan'
 				})
@@ -257,13 +203,16 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		.top_btn {
+			margin-right: 20px;
+		}
 	}
 
 	.liebiao_topzuo {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		width: 40%;
+		width: 50%;
 	}
 
 	.liebiao_sousuo {
@@ -318,5 +267,14 @@
 
 	.biaoge {
 		margin-top: 20px;
+	}
+	.form_item {
+		display: flex;
+		.item_label {
+			display: block;
+			height: 40px;
+			line-height: 40px;
+			width: 100px;
+		}
 	}
 </style>

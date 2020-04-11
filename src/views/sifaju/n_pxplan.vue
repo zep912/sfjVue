@@ -211,7 +211,7 @@
 	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import SingleDate from '../../components/SingleDate'
-	import util from '@/assets/js/co-util'
+	// import util from '@/assets/js/co-util'
 	// import NPxplanTree from './n_pxplan_tree'
 	export default {
 		components: {
