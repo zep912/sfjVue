@@ -284,19 +284,27 @@
 		},
 		// 删除
 		handleDelete (index, row) {
-			let obj = {
-				token: sessionStorage.getItem("token"),
-				planId: row.planId
-			}
-			deleteTrainPlan(obj).then(res => {
-				if (res) {
-					this.$message({
-						message: '删除成功',
-						type: 'success'
-					})
-					this.getData()
-				}
+			this.$confirm('是否确定删除？', '确认信息', {
+				distinguishCancelAndClose: true,
+				confirmButtonText: '保存',
+				cancelButtonText: '取消'
+			}).then(() => {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					planId: row.planId
+				};
+				deleteTrainPlan(obj).then(res => {
+					if (res) {
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						})
+						this.getData()
+					}
+				})
 			})
+			.catch(action => {
+			});
 		},
 		// 分页
     handleSizeChange (limit) {

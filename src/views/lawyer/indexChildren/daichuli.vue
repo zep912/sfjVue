@@ -414,12 +414,13 @@ import {formatDate} from '../../../utils/date.js';
 	}
 
 	.daichuli_left {
-		display: flex;
-		align-items: center;
+		display: grid;
+		grid-template-columns: 80px 100%;
+		/*align-items: center;*/
 	}
 
 	.dataTag {
-		width: 55px;
+		/*width: 80px!important;*/
 		height: 55px;
 		border-radius: 5px;
 		color: #fff;
