@@ -1,20 +1,24 @@
 <template>
-	<div class="zhize_you">
+	<div class="headle-right">
 		<div class="zhize_toubu">课件学习计划</div>
 		<div class="zhize_neirong">
 			<div class="xuexi_top">
 				<div>
-					当前课件学习计划：<span>3</span>
+					当前课件学习计划：<span>{{studyCount}}</span>
 				</div>
 				<div>
-					<el-checkbox v-model="checked">已完成：<span>1</span></el-checkbox>
+					<el-checkbox v-model="form.completeFlag" :true-label="1" :false-label="2">
+					</el-checkbox>
+					<span>已完成：{{completeCount}}</span>
 				</div>
 				<div>
-					<el-checkbox  v-model="checked"><span style="color: #FF6034;">未完成：1</span></el-checkbox>
+					<el-checkbox v-model="form.learningFlag" :true-label="1" :false-label="2">
+					</el-checkbox>
+					<span style="color: #FF6034;">未完成：{{learningCount}}</span>
 				</div>
 				<div class="chaxun">
-					<input type="text" placeholder="请输入标题搜索">
-					<div class="chaxun_btn">查询</div>
+					<el-input type="text" v-model="form.trainTitle" placeholder="请输入标题搜索"></el-input>
+					<el-button type="primary" @click="search">查询</el-button>
 				</div>
 			</div>
 			<div class="xuexi_neirong" v-for="(item,index) in datalist" :key="index">
@@ -52,17 +56,15 @@
 							<div>{{item.studyProcess}}</div>
 							<div>学习进度</div>
 						</div>
-						<router-link :to="{path: '/kanshipin'}">
-							<div class="kaishi_xuexi">
-								开始学习
-							</div>
-						</router-link>
-						
+						<el-button type="success">
+							开始学习
+						</el-button>
+
 					</div>
 				</div>
-				
-			</div> 
-			
+
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -74,31 +76,43 @@
 	      return {
 	        checked: true,
 			customColor:'#ff9933',
+		    keyWord: '',
 			percentage: 20,
-			datalist:'',
-			xuexijihuas:{
+			datalist: [],
+			form:{
 				trainTitle:'',
-				completeFlag:'',
-				learningFlag:'',
-				token:sessionStorage.getItem("token")
-			}
+				token:sessionStorage.getItem("token"),
+				completeFlag: 2,
+				learningFlag: 2
+			},
+			  studyCount: '',
+			  completeCount: '',
+			  learningCount: '',
 	      };
 	    },
 		created() {
-			lawyerxuexi(this.xuexijihuas).then(success=>{
-			    console.log(success)
-			    this.datalist =  success.data.content.dataList
-			})
+			this.search();
 		},
 		methods:{
-			xuexi(){
-				this.$emit('xuexi','5')
+	    	search() {
+	    		// const {completeFlag, learningFlag} = this.form;
+				lawyerxuexi(Object.assign({}, this.form)).then(success=>{
+					this.datalist =  success.content.dataList;
+					this.studyCount = success.content.studyCount;
+					this.completeCount = success.content.completeCount;
+					this.learningCount = success.content.learningCount;
+				})
 			}
 		}
 	};
 </script>
 
 <style lang="scss">
+	.headle-right {
+		width: 70%;
+		padding: 20px;
+		background-color: #fff;
+	}
 	.xuexi_top{
 		width: 98%;
 		padding: 10px 1%;
@@ -123,17 +137,6 @@
 		height: 40px;
 		border: 1px solid #eee;
 		padding-left: 5px;
-	}
-	.chaxun_btn{
-		width: 100px;
-		height: 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #fff;
-		font-size: 14px;
-		font-weight: 300;
-		background: -webkit-linear-gradient(left,#0fa3d5, #1b79c2);
 	}
 	.xuexi_neirong{
 		width: 100%;
@@ -191,7 +194,7 @@
 	}
 	.kecheng_you{
 		text-align: left;
-		
+
 	}
 	.kecheng_you>div:nth-child(1){
 		font-size: 16px;
@@ -254,16 +257,6 @@
 	.jindutiao{
 		width: 60%;
 		height: 30px;
-	}
-	.kaishi_xuexi{
-		width: 120px;
-		height: 35px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: #44cc35;
-		color: #fff;
-		border-radius: 5px;
 	}
 	.wancheng_wan>div:nth-child(1){
 		color: #67c23a;
