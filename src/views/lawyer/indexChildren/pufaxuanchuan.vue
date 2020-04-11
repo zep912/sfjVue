@@ -55,7 +55,7 @@
 				</el-form>
 			</div>
 			<div class="biaoge">
-				<el-table :data="peixunjihua" border style="width: 100%" key="1">
+				<el-table :data="peixunjihua" border style="width: 100%" :cell-class-name="publishClassName">
 					<el-table-column type="index" label="序号" width="60">
 					</el-table-column>
 					<el-table-column prop="lawTitle" label="标题">
@@ -256,8 +256,22 @@ import util from '@/assets/js/co-util'
 				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
 				this.getData()
 			},
+			// 查看
 			chakan () {
 
+			},
+			// 改列表颜色
+			publishClassName ({row, columnIndex}) {
+				console.log(111333, row, columnIndex)
+				if ((row.lawTimeliness === '尚未生效' || row.lawTimeliness === '已被修订') && columnIndex === 4) {
+					return 'ey-review-Warning'
+				} else if (row.lawTimeliness === '现行有效'  && columnIndex === 4) {
+					return 'ey-review-Success'
+				} else if ((row.lawTimeliness === '部分失效' || row.lawTimeliness === '现已失效')   && columnIndex === 4)  {
+					return 'ey-review-Info'
+				} else  {
+					return ''
+				}
 			}
 		}
 	}
@@ -267,6 +281,18 @@ import util from '@/assets/js/co-util'
 	.pufaxuanchuan {
 		width: 100%;
 		height: 100%;
+		.ey-review-Blue {
+		color: #409EFF;
+		}
+		.ey-review-Success {
+			color: #67C23A;
+		}
+		.ey-review-Warning {
+			color: #E6A23C;
+		}
+		.ey-review-Info {
+			color: #909399;
+		}
 			.zaixian_top {
 			width: 95%;
 			height: 70px;
