@@ -430,6 +430,7 @@
 				}
 				manakejians(obj).then(res => {
 					if (res.code == '200') {
+						console.log(111300, res.content.dataList)
 						this.peixunkejianList = res.content.dataList
 					}
 				})
