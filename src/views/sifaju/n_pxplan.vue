@@ -11,7 +11,7 @@
 		<div class="tianjia-header">
 			<el-form :model="queryCondition" :rules="rules" ref="queryCondition">
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="16">
+					<el-col :span="24">
 						<el-form-item label="培训主题:" prop="trainTitle">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTitle}}</span>
 							<el-input v-else maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
@@ -19,7 +19,7 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="培训方式:" prop="trainMode">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
 							<el-select v-else v-model="queryCondition.trainMode" placeholder="请选择">
@@ -32,7 +32,7 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="适用岗位:" prop="matchPos">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPosDesc}}</span>
 							<el-select v-else  v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
@@ -47,7 +47,7 @@
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="培训级别:" prop="trainLevel" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 							<el-select v-model="queryCondition.trainLevel" placeholder="请选择">
 									<el-option
@@ -59,7 +59,7 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="培训类型:" prop="trainType">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
 							<el-select v-else  v-model="queryCondition.trainType" placeholder="请选择">
@@ -72,7 +72,7 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8" v-if="this.query.type === 'view'">
+					<el-col :span="12" v-if="this.query.type === 'view'">
 						<el-form-item label="培训状态" prop="trainType">
 							<span class="el-text">{{queryCondition.planStatusDesc}}</span>
 						</el-form-item>
@@ -101,21 +101,21 @@
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 						<el-form-item label="培训地点" prop="trainAddr">
 							<el-input v-model="queryCondition.trainAddr" placeholder="请输入培训地点"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 						<el-form-item label="培训主要内容概述" prop="trainContent">
 							<el-input type="textarea" :rows="4" v-model="queryCondition.trainContent" placeholder="请输入培训主要内容概述"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
+					<el-col :span="12" v-if="queryCondition.trainMode !== '2'">
 						<el-form-item label="培训课件:" prop="couId">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couName}}</span>
 							<el-select v-else v-model="queryCondition.couId" placeholder="请选择">
@@ -130,7 +130,7 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
+					<el-col :span="12" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
 						<el-form-item label="课件类型:" prop="openType">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openTypeDesc}}</span>
 							<el-radio-group v-else v-model="queryCondition.openType">
@@ -139,7 +139,7 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8" v-else>
+					<el-col :span="12" v-else>
 						<el-form-item label="公开类型" prop="openType">
 							<el-radio-group v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
@@ -147,7 +147,7 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="负责人:" prop="principalUserId">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserName}}</span>
 							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
@@ -162,7 +162,7 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
+					<el-col :span="12">
 					<el-form-item label="培训人数:" prop="trainUserTotal">
 						<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainUserTotal}}</span>
 						<el-input v-else v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
