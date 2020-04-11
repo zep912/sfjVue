@@ -527,7 +527,16 @@
 							message: '删除成功',
 							type: 'success'
 						})
-						this.refreshLawyerList()
+						let {content} = res
+							let {dataList, pageInfo} = content
+								this.peixunjihua = dataList
+								let pageResponse = {
+								start: (pageInfo.pageNum*10) - 10,
+								limit: 10,
+								results: pageInfo.total
+							}
+							this.queryCondition.trainUserTotal = pageResponse.results
+							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
 			},
