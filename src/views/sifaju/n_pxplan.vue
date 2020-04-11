@@ -81,12 +81,12 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
 						<el-form-item label="开始时间" prop="startTime">
-							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<single-date :num="num" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="截止时间" prop="endTime">
-							<single-date :num="'3'" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<single-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -219,6 +219,7 @@
 		},
 		data() {
 			return {
+				num: 3,
 				query: {
 					type: '',
 					planId: ''

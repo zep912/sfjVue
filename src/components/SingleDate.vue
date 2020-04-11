@@ -26,7 +26,14 @@
 
   export default {
         name: "single-date",
-        props:['num'],
+        props: {
+          num: {
+            type: Number,
+            default: function() {
+              return 3
+            }
+          }
+        },
         data(){
             return {
               year:'',
