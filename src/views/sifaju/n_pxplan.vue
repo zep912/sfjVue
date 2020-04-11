@@ -86,7 +86,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="截止时间" prop="endTime">
-							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<single-date :num="'3'" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -222,6 +222,11 @@
 				query: {
 					type: '',
 					planId: ''
+				},
+				obj: {
+					selYear:'',
+					selMonth: '',
+					selDay: ''
 				},
 				pageRequest: crud.getQueryCondition({}),
 				//新增和修改律所信息
@@ -470,6 +475,7 @@
 						this.queryCondition = res.content
 						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
+						this.queryCondition.trainMode = res.content.trainMode.toString()
 					}
 				})
 			},
