@@ -49,7 +49,7 @@
 			<div class="sifakc_tongji">
 				<div>学习次数：</div>
 				<div class="tongji_youce">
-					<div>共计：{{shipinlist.countData.couCount}}个</div>
+					<div>共计：{{}}个</div>
 					<div class="caidan">
 						<div>
 							<img src="../../../assets/image/caidan.png" alt="">
@@ -108,12 +108,12 @@
 	    data() {
 	      return {
 	        checked: true,
-			guanjianzi:'',
-			shipinlist:'',
-			zhishic:'全部',
-			neirong:'全部',
-			leixingc:'全部'
-	      };
+					guanjianzi:'',
+					shipinlist:'',
+					zhishic:'全部',
+					neirong:'全部',
+					leixingc:'全部'
+	      }
 	    },
 		created() {
 			sifapeixunlist({
@@ -187,7 +187,7 @@
 		display: flex;
 		align-items: center;
 		div{
-			width: 100px;
+			width: 95px;
 			height: 35px;
 			border-radius: 5px;
 			// border: 1px solid #eee;

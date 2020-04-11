@@ -1,5 +1,5 @@
 <template>
-	<div class="zaixianzixun">
+	<div class="pufaxuanchuan">
 		<div class="zaixian_top">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 				<el-breadcrumb-item :to="{ path: '/zhize' }">职责</el-breadcrumb-item>
@@ -145,9 +145,9 @@
 				shixiaoxing:"",
 				wentileixing:'',
 				zhuangtai:'',
-				yianshifa:"",
 				sousuo2:'',
-				falvfagui:''
+				yianshifa: [],
+				falvfagui: []
 			}
 		},
 		created() {
@@ -198,110 +198,105 @@
 </script>
 
 <style lang="scss">
-	.zaixianzixun {
+	.pufaxuanchuan {
 		width: 100%;
 		height: 100%;
-	}
+			.zaixian_top {
+			width: 95%;
+			height: 70px;
+			padding-left: 5%;
+			border-bottom: 1px solid #eee;
+			display: flex;
+			align-items: center;
+		}
 
-	.zaixian_top {
-		width: 95%;
-		height: 70px;
-		padding-left: 5%;
-		border-bottom: 1px solid #eee;
-		display: flex;
-		align-items: center;
-	}
+		.zixun_content {
+			width: 100%;
+		}
 
-	.zixun_content {
-		width: 100%;
-	}
+		.zixun_tab {
+			width: 94%;
+			padding: 10px 3%;
+			background: #f2f2f2;
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+		}
 
-	.zixun_tab {
-		width: 94%;
-		padding: 10px 3%;
-		background: #f2f2f2;
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-	}
+		.zixun_tab>div {
+			width: 120px;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 
-	.zixun_tab>div {
-		width: 120px;
-		height: 30px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+		.zixun_liebiao {
+			width: 96%;
+			padding: 20px 2%;
+		}
 
-	.zixun_liebiao {
-		width: 96%;
-		padding: 20px 2%;
-	}
+		.liebiao_top {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
 
-	.liebiao_top {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
+		.liebiao_topzuo {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 40%;
+		}
+		.liebiao_sousuo {
+			width: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
 
-	.liebiao_topzuo {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 40%;
-	}
+		.liebiao_sousuo input {
+			width: 160px;
+			height: 38px;
+			padding-left: 10px;
+			font-size: 14px;
+			border-radius: 5px 0 0 5px;
+			border: 1px solid #eee;
+		}
+		.liebiao_search {
+			width: 80px;
+			height: 40px;
+			background: -webkit-linear-gradient(left, #0fa3d5, #1b79c2);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 0 5px 5px 0;
+		}
+		.zixun_fenye {
+			width: 100%;
+			height: 100px;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
 
-	.liebiao_sousuo {
-		width: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-	}
+		.zixun_active {
+			color: #068FD4;
+			position: relative;
+			font-weight: 600;
+		}
+		.zixun_active:after {
+			width: 100px;
+			height: 2px;
+			background: #068FD4;
+			position: absolute;
+			top: 34px;
+			left: 10px;
+			content: '';
+		}
 
-	.liebiao_sousuo input {
-		width: 160px;
-		height: 38px;
-		padding-left: 10px;
-		font-size: 14px;
-		border-radius: 5px 0 0 5px;
-		border: 1px solid #eee;
-	}
-
-	.liebiao_search {
-		width: 80px;
-		height: 40px;
-		background: -webkit-linear-gradient(left, #0fa3d5, #1b79c2);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 0 5px 5px 0;
-	}
-
-	.zixun_fenye {
-		width: 100%;
-		height: 100px;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-	}
-
-	.zixun_active {
-		color: #068FD4;
-		position: relative;
-		font-weight: 600;
-	}
-
-	.zixun_active:after {
-		width: 100px;
-		height: 2px;
-		background: #068FD4;
-		position: absolute;
-		top: 34px;
-		left: 10px;
-		content: '';
-	}
-
-	.biaoge {
-		margin-top: 20px;
+		.biaoge {
+			margin-top: 20px;
+		}
 	}
 </style>
