@@ -81,12 +81,22 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
 						<el-form-item label="开始时间" prop="startTime">
-							<single-date :num="num" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<!-- <single-date :num="num" @getDateInfo="getDateInfo" ref="getDate"></single-date> -->
+							<el-date-picker
+								v-model="queryCondition.startTime"
+								type="datetime"
+								placeholder="选择日期时间">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="截止时间" prop="endTime">
-							<single-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+							<!-- <single-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></single-date> -->
+							<el-date-picker
+								v-model="queryCondition.endTime"
+								type="datetime"
+								placeholder="选择日期时间">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -224,11 +234,6 @@
 					type: '',
 					planId: ''
 				},
-				obj: {
-					selYear:'',
-					selMonth: '',
-					selDay: ''
-				},
 				pageRequest: crud.getQueryCondition({}),
 				//新增和修改律所信息
 				queryCondition: {
@@ -321,19 +326,19 @@
 			this.manakejians()
 		},
 		mounted() {
-			this.getDateInfo();
+			// this.getDateInfo()
 		},
 		methods: {
 			//根据日期查询
-			getDateInfo(){
-				const dateInfo = this.$refs.getDate.getDateInfo();
-				let {startDate, startTime, endDate, endTime} = dateInfo
-				this.queryCondition.startDate = startDate
-				this.queryCondition.endDate = endDate
-				this.queryCondition.startTime = startTime
-				this.queryCondition.endTime = endTime
-				// this.getStartedList(dateInfo);
-			},
+			// getDateInfo(){
+			// 	const dateInfo = this.$refs.getDate.getDateInfo();
+			// 	let {startDate, startTime, endDate, endTime} = dateInfo
+			// 	this.queryCondition.startDate = startDate
+			// 	this.queryCondition.endDate = endDate
+			// 	this.queryCondition.startTime = startTime
+			// 	this.queryCondition.endTime = endTime
+			// 	// this.getStartedList(dateInfo);
+			// },
 			// 初始化获取时间
 			getTimeInit(time){
 				console.log(time.startTime);
@@ -474,6 +479,10 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
+						let startTime = `${res.content.startDate} ${res.content.startTime}`
+						let endTime = `${res.content.endDate} ${res.content.endTime}`
+						this.queryCondition.startTime = new Date(startTime)
+						this.queryCondition.endTime = new Date(endTime)
 						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
 						this.queryCondition.trainMode = res.content.trainMode.toString()
@@ -538,6 +547,13 @@
 						// 	trainStatus
 						// }
 						let obj = JSON.parse(JSON.stringify(this.queryCondition))
+						let startTime = new Date(this.queryCondition.startTime).getTime()
+						let endTime = new Date(this.queryCondition.endTime).getTime()
+						// console.log(util.formatDate(startTime, 'YYYY-MM-DD hh:mm:ss'))
+						obj.startDate = util.formatDate(startTime, 'YYYY-MM-DD')
+						obj.startTime = util.formatDate(startTime, 'hh:mm:ss')
+						obj.endDate = util.formatDate(endTime, 'YYYY-MM-DD')
+						obj.endTime = util.formatDate(endTime, 'hh:mm:ss')
 						plan(obj).then(res => {
 							if (res.code == '200') {
 								this.$message({
