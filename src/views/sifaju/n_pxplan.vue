@@ -485,6 +485,7 @@
 						this.queryCondition = res.content
 						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
+						this.queryCondition.principalUserName = sessionStorage.getItem("name")
 						this.queryCondition.trainMode = res.content.trainMode.toString()
 						// let startTime = `${res.content.startDate} ${res.content.startTime}`
 						// let endTime = `${res.content.endDate} ${res.content.endTime}`
