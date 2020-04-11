@@ -11,7 +11,7 @@
 			<div class="biaoge_header">
 				<el-form :model="queryCondition" ref="ruleForm">
 					<el-row type="flex" align="middle" justify="start">
-						<el-col :span="8">
+						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训方式：" prop="trainMode">
 								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
 									<el-option
@@ -23,7 +23,7 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训级别：" prop="levelValue">
 								<el-select v-model="queryCondition.levelValue" placeholder="请选择"  @change="getData()">
 									<el-option
@@ -35,7 +35,7 @@
 							</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训类型：" prop="trainType">
 								<el-select v-model="queryCondition.trainType" placeholder="请选择" @change="getData()">
 										<el-option
@@ -47,21 +47,21 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-					</el-row>
-					<el-row type="flex" align="middle" justify="start">
-						<el-col :span="8">
+						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训状态：" prop="trainStatus">
 								<el-select v-model="queryCondition.trainStatus" placeholder="请选择"  @change="getData()">
-										<el-option
-											v-for="item in stateList"
-											:key="item.dictDataCode"
-											:label="item.dictDataName"
-											:value="item.dictDataCode">
-										</el-option>
+									<el-option
+													v-for="item in stateList"
+													:key="item.dictDataCode"
+													:label="item.dictDataName"
+													:value="item.dictDataCode">
+									</el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+					</el-row>
+					<el-row type="flex" align="middle" justify="start">
+						<el-col :span="5">
 							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
 								<el-date-picker
 								class="c-query-range-date"
@@ -75,7 +75,7 @@
 								</el-date-picker>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item class="c-query-range-date" label="自定义：" prop="value6">
 								<el-date-picker
 								class="c-query-range-date"
@@ -90,14 +90,12 @@
 									</el-date-picker>
 							</el-form-item>
 						</el-col>
-					</el-row>
-					<el-row type="flex" align="middle" justify="start">
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item class="c-query-select" label="主题搜索：" prop="trainTitle">
 								<el-input v-model="queryCondition.trainTitle" placeholder="请输入主题搜索"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="16"  class="c-query-input">
+						<el-col :span="6"  class="c-query-input">
 							<div class="f-right">
 								<el-button type="primary" @click="getData()">搜索</el-button>
 							</div>
@@ -112,20 +110,20 @@
 			<!-- 表格 -->
 			<div class="biaoge_content">
 				<el-table :data="peixunjihua" border style="width: 100%" :cell-class-name="publishClassName">
-				    <el-table-column  type="index" label="序号" width="80"> </el-table-column>
+				    <el-table-column  type="index" label="序号" width="60"> </el-table-column>
 				    <el-table-column  prop="trainTitle" label="培训主题"></el-table-column>
-				    <el-table-column  prop="trainUserTotal"  label="培训人数"></el-table-column>
-						<el-table-column  prop="trainMode"  label="培训方式"></el-table-column>
-						<el-table-column  prop="trainType" label="培训类型"></el-table-column>
-						<el-table-column  prop="startDate" label="培训时间"></el-table-column>
-						<el-table-column  prop="trainAddr" label="地点">
+				    <el-table-column  prop="trainUserTotal"  label="培训人数" width="80"></el-table-column>
+						<el-table-column  prop="trainMode"  label="培训方式" width="80"></el-table-column>
+						<el-table-column  prop="trainType" label="培训类型" width="80"></el-table-column>
+						<el-table-column  prop="startDate" label="培训时间" width="100"></el-table-column>
+						<el-table-column  prop="trainAddr" label="地点" width="80">
 							<template slot-scope="scope">
 								<el-button v-if="scope.row.trainAddr" size="mini" type="primary" @click="open(scope.$index, scope.row)">查看</el-button>
 								<span v-else>无</span>
-							</template>	
+							</template>
 						</el-table-column>
-						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
-						<el-table-column label="操作" width="240">
+						<el-table-column  prop="planStatusDesc" label="培训状态" width="80"></el-table-column>
+						<el-table-column label="操作" width="180">
 							<template slot-scope="scope">
 								<el-button  size="mini" type="primary" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 								<el-button size="mini" type="danger" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>

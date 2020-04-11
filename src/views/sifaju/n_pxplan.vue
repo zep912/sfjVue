@@ -165,7 +165,7 @@
 					<el-col :span="12">
 					<el-form-item label="培训人数:" prop="trainUserTotal">
 						<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainUserTotal}}</span>
-						<el-input v-else v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
+						<el-input v-else v-model="queryCondition.trainUserTotal" disabled placeholder="自动获取 人"></el-input>
 					</el-form-item>
 				</el-col>
 				</el-row>

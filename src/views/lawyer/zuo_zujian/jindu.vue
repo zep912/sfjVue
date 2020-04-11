@@ -25,7 +25,7 @@
 					<!-- 签到（退） -->
 					<div v-if="item.nodeType === '1'" class="jindu_you">
 						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
-						<div class="jindubai">
+						<div class="jindubai" :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								<div>{{item.nodeTitle}}</div>
 							</div>
@@ -35,7 +35,7 @@
 					<!-- 待办事项 -->
 					<div v-if="item.nodeType === '2'" class="jindu_you">
 						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
-						<div class="jindubai">
+						<div class="jindubai" :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								{{item.nodeTitle}}
 							</div>
@@ -51,7 +51,7 @@
 					<!-- 文本消息 -->
 					<div v-if="item.nodeType === '3'" class="jindu_you">
 						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
-						<div class="jindubai"  :class="{'bg-gory': item.nodeType === '3'}">
+						<div class="jindubai"  :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								{{item.nodeTitle}}
 							</div>
@@ -220,7 +220,7 @@ import {formatDate} from '../../../utils/date.js';
 
 	.jindu_you {
 		flex: 1;
-		padding: 10px 20px;
+		padding: 3px 20px;
 		background: #f6f6f6;
 		border-left: 1px solid #999;
 		position: relative;
