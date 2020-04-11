@@ -486,6 +486,9 @@
 						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
 						this.queryCondition.trainMode = res.content.trainMode.toString()
+						if (this.queryCondition.matchPos) {
+							this.refreshLawyerList()
+						}
 					}
 				})
 			},
