@@ -122,9 +122,9 @@
 						<el-table-column  prop="planStatusDesc" label="培训状态"></el-table-column>
 						<el-table-column label="操作" width="240">
 							<template slot-scope="scope">
-								<el-button  size="mini" type="primary"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-								<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-								<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+								<el-button  size="mini" type="primary" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+								<el-button size="mini" type="danger" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+								<el-button size="mini" type="primary" v-if="scope.row.planStatusDesc === '进行中' || scope.row.planStatusDesc === '已结束'"  @click="chakan(scope.$index, scope.row)">查看</el-button>
 							</template>
 						</el-table-column>
 				  </el-table>
