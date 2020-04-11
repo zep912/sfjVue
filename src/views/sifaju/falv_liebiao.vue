@@ -6,7 +6,7 @@
 			  <el-breadcrumb-item>普法宣传</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
-		<el-tabs class="mana_tab pufaxuanc" v-model="request.docType" @tab-click="handleClick">
+		<el-tabs class="mana_tab12 pufaxuanc" v-model="request.docType" @tab-click="handleClick">
 			<el-tab-pane label="法律法规" name="1">
 				<div>
 					<div class="tightp_top" style="border: 0;">
@@ -343,7 +343,7 @@
 			align-items: center;
 			background: #fff;
 		}
-		.mana_tab{
+		.mana_tab12 {
 			padding: 20px;
 			font-size: 14px;
 			background: #f7f7f7;

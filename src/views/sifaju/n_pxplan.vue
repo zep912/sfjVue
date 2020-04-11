@@ -21,7 +21,7 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8">
 						<el-form-item label="培训方式:" prop="trainMode">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainMode}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
 							<el-select v-else v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in peixunfangshiList"
@@ -34,7 +34,7 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="适用岗位:" prop="matchPos">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPos}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPosDesc}}</span>
 							<el-select v-else  v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
 								<el-option
 									v-for="item in positionList"
@@ -61,7 +61,7 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="培训类型:" prop="trainType">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainType}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
 							<el-select v-else  v-model="queryCondition.trainType" placeholder="请选择">
 									<el-option
 										v-for="item in peixunleixingList"
@@ -74,7 +74,7 @@
 					</el-col>
 					<el-col :span="8" v-if="this.query.type === 'view'">
 						<el-form-item label="培训状态" prop="trainType">
-							<span class="el-text">{{queryCondition.trainStatus}}</span>
+							<span class="el-text">{{queryCondition.planStatusDesc}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -132,7 +132,7 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
 						<el-form-item label="课件类型:" prop="openType">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openType}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openTypeDesc}}</span>
 							<el-radio-group v-else v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
 								<el-radio :label="1">不公开</el-radio>
@@ -149,7 +149,7 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="负责人:" prop="principalUserId">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserId}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserName}}</span>
 							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
 									v-for="item in personList"
@@ -194,7 +194,7 @@
 								</el-table-column>
 							</el-table>
 							<div class="p_page">
-							<el-pagination background
+							<el-pagination background  v-if="this.query.type !== 'view'"
 								@size-change="handleSizeChange"
 								@current-change="handleCurrentChange"
 								:current-page="pageRequest.pageIndex"
@@ -421,7 +421,7 @@
 							this.queryCondition.trainUserTotal = pageResponse.results
 							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
-				})	
+				})
 			},
 			// 查询课件
 			manakejians() {
