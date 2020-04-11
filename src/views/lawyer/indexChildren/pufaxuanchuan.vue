@@ -145,8 +145,8 @@
 				shixiaoxing:"",
 				wentileixing:'',
 				zhuangtai:'',
-				yianshifa:"",
 				sousuo2:'',
+				yianshifa: [],
 				falvfagui: []
 			}
 		},
