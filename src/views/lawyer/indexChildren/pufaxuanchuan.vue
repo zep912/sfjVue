@@ -16,6 +16,9 @@
 			<div class="liebiao_top">
 				<el-form :model="queryCondition" ref="ruleForm">
 					<el-row type="flex" align="middle" justify="start">
+						<div>
+							<el-button type="success">新增</el-button>
+						</div>
 						<el-col :span="8">
 							<el-form-item class="c-query-select" label="效力级别：" prop="trainMode">
 								<el-select v-model="queryCondition.trainMode" placeholder="请选择">
@@ -50,29 +53,6 @@
 						</el-col>
 					</el-row>
 				</el-form>
-
-				<!-- <div class="liebiao_topzuo">
-					<div>
-						效力级别：
-						<el-select v-model="xiaolijibie" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-					<div>
-						时效性：
-						<el-select v-model="shixiaoxing" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-				</div>
-				<div class="liebiao_sousuo">
-					<input type="text" placeholder="请输入搜索内容">
-					<div class="liebiao_search">
-						<img src="../../../assets/image/u2290.png" alt="">
-					</div>
-				</div> -->
 			</div>
 			<div class="biaoge">
 				<el-table :data="falvfagui" border style="width: 100%" key="1">
@@ -90,22 +70,34 @@
 					</el-table-column>
 					<el-table-column prop="execDate" label="实施日期">
 					</el-table-column>
-					<el-table-column prop="name" label="操作">
+					<el-table-column prop="execDate" label="发布时间">
+					</el-table-column>
+					<el-table-column label="操作" width="240">
+						<template slot-scope="scope">
+							<el-button  size="mini" type="primary"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+							<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+						</template>
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="zixun_fenye">
-				<el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-				</el-pagination>
+			<!-- 分页 -->
+			<div class="p_page">
+				<el-pagination background
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					:current-page="queryCondition.pageRequest.pageIndex"
+					:page-sizes="[10]"
+					:page-size="queryCondition.pageRequest.limit"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="queryCondition.pageRequest.results">
+					</el-pagination>
 			</div>
 		</div>
+		<!--  -->
 		<div class="zixun_liebiao" v-if="zixun_active==1">
 			<div class="liebiao_top">
 				<el-form :model="queryCondition" ref="ruleForm">
 					<el-row type="flex" align="middle" justify="start">
-						<div>
-							<el-button type="success">现场登记</el-button>
-						</div>
 						<el-col :span="8">
 							<el-form-item class="c-query-select" label="问题类型：" prop="trainMode">
 								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
@@ -140,30 +132,6 @@
 						</el-col>
 					</el-row>
 				</el-form>
-
-				<!-- <el-button type="success">现场登记</el-button>
-				<div class="liebiao_topzuo">
-					<div>
-						问题类型：
-						<el-select v-model="wentileixing" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-					<div>
-						状态：
-						<el-select v-model="zhuangtai" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-				</div>
-				<div class="liebiao_sousuo">
-					<input type="text" v-model="sousuo2" placeholder="请输入搜索内容">
-					<div class="liebiao_search">
-						<img src="../../../assets/image/u2290.png" alt="">
-					</div>
-				</div> -->
 			</div>
 			<div class="biaoge">
 				<el-table :data="yianshifa" border style="width: 100%" key="2">
@@ -183,20 +151,30 @@
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="zixun_fenye">
-				<el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-				</el-pagination>
+			<!-- 分页 -->
+			<div class="p_page">
+				<el-pagination background
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					:current-page="queryCondition.pageRequest.pageIndex"
+					:page-sizes="[10]"
+					:page-size="queryCondition.pageRequest.limit"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="queryCondition.pageRequest.results">
+					</el-pagination>
 			</div>
 		</div>
 	</div>
 </template>
-
 <script>
+import * as crud from '../../../assets/js/co-crud.js'
 	export default {
 		data() {
 			return {
-				queryCondition: {},
-				input: '',
+				queryCondition: {
+					token: sessionStorage.getItem("token"),
+					pageRequest: crud.getQueryCondition({})
+				},
 				options: [{
 					value: '选项1',
 					label: '黄金糕'
@@ -213,59 +191,32 @@
 					value: '选项5',
 					label: '北京烤鸭'
 				}],
-				value: '',
 				zixun_active: 2,
-				xiaolijibie:"",
-				shixiaoxing:"",
-				wentileixing:'',
-				zhuangtai:'',
-				sousuo2:'',
 				yianshifa: [],
 				falvfagui: []
 			}
 		},
 		created() {
-			this.init()
+			this.getData()
 		},
 		methods: {
-			init(){
-				this.$axios.post(`/api/doc/paraphrase/getCaseParaphraseByLawyerList`, {
-					"token": sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
-					"caseType":this.wentileixing,                //类型：String  可有字段  备注：案例类型
-					"publishStatus":this.zhuangtai,                //类型：String  可有字段  备注：状态 1：待审核；2：驳回；3：未发布；4：已发布
-					"caseTitle":"标题",                //类型：String  可有字段  备注：标题
-					"pageSize":"10",                //类型：String  可有字段  备注：每页显示几条
-					"pageNum":"1"    
-				}, {
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept-Charset': 'utf-8'
-					}
-				}).then((respon) => {
-					if (respon) {
-						this.yianshifa = respon.data.content.dataList
-					}
-				})
-				this.$axios.post(`/api/doc/lawRegulations/getLawRegulationsList`, {
-					"token": sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
-					"scopeLevel":this.xiaolijibie,                //类型：String  可有字段  备注：效力级别
-					"lawTimeliness":this.shixiaoxing,                //类型：String  可有字段  备注：时效性
-					"lawTitle":this.sousuo2,                //类型：String  可有字段  备注：标题
-					"pageSize":"10",                //类型：String  可有字段  备注：每页显示几条
-					"pageNum":"1"     
-				}, {
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept-Charset': 'utf-8'
-					}
-				}).then((respon) => {
-					if (respon) {
-						this.falvfagui = respon.data.content.dataList
-					}
-				})
-			},
 			zixuntab(e) {
 				this.zixun_active = e
+			},
+			getData () {
+
+			},
+			// 分页
+			handleSizeChange (limit) {
+				this.queryCondition.pageRequest.limit = limit
+				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+				this.getData()
+			},
+			// 分页
+			handleCurrentChange (pageIndex) {
+				this.queryCondition.pageRequest.pageIndex = pageIndex
+				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+				this.getData()
 			}
 		}
 	}
