@@ -73,14 +73,14 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12" v-if="this.query.type === 'view'">
-						<el-form-item label="培训状态" prop="trainType">
+						<el-form-item label="培训状态:" prop="trainType">
 							<span class="el-text">{{queryCondition.planStatusDesc}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
-						<el-form-item label="开始时间" prop="startTime">
+						<el-form-item label="开始时间:" prop="startTime">
 							<sifa-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
 							<!-- <el-date-picker
 								v-model="queryCondition.startTime"
@@ -90,7 +90,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="截止时间" prop="endTime">
+						<el-form-item label="截止时间:" prop="endTime">
 							<sifa-date :num="num" :obj="objEnd" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
 							<!-- <el-date-picker
 								v-model="queryCondition.endTime"
@@ -102,14 +102,14 @@
 				</el-row>
 				<el-row>
 					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
-						<el-form-item label="培训地点" prop="trainAddr">
+						<el-form-item label="培训地点:" prop="trainAddr">
 							<el-input v-model="queryCondition.trainAddr" placeholder="请输入培训地点"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
-						<el-form-item label="培训主要内容概述" prop="trainContent">
+						<el-form-item label="培训主要内容概述:" prop="trainContent">
 							<el-input type="textarea" :rows="4" v-model="queryCondition.trainContent" placeholder="请输入培训主要内容概述"></el-input>
 						</el-form-item>
 					</el-col>
