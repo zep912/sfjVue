@@ -117,7 +117,7 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
 						<el-form-item label="培训课件:" prop="couId">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couId}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couName}}</span>
 							<el-select v-else v-model="queryCondition.couId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunkejianList"
@@ -210,7 +210,7 @@
 		</div>
 		<!-- <NPxplanTree></NPxplanTree> -->
 		<div v-if="this.query.type !== 'view'">
-			<el-button type="primary" @click="submitConsultInfo">提交</el-button>
+			<el-button type="primary" @click="submitConsultInfo">发布</el-button>
 			<el-button @click="goBack">取消</el-button>
 		</div>
 	</div>
@@ -490,7 +490,6 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
-						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
 						this.queryCondition.principalUserName = sessionStorage.getItem("name")
 						this.queryCondition.trainMode = res.content.trainMode.toString()
