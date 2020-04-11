@@ -153,8 +153,9 @@ import {formatDate} from '../../../utils/date.js';
 	.indexcon_leftcon {
 		height: 90%;
 		background: #f6f6f6;
-		padding-top: 10px;
+		padding: 10px 0;
 		position: relative;
+		overflow-y: auto;
 	}
 
 	.indexcon_lefttop .el-input {

@@ -170,6 +170,7 @@
 				</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="24">
 					<el-form-item label="培训人员:" prop="">
 						<el-table :data="tableData" border style="width: 100%" v-if="this.query.type === 'view'">
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
@@ -205,6 +206,7 @@
 								</el-pagination>
 						</div>
 						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 		</div>
@@ -613,9 +615,9 @@
 
 <style lang="scss">
 	.add-lvsuo-container {
+		width: 100%;
 		.top_manalvs {
-			width: 96%;
-			padding: 0 2%;
+			padding: 0 20px;
 			height: 70px;
 			display: flex;
 			align-items: center;
@@ -624,6 +626,7 @@
 		.tianjia-header {
 			width: 100%;
 			padding: 20px;
+			box-sizing: border-box;
 			.el-form {
 				margin-bottom: 20px;
 				.el-row {

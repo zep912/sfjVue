@@ -61,7 +61,7 @@
 						</el-col>
 					</el-row>
 					<el-row type="flex" align="middle" justify="start">
-						<el-col :span="5">
+						<el-col :span="6">
 							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
 								<el-date-picker
 								class="c-query-range-date"
@@ -75,7 +75,7 @@
 								</el-date-picker>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :span="8">
 							<el-form-item class="c-query-range-date" label="自定义：" prop="value6">
 								<el-date-picker
 								class="c-query-range-date"
@@ -95,10 +95,8 @@
 								<el-input v-model="queryCondition.trainTitle" placeholder="请输入主题搜索"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6"  class="c-query-input">
-							<div class="f-right">
-								<el-button type="primary" @click="getData()">搜索</el-button>
-							</div>
+						<el-col :span="4"  class="c-query-input">
+							<el-button type="primary" @click="getData()">搜索</el-button>
 						</el-col>
 					</el-row>
 				</el-form>
@@ -118,7 +116,12 @@
 						<el-table-column  prop="startDate" label="培训时间" width="100"></el-table-column>
 						<el-table-column  prop="trainAddr" label="地点" width="80">
 							<template slot-scope="scope">
-								<el-button v-if="scope.row.trainAddr" size="mini" type="primary" @click="open(scope.$index, scope.row)">查看</el-button>
+								<el-popover trigger="hover" placement="top" v-if="scope.row.trainAddr">
+									<p>{{ scope.row.trainAddr }}</p>
+									<div slot="reference" class="name-wrapper">
+										<el-tag size="medium">查看</el-tag>
+									</div>
+								</el-popover>
 								<span v-else>无</span>
 							</template>
 						</el-table-column>
@@ -181,10 +184,6 @@
 		this.stateData();
 	},
 	methods: {
-		open (index, row) {
-			this.$alert(`${row.trainAddr}`, {
-			})
-		},
     //获取培训方式数据字典
 		wayData(){
 			getSelectDetail({
@@ -338,7 +337,7 @@
 		padding: 20px 0 0 20px;
 	}
 	.biaoge_header {
-		width: 100%;
+		/*width: 100%;*/
 		padding: 20px;
 		border-bottom: 1px solid #eee;
 		.el-form {
