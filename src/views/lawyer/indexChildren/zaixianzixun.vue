@@ -3,7 +3,7 @@
 		<div class="zaixian_top">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 				<el-breadcrumb-item :to="{ path: '/zhize' }">职责</el-breadcrumb-item>
-				<el-breadcrumb-item>针对性咨询列表</el-breadcrumb-item>
+				<el-breadcrumb-item>{{zixun_active==1?'法律咨询':'针对性咨询列表'}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="zixun_content">
@@ -51,15 +51,18 @@
 					</el-table-column>
 					<el-table-column prop="personPhone" label="手机号码">
 					</el-table-column>
-					<el-table-column prop="questionType" label="问题类型">
+					<el-table-column prop="questionTypeLabel" label="问题类型">
 					</el-table-column>
-					<el-table-column v-if="zixun_active==2" prop="consultType" label="问题来源">
+					<el-table-column v-if="zixun_active==2" prop="consultTypeLabel" label="问题来源">
 					</el-table-column>
-					<el-table-column prop="consultStatus" label="状态">
+					<el-table-column prop="consultStatusLabel" label="状态">
+						<template slot-scope="scope">
+							<span :class="scope.row.colorClass">{{scope.row.consultStatusLabel}}</span>
+						</template>
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+							<el-button size="mini" type="text" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -77,7 +80,7 @@
 </template>
 
 <script>
-    import {getConsultByLawyerList, getSelectDetail} from "../../../http/api";
+	import {getConsultByLawyerList, getSelectDetail} from "../../../http/api";
 	export default {
 		data() {
 			return {
@@ -101,7 +104,8 @@
                     pageSize: 10,
                     total: 0
 				},
-				tableData: []
+				tableData: [],
+				colorClass: ''
 			}
 		},
 		mounted() {
@@ -134,9 +138,34 @@
                 };
                 getConsultByLawyerList(params).then(success => {
                     if (success.code == "200") {
-                        this.tableData = success.content.dataList;
+                        this.tableData = success.content.dataList.map(i => {
+							let questionType = this.wentileixingList.find(val => val.dictDataCode == i.questionType)
+							console.log(questionType)
+							i.questionTypeLabel = questionType&&questionType.dictDataName? questionType.dictDataName : ''
+							let consultStatus = this.consultStatusData.find(val => val.dictDataCode == i.consultStatus)
+							console.log(consultStatus)
+							i.consultStatusLabel = consultStatus&&consultStatus.dictDataName? consultStatus.dictDataName : ''
+							i.consultTypeLabel = i.consultType == 2 ? '免费咨询': '针对性咨询'
+							i.colorClass = ''
+							switch(i.consultStatus) {
+								case 1:
+									i.colorClass = 'color_1'
+									break
+								case 2:
+									i.colorClass = 'color_2'
+									break
+								case 3:
+									i.colorClass = 'color_3'
+									break
+								case 5:
+								case 6:
+									i.colorClass = 'color_4'
+									break
+							}
+							return i
+						})
                         this.lvshi_fenye.pageNum = success.content.pageInfo.pageNum
-                        this.lvshi_fenye.total = success.content.pageInfo.total
+						this.lvshi_fenye.total = success.content.pageInfo.total
                     }
                 });
             },
@@ -146,13 +175,15 @@
             },
 			zixuntab(e) {
 				this.zixun_active = e
-				this.getConsultByLawyerList()
+				this.wentileixingVal = null
+				this.consultStatusVal = null
+				this.questionTitle = null
+				this.$nextTick(() => { this.getConsultByLawyerList() })
 			},
 			handleEdit(index, row) {
 				console.log(index, row)
-				this.$router.push({
-					path:'/xianchang_chakan'
-				})
+				let status = row.consultStatus
+				this.$router.push({path:'/lvshixiangying', query: {consultId: row.consultId, status}})
 			}
 		}
 	}
@@ -276,5 +307,17 @@
 			line-height: 40px;
 			width: 100px;
 		}
+	}
+	.color_1 {
+		color: #FF9933;
+	}
+	.color_2 {
+		color: #33CC66;
+	}
+	.color_3 {
+		color:#FFCC00;
+	}
+	.color_4 {
+		color: #808080;
 	}
 </style>

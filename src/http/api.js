@@ -157,6 +157,18 @@ export const getAllLawyerList = data => {
 export const getConsultByLawyerList = data => {
     return $http.post('/consult/getConsultByLawyerList', data);
 };
+//律师_查询咨询详情
+export const getConsultDetail = data => {
+    return $http.post('/consult/getConsultDetail', data);
+};
+// 律师响应提交
+export const saveLawyerAnswer = data => {
+    return $http.post('/consult/saveLawyerAnswer', data);
+};
+// 律师回复提交
+export const saveInteractionLawyerMsg = data => {
+    return $http.post('/consult/saveInteractionLawyerMsg', data);
+};
 //律师课件学习
 export const lawyerxuexi = data => {
     return $http.post('/train/getLawyerTrainPlanList', data);
