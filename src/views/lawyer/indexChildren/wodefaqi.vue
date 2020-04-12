@@ -5,7 +5,7 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<el-date-picker 
+					<el-date-picker
 						v-model="defultMonth"
 						type="month"
 						format="yyyy 年 MM 月"
@@ -49,9 +49,10 @@
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
-								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
-								<div>{{item.taskStartTime}}</div>
+								<div>{{item.statusRemark}}</div>
+								<!--<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div>{{item.taskStartTime}}</div>-->
 							</div>
 						</div>
 					</div>
@@ -111,8 +112,8 @@ export default {
 						i.time = formatDate(new Date(i.taskStartTime), 'yyyy-MM-dd')
 						return i
 					})
-					if (this.dataList.length > 2) {
-						this.showDataList = this.dataList.slice(0, 2)
+					if (this.dataList.length > 5) {
+						this.showDataList = this.dataList.slice(0, 5)
 						this.showMore = true
 					} else {
 						this.showDataList = this.dataList
@@ -125,7 +126,7 @@ export default {
                     });
                 }
 			  })
-			  
+
 		  },
 		  loadMore () {
 			let curLength = this.showDataList.length
@@ -134,11 +135,11 @@ export default {
 				this.showMore = false
 				return
 			} else if (curLength < totalLength) {
-				if (curLength + 2 >= totalLength) {
+				if (curLength + 5 >= totalLength) {
 					this.showDataList = this.dataList
 					this.showMore = false
 				} else {
-					this.showDataList = this.dataList.slice(0, curLength + 2)
+					this.showDataList = this.dataList.slice(0, curLength + 5)
 					this.showMore = true
 				}
 			}
@@ -147,7 +148,7 @@ export default {
 	  created() {
 		  this.defultMonth = formatDate(new Date(), 'yyyy-MM')
 		  this.$nextTick(() => {this.getStartedList()})
-		  
+
 	  }
 	}
 </script>
@@ -203,7 +204,7 @@ export default {
 		width: 100%;
 	}
 
-	
+
 
 	.xuexi_you {
 		display: flex;
@@ -304,19 +305,19 @@ export default {
 	.daichuli_one {
 		width: 100%;
 		padding: 10px 0;
-		border-bottom: 1px solid #c0c4cc;
+		/*border-bottom: 1px solid #c0c4cc;*/
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
 	.daichuli_left {
-		display: flex;
-		align-items: center;
+		display: grid;
+		grid-template-columns: 64px 100%;
 	}
 
 	.daichuli_left>div:nth-child(1) {
-		width: 55px;
+		/*width: 80px;*/
 		height: 55px;
 		border-radius: 5px;
 		color: #fff;

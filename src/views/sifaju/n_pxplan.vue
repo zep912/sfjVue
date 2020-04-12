@@ -5,7 +5,7 @@
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 				<el-breadcrumb-item :to="{ path: '/sifaju' }">职责</el-breadcrumb-item>
 				<el-breadcrumb-item :to="{ path: 'manapeixun' }">培训管理</el-breadcrumb-item>
-				<el-breadcrumb-item>制定培训计划</el-breadcrumb-item>
+				<el-breadcrumb-item>{{lvsuo_texts}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="tianjia-header">
@@ -220,7 +220,7 @@
 
 <script>
 
-	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer} from "../../http/api"
+	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer, queryLawyerList} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
 	import sifaDate from './sifaDate'
 	import util from '@/assets/js/co-util'
@@ -231,6 +231,7 @@
 		},
 		data() {
 			return {
+				lvsuo_texts: '',
 				num: 3,
 				obj: {
 					selYear: '',
@@ -321,6 +322,7 @@
 			}
 		},
 		created() {
+			this.lvsuo_texts = '制定培训计划';
 			if (this.$route.query.type) {
 				this.query.type = this.$route.query.type
 				this.query.planId = this.$route.query.id
@@ -441,47 +443,46 @@
 					token: sessionStorage.getItem("token")
 				}
 				manakejians(obj).then(res => {
+						if (res.code == '200') {
+							// console.log(111300, res.content.dataList)
+							this.peixunkejianList = res.content.dataList
+						}
+					})
+			},
+			// 查询律师
+			getQueryLawyerList (planId) {
+				let obj = {
+					token: sessionStorage.getItem("token"),
+					planId,
+					pageNum: this.pageRequest.pageIndex
+				};
+				queryLawyerList(obj).then(res => {
 					if (res.code == '200') {
-						// console.log(111300, res.content.dataList)
-						this.peixunkejianList = res.content.dataList
+						let {content} = res
+						let {dataList, pageInfo} = content
+						this.peixunjihua = dataList
+						let pageResponse = {
+							start: (pageInfo.pageNum*10) - 10,
+							limit: 10,
+							results: pageInfo.total
+						}
+						this.queryCondition.trainUserTotal = pageResponse.results
+						this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
-		},
-			// // 查询律师
-			// queryLawyerList () {
-			// 	let obj = {
-			// 		token: sessionStorage.getItem("token"),
-			// 		pageSize: this.pageRequest.limit,
-			// 		pageNum: this.pageRequest.pageIndex
-			// 	}
-			// 	queryLawyerList(obj).then(res => {
-			// 		if (res.code == '200') {
-			// 		console.log('查询律师', res.content)
-			// 		let {content} = res
-			// 		let {dataList, pageInfo} = content
-			// 			this.peixunjihua = dataList
-			// 			let pageResponse = {
-			// 			start: (pageInfo.pageNum*10) - 10,
-			// 			limit: 10,
-			// 			results: pageInfo.total
-			// 		}
-			// 		this.queryCondition.trainUserTotal = pageResponse.results
-			// 		this.pageRequest = crud.getCurrentPage(pageResponse)
-			// 		}
-			// 	})
-			// },
-			// 分页
-    handleSizeChange (limit) {
-      this.pageRequest.limit = limit
-			this.pageRequest = crud.getQueryCondition(this.pageRequest)
-			this.refreshLawyerList()
-		},
-		// 分页
-    handleCurrentChange (pageIndex) {
-      this.pageRequest.pageIndex = pageIndex
-      this.pageRequest = crud.getQueryCondition(this.pageRequest)
-      this.refreshLawyerList()
-		},
+			},
+				// 分页
+			handleSizeChange (limit) {
+			  this.pageRequest.limit = limit
+					this.pageRequest = crud.getQueryCondition(this.pageRequest)
+					this.refreshLawyerList()
+				},
+				// 分页
+			handleCurrentChange (pageIndex) {
+			  this.pageRequest.pageIndex = pageIndex
+			  this.pageRequest = crud.getQueryCondition(this.pageRequest)
+			  this.refreshLawyerList()
+			},
 			// 查询计划详情
 			getTrainPlanInfo() {
 				let obj = {
@@ -503,13 +504,8 @@
 						this.objEnd.selYear = arr[0]
 						this.objEnd.selMonth = arr[1]
 						this.objEnd.selDay = arr[2]
-						console.log(111888, list)
-						// let startTime = `${res.content.startDate} ${res.content.startTime}`
-						// let endTime = `${res.content.endDate} ${res.content.endTime}`
-						// this.queryCondition.startTime = new Date(startTime)
-						// this.queryCondition.endTime = new Date(endTime)
-						if (this.queryCondition.matchPos) {
-							this.refreshLawyerList()
+						if (res.content.planId) {
+							this.getQueryLawyerList(res.content.planId)
 						}
 					}
 				})
@@ -561,33 +557,7 @@
 			submitConsultInfo () {
 				this.$refs.queryCondition.validate((valid) => {
 					if (valid) {
-						// let {token, trainTitle, trainMode, matchPos, trainType, startDate, endDate, startTime, endTime, couId, openType, principalUserId, trainAddr, trainContent, trainLevel, trainStatus} = this.queryCondition
-						// let obj = {
-						// 	token,
-						// 	trainTitle,
-						// 	trainMode,
-						// 	matchPos,
-						// 	trainAddr,
-						// 	trainContent,
-						// 	trainType,
-						// 	trainLevel,
-						// 	startDate,
-						// 	startTime,
-						// 	endDate,
-						// 	endTime,
-						// 	openType,
-						// 	couId,
-						// 	principalUserId,
-						// 	trainStatus
-						// }
 						let obj = JSON.parse(JSON.stringify(this.queryCondition))
-						// let startTime = new Date(this.queryCondition.startTime).getTime()
-						// let endTime = new Date(this.queryCondition.endTime).getTime()
-						// console.log(util.formatDate(startTime, 'YYYY-MM-DD hh:mm:ss'))
-						// obj.startDate = util.formatDate(startTime, 'YYYY-MM-DD')
-						// obj.startTime = util.formatDate(startTime, 'hh:mm:ss')
-						// obj.endDate = util.formatDate(endTime, 'YYYY-MM-DD')
-						// obj.endTime = util.formatDate(endTime, 'hh:mm:ss')
 						plan(obj).then(res => {
 							if (res.code == '200') {
 								this.$message({
@@ -599,7 +569,7 @@
 						})
 					} else {
 						console.log('error submit!!')
-            return false
+			return false
 					}
 				})
 			},

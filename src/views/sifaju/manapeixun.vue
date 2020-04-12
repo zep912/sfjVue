@@ -24,8 +24,8 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="5">
-							<el-form-item class="c-query-select" label="培训级别：" prop="levelValue">
-								<el-select v-model="queryCondition.levelValue" placeholder="请选择"  @change="getData()">
+							<el-form-item class="c-query-select" label="培训级别：" prop="trainLevel">
+								<el-select v-model="queryCondition.trainLevel" placeholder="请选择" :disabled="queryCondition.trainMode === '1'"  @change="getData()">
 									<el-option
 										v-for="item in levelList"
 										:key="item.dictDataCode"

@@ -147,13 +147,22 @@ const router = new Router({
         //司法局首页
         {
             path: '/sifaju',
-            component: sifaju_index,
+            component: law_index,
             name: 'sifaju_index',
             children: [{
-                    path: '/',
-                    name: 'sifa_sy',
-                    component: () =>
-                        import ('./views/sifaju/sifashouye.vue'),
+                path: '/',
+                name: 'law_jindu',
+                component: () =>
+                    import ('./views/lawyer/zuo_zujian/jindu.vue'),
+        // {
+        //     path: '/sifaju',
+        //     component: sifaju_index,
+        //     name: 'sifaju_index',
+        //     children: [{
+        //             path: '/',
+        //             name: 'sifa_sy',
+        //             component: () =>
+        //                 import ('./views/sifaju/sifashouye.vue'),
                     meta: {
                         title: '职责',
                         author: true,
