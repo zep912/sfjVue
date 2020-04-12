@@ -5,13 +5,14 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<el-date-picker
-						v-model="defultMonth"
-						type="month"
-						format="yyyy 年 MM 月"
-						value-format="yyyy-MM"
-						:clearable="false"
-						style="width: 300px;margin-left: 10px;"></el-date-picker>
+					<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+					<!--<el-date-picker-->
+						<!--v-model="defultMonth"-->
+						<!--type="month"-->
+						<!--format="yyyy 年 MM 月"-->
+						<!--value-format="yyyy-MM"-->
+						<!--:clearable="false"-->
+						<!--style="width: 300px;margin-left: 10px;"></el-date-picker>-->
 				</div>
 				<div>
 					自定义
@@ -157,9 +158,11 @@
 </template>
 
 <script>
+import SingleDate from "@/components/SingleDate";
 import * as api from "@/http/lawyer"
 import {formatDate} from '../../../utils/date.js';
 	export default {
+	  components: {SingleDate},
 	  data() {
 	    return {
 		  defultMonth: '',
@@ -174,24 +177,10 @@ import {formatDate} from '../../../utils/date.js';
 	    }
 	  },
 	  methods:{
+	  	  // 获取待处理信息
 		  getPendingList() {
 			  let params = {
 				token:sessionStorage.getItem("token"),
-				// systemList:[
-				// 	{
-				// 		systemCode:'mock'
-				// 	}
-				// ],
-				// instanceList:[
-				// 	{
-				// 		instanceDefKey:'mock'
-				// 	}
-				// ],
-				// taskKeyList:[
-				// 	{
-				// 		taskDefKey:'mock'
-				// 	}
-				// ],
 				taskTime: this.defultMonth,
 				taskStartTime: this.timeArr&&this.timeArr[0] ? this.timeArr[0] : null,
 				taskEndTime: this.timeArr&&this.timeArr[1] ? this.timeArr[1] : null,
@@ -235,6 +224,7 @@ import {formatDate} from '../../../utils/date.js';
                 }
 			  })
 		  },
+		  // 加载更多处理
 		  loadMore () {
 			let curLength = this.showPendingList.length
 			let totalLength = this.pendingList.length
@@ -250,6 +240,11 @@ import {formatDate} from '../../../utils/date.js';
 				// 	this.showMore = true
 				// }
 			}
+		  },
+		  getDateInfo() {
+		  	const dateInfo = this.$refs.getDateInfo();
+		  	console.log(dateInfo);
+			  // this.defultMonth = dateInfo && dateInfo.
 		  }
 	  },
 	  created() {

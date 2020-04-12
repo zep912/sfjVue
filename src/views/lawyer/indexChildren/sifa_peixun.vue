@@ -4,7 +4,7 @@
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/zhize' }">职责</el-breadcrumb-item>
 			  <el-breadcrumb-item>司法培训</el-breadcrumb-item>
-			</el-breadcrumb> 
+			</el-breadcrumb>
 		</div>
 		<div class="sifa_content">
 			<div class="sifa_contop">
@@ -95,7 +95,7 @@
 							<div class="kecheng_fenge"></div>
 							<div>累计时长： {{item.accTime}}</div>
 						</div>
-						<div class="kaishi_xuexisi" @click="kaishixuexi">开始学习</div>
+						<div class="kaishi_xuexisi" @click="kaishixuexi(item.planId)">开始学习</div>
 					</div>
 					<div :class="[imgShow?'kecheng_pxcontent':'lump_kecheng_pxcontent']">
 						<div class="kecheng_img">
@@ -180,9 +180,9 @@
 			leixing(e){
 				this.leixingc = e
 			},
-			kaishixuexi(){
+			kaishixuexi(id){
 				this.$router.push({
-					path:'/kanshipin'
+					path:'/kanshipin', query: {id}
 				})
 			},
 			// 司法培训，列表显示和块级显示的切换事件。通过改变显示隐藏来改变图标的变化
@@ -263,7 +263,7 @@
 	}
 	.sifa_contop{
 		width: 100%;
-		
+
 	}
 	.sifa_contop>div{
 		border: 1px solid #c0c4cc;
@@ -363,12 +363,12 @@
 			.imgcolor {
 				background-color:#7abef1;
 			}
-			
+
 		}
 		div:nth-child(1){
 			border-right: 1px solid #eee;
 		}
-		
+
 	}
 	.tongji_youce .sifashiti_sousuo{
 		display: flex;

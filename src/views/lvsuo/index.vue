@@ -291,7 +291,7 @@ export default {
 
 .index_con {
     width: 100%;
-    height: calc(100% - 80px);
+    height: 100%;
     display: flex;
     align-items: flex-start;
 }

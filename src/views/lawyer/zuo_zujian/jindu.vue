@@ -86,7 +86,7 @@
 
 					<!-- 课件学习计划 -->
 					<div v-if="item.nodeType === '0'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
 						<div class="jindu_jihua" @click="$router.push({path: 'xuexijihua'})">
 							<div class="jihua-left">课件学习计划</div>
 							<div class="jihua-right">
@@ -125,26 +125,25 @@ import {formatDate} from '../../../utils/date.js';
 		  xuexijihua(){
 			this.$emit('active','4')
 		  },
-		  getWorkAxis() {
-			  let params = {
-				token: sessionStorage.getItem("token"),
-				execTime: this.value1
-				// token: '64d1d05f5ccb4670a6d342f3b3c002ce'
-			  };
-			  api.getWorkAxis(params).then(res => {
-				  console.log(res)
-				  if(res.code === 200) {
-					this.timeList = res.content.dataList;
-					this.nowIndex = res.content.dataList.findIndex(val => val.nodeType === '4');
-				  } else {
-                    this.$message({
-                        message: res.msg,
-                        type: "error"
-                    });
-                }
-			  })
-
-		  }
+		  // 获取时间轴信息
+		  async getWorkAxis() {
+			  let params = {token: sessionStorage.getItem("token"), execTime: this.value1};
+			  const res = await api.getWorkAxis(params);
+			  if(res.code === 200) {
+				  this.timeList = res.content.dataList
+			  } else {
+				  this.$message.error(res.msg);
+			  }
+			  // 获取我的培训计划情况
+			  const response = await lawyerxuexi({token: sessionStorage.getItem("token")});
+			  if (response.code === 200) {
+				  // studyCount 当前课件学习数量 // completeCount 已完成数量 // learningCount  未完成数量
+				  const {studyCount, completeCount, learningCount} = response.content;
+				  this.timeList = this.timeList.concat([{nodeType: '0', studyCount, completeCount, learningCount}]);
+			  } else {
+				  this.$message.error(res.msg);
+			  }
+		  },
 	  },
 	  created() {
 		  this.getWorkAxis();

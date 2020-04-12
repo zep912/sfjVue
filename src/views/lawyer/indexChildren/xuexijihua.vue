@@ -56,7 +56,7 @@
 							<div>{{item.studyProcess}}</div>
 							<div>学习进度</div>
 						</div>
-						<el-button type="success">
+						<el-button type="success" @click="$router.push({path: '/kanshipin', query: {id: item.planId}})">
 							开始学习
 						</el-button>
 
@@ -110,6 +110,7 @@
 <style lang="scss">
 	.headle-right {
 		width: 70%;
+		height: 100%;
 		padding: 20px;
 		background-color: #fff;
 	}

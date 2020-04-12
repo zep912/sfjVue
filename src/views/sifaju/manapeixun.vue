@@ -61,21 +61,22 @@
 						</el-col>
 					</el-row>
 					<el-row type="flex" align="middle" justify="start">
-						<el-col :span="6">
+						<el-col :span="8">
 							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
-								<el-date-picker
-								class="c-query-range-date"
-									v-model="queryCondition.trainDate"
-									type="date"
-									placeholder="选择日期"
-									format="yyyy-MM-dd"
-									value-format="yyyy-MM-dd"
-									@change="getData()"
-									>
-								</el-date-picker>
+								<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+								<!--<el-date-picker-->
+								<!--class="c-query-range-date"-->
+									<!--v-model="queryCondition.trainDate"-->
+									<!--type="date"-->
+									<!--placeholder="选择日期"-->
+									<!--format="yyyy-MM-dd"-->
+									<!--value-format="yyyy-MM-dd"-->
+									<!--@change="getData()"-->
+									<!--&gt;-->
+								<!--</el-date-picker>-->
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="7">
 							<el-form-item class="c-query-range-date" label="自定义：" prop="value6">
 								<el-date-picker
 								class="c-query-range-date"
@@ -90,12 +91,12 @@
 									</el-date-picker>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :span="5">
 							<el-form-item class="c-query-select" label="主题搜索：" prop="trainTitle">
 								<el-input v-model="queryCondition.trainTitle" placeholder="请输入主题搜索"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="4"  class="c-query-input">
+						<el-col :span="3"  class="c-query-input">
 							<el-button type="primary" @click="getData()">搜索</el-button>
 						</el-col>
 					</el-row>
@@ -155,7 +156,10 @@
 	import {manapeixun, getSelectDetail, deleteTrainPlan} from '../../http/api.js'
 	import * as crud from '../../assets/js/co-crud.js'
 	import util from '@/assets/js/co-util'
-  export default {
+	import SingleDate from "@/components/SingleDate";
+
+	export default {
+		components: {SingleDate},
     data() {
       return {
 				queryCondition: {

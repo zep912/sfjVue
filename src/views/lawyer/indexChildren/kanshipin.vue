@@ -3,32 +3,33 @@
 		<div class="kanshipin_top">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/xuexijihua' }">课件学习计划</el-breadcrumb-item>
-			  <el-breadcrumb-item>施工安全哒哒哒哒哒</el-breadcrumb-item>
+			  <el-breadcrumb-item>{{data.planData.trainTitle}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="shipin_neirong">
 			<div>
 				<div class="shipin_biaoti">
-					APINK
+					{{data.planData.trainTitle}}
 				</div>
 				<div>
-					<video src="../../../assets/video/apink.mp4" autoplay loop controls></video>
+					<video :src="data.coursewareData.playUrl"></video>
+					<!--<video src="../../../assets/video/apink.mp4" autoplay loop controls></video>-->
 				</div>
 				<div class="shipin_dibu">
 					<div>
-						<div>学习人员：<span>人员姓名</span></div>
-						<div>开始时间：<span>2018-04-05 10:26</span></div>
+						<div>学习人员：<span>{{data.studyData.personName}}</span></div>
+						<div>开始时间：<span>{{data.studyData.startTime}}</span></div>
 					</div>
 					<div>
-						<div>学习次数：<span>3</span></div>
+						<div>学习次数：<span>{{data.studyData.studyCount}}</span></div>
 						<div>本次用时：<span>00:34:00</span></div>
 					</div>
 					<div>
-						<div>累计用时：<span>01:34:00</span></div>
-						<div>进度时间：<span>01:34:00</span></div>
+						<div>累计用时：<span>{{data.studyData.curentTime}}</span></div>
+						<div>进度时间：<span>{{data.studyData.accTime}}</span></div>
 					</div>
 					<div class="shipin_jindu">
-						<div>31%</div>
+						<div>{{data.studyData.studyProcess}}</div>
 						<div>本次学习进度</div>
 					</div>
 				</div>
@@ -98,13 +99,18 @@
 	export default {
 	    data(){
 			return {
-				data:''
+				data: {
+					planData: {},
+					coursewareData: {},
+					studyRecordList: [],
+					studyData: {}
+				}
 			}
 		},
 		created() {
 			see_videol({
 				"token":sessionStorage.getItem("token"),             //类型：String  必有字段  备注：token 用户身份标识
-				"planId":"88b691be5243443ea113e6ccc0763f10"                //类型：String  必有字段  备注：培训计划ID
+				"planId": this.$route.query.id                //类型：String  必有字段  备注：培训计划ID
 			}).then(res=>{
 				this.data = res.content
 			})
@@ -167,7 +173,7 @@
 		color: #c5c5c5;
 		text-align: left;
 		padding: 10px 0;
-		
+
 	}
 	.shipin_dibu span{
 		color: #fff;
@@ -177,7 +183,7 @@
 	}
 	.shipin_jindu{
 		text-align: center;
-		
+
 	}
 	.shipin_jindu>div:nth-child(1){
 		font-size: 16px;

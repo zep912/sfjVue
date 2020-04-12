@@ -72,7 +72,7 @@
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+							<el-button size="mini" type="primary"  @click="chakan(scope.row.lawId)">查看</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -257,8 +257,8 @@ import util from '@/assets/js/co-util'
 				this.getData()
 			},
 			// 查看
-			chakan () {
-
+			chakan (id) {
+				this.$router.push({path: '/falvfagui_xinxi', query: {id, type: 1}})
 			},
 			// 改列表颜色
 			publishClassName ({row, columnIndex}) {
@@ -377,7 +377,7 @@ import util from '@/assets/js/co-util'
 						.el-form-item__label .c-left {
 							text-align: left;
 						}
-					} 
+					}
 					.c-input {
 						display: flex;
 						// white-space: nowrap;
