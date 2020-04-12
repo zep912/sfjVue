@@ -64,6 +64,7 @@
                             <span>{{consultAnswer.timeStatus}}</span>
                             <img src="../../../assets/image/u552.png" alt="">
                             <img src="../../../assets/image/u554.png" alt="">
+                            <div v-if="consultAnswer.smsFlag == '2'" class="have_icon"></div>
                         </div>
                     </div>
                     <div class="shenheone_text">
@@ -73,8 +74,8 @@
                                 <el-radio v-model="consultAnswer.approveFlag" :label="1">同意</el-radio>
                                 <el-radio v-model="consultAnswer.approveFlag" :label="2">不同意</el-radio>
                             </div>
-                            <div class="flex">
-                                <span class="text_betten">律师解答<i></i></span><span class="star">*</span>
+                            <div class="flex vertical_top">
+                                <span class="text_betten">律师解答<i></i></span><span class="star" style="margin-top:0px;">*</span>
                                 <textarea name="" id="" v-model="consultAnswer.answerContent" cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -87,8 +88,8 @@
                         <div class="tab1">问题解答</div>
                         <div class="tab1_right">
                             <!-- <span>超时：59分钟/23.9小时/1.9天</span> -->
-                            <img src="../../../assets/image/u552.png" alt="">
-                            <img src="../../../assets/image/u554.png" alt="">
+                            <!-- <img src="../../../assets/image/u552.png" alt=""> -->
+                            <!-- <img src="../../../assets/image/u554.png" alt=""> -->
                         </div>
                     </div>
                     <div class="shenheone_text">
@@ -306,6 +307,7 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
         display: flex;
         align-items: center;
         color: #FF6034;
+        position: relative;
         img {
             width: 23px;
             height: 17px;
@@ -314,6 +316,19 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
                 width: 22px;
                 height: 17px;
             }
+        }
+        .have_icon {
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            background-image: url('../../../assets/images/common/modal/u452.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 100% 100%;
+            position: absolute;
+            right: 0;
+            top: 6px;
         }
     }
     .flex textarea{
@@ -385,6 +400,7 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
     }
     .flex.vertical_top {
         align-items:flex-start;
+        margin-top: 10px;
         .text_betten {
             margin-top: 0!important;
         }
