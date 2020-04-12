@@ -75,9 +75,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="peixun_kecheng">
-				<div class="kecheng_content" v-for="(item,index) in dataList" :key="`a_${index}`" v-if="imgShow">
-					<div class="kecheng_toubu">
+			<div :class="['peixun_kecheng', imgShow? '': 'lump_peixun_kecheng']">
+				<div :class="[imgShow? 'kecheng_content': 'lump_kecheng_content']" v-for="(item,index) in dataList" :key="`a_${index}`">
+					<div class="kecheng_toubu" v-if="imgShow">
 						<div class="kctb_zuo">
 							<div>
 								<el-checkbox v-model="checked">序号：{{index+1}}</el-checkbox>
@@ -97,7 +97,7 @@
 						</div>
 						<div class="kaishi_xuexisi" @click="kaishixuexi">开始学习</div>
 					</div>
-					<div class="kecheng_pxcontent">
+					<div :class="[imgShow?'kecheng_pxcontent':'lump_kecheng_pxcontent']">
 						<div class="kecheng_img">
 							<img :src="item.coverUrl" alt="">
 							<div>{{item.videoDuration}}</div>
@@ -400,6 +400,44 @@
 	}
 	.peixun_kecheng::-webkit-scrollbar{
 		display:none;
+	}
+	.lump_peixun_kecheng {
+		display: flex;
+		flex-wrap:wrap;
+		justify-content:center;
+		.lump_kecheng_content{
+			width: 17%;
+			border: 1px solid #EEE;
+			margin: 10px;
+			.lump_kecheng_pxcontent {
+				.kecheng_img {
+					width: 100%;
+					height: 180px;
+					position: relative;
+					img {
+						width: 100%;
+						height: 100%;
+					}
+					div {
+						width: 96%;
+						padding: 6px 2%;
+						color: #fff;
+						background: rgba(0,0,0,0.5);
+						position: absolute;
+						bottom: 0;
+						text-align: left;
+						font-size: 14px;
+					}
+				}
+				.kecheng_jianjie {
+					margin-top: 20px;
+					text-align: left;
+				}
+			}
+		}
+		&:first-child {
+			margin-right: 0;
+		}
 	}
 	.kecheng_content{
 		width: 100%;
