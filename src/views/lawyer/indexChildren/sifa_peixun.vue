@@ -47,9 +47,9 @@
 				</div>
 			</div>
 			<div class="sifakc_tongji">
-				<div>学习次数：</div>
+				<div>学习次数：{{form.completeCount}}</div>
 				<div class="tongji_youce">
-					<div>共计：{{}}个</div>
+					<div>共计：{{form.studyCount}}个</div>
 					<div class="caidan">
 						<div>
 							<img src="../../../assets/image/caidan.png" alt="">
@@ -59,22 +59,22 @@
 						</div>
 					</div>
 					<div class="sifashiti_sousuo">
-						<input type="text" v-model="guanjianzi" placeholder="请输入要搜索试题题目中的关键字">
+						<input type="text" v-model="queryCondition.trainTitle" placeholder="请输入要搜索试题题目中的关键字">
 						<div>搜索</div>
 					</div>
 				</div>
 			</div>
 			<div class="peixun_kecheng">
-				<div class="kecheng_content" v-for="(item,index) in shipinlist.dataList" :key="index">
+				<div class="kecheng_content" v-for="(item,index) in dataList" :key="index">
 					<div class="kecheng_toubu">
 						<div class="kctb_zuo">
 							<div>
 								<el-checkbox v-model="checked">序号：{{index+1}}</el-checkbox>
 							</div>
 							<div class="kecheng_fenge"></div>
-							<div>课件类型： {{item.couName}}</div>
+							<div>课件类型： {{}}</div>
 							<div class="kecheng_fenge"></div>
-							<div>知识范围： {{item.knowledgeId}}</div>
+							<div>知识范围： {{item.knowledgeScope}}</div>
 							<div class="kecheng_fenge"></div>
 							<div>内容分类： {{item.contentType}}</div>
 							<div class="kecheng_fenge"></div>
@@ -92,10 +92,22 @@
 							<div>{{item.videoDuration}}</div>
 						</div>
 						<div class="kecheng_jianjie">
-							<div>课件标题：<span>{{item.couName}}</span></div>
-							<div>课件简介：<span>{{item.cusDesc}}</span></div>
+							<div>课件标题：<span>{{}}</span></div>
+							<div>课件简介：<span>{{item.couDesc}}</span></div>
 						</div>
 					</div>
+				</div>
+				<!-- 分页 -->
+				<div class="p_page">
+					<el-pagination background
+						@size-change="handleSizeChange"
+						@current-change="handleCurrentChange"
+						:current-page="queryCondition.pageRequest.pageIndex"
+						:page-sizes="[10]"
+						:page-size="queryCondition.pageRequest.limit"
+						layout="total, sizes, prev, pager, next, jumper"
+						:total="queryCondition.pageRequest.results">
+						</el-pagination>
 				</div>
 			</div>
 		</div>
@@ -103,30 +115,27 @@
 </template>
 
 <script>
-	import {sifapeixunlist} from '../../../http/api.js'
+	import {lawyerxuexi} from '../../../http/api.js'
+	import * as crud from '../../../assets/js/co-crud.js'
+	import util from '@/assets/js/co-util'
 	export default {
-	    data() {
-	      return {
-	        checked: true,
-					guanjianzi:'',
-					shipinlist:'',
-					zhishic:'全部',
-					neirong:'全部',
-					leixingc:'全部'
-	      }
-	    },
+		data() {
+			return {
+				queryCondition: {
+					token: sessionStorage.getItem("token"),
+					trainTitle: '',
+					pageRequest: crud.getQueryCondition({})
+				},
+				form: {},
+				dataList: [],
+				checked: true,
+				zhishic:'全部',
+				neirong:'全部',
+				leixingc:'全部'
+			}
+		},
 		created() {
-			sifapeixunlist({
-				"token":sessionStorage.getItem("token"),                //类型：String  必有字段  备注：token 用户身份标识
-				"knowledgeScope":this.zhishic,                //类型：String  可有字段  备注：知识范围
-				"contentType":this.neirong,                //类型：String  可有字段  备注：内容分类
-				"openFlag":this.leixingc,                //类型：String  可有字段  备注：公开程度 1：不公开；2：公开；
-				"couName":this.guanjianzi,                //类型：String  可有字段  备注：课件标题
-				"pageSize":"10",                //类型：String  可有字段  备注：每页显示条数
-				"pageNum":"1"                //类型：String  可有字段  备注：当前页
-			}).then(res=>{
-				this.shipinlist = res.content
-			})
+			this.getData()
 		},
 		methods:{
 			zhishi(e){
@@ -142,9 +151,47 @@
 				this.$router.push({
 					path:'/kanshipin'
 				})
+			},
+			getData () {
+				let request = JSON.parse(JSON.stringify(this.queryCondition))
+				request.pageSize = request.pageRequest.limit
+				request.pageNum = request.pageRequest.pageIndex
+				delete request.pageRequest
+				util.dealNullQueryCondition(request)
+				lawyerxuexi(request).then(res => {
+					if (res.code === 200) {
+						let {content} = res
+						let {pageInfo, dataList, completeCount, learningCount, studyCount} = content
+						console.log('列表', res)
+						this.dataList = dataList
+						this.form = {
+							completeCount,
+							learningCount,
+							studyCount
+						}
+						let pageResponse = {
+							start: (pageInfo.pageNum*10) - 10,
+							limit: 10,
+							results: pageInfo.total
+						}
+						this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
+					}
+				})
+			},
+			// 分页
+			handleSizeChange (limit) {
+				this.queryCondition.pageRequest.limit = limit
+				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+				this.getData()
+			},
+			// 分页
+			handleCurrentChange (pageIndex) {
+				this.queryCondition.pageRequest.pageIndex = pageIndex
+				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+				this.getData()
 			}
 		}
-	  };
+	}
 </script>
 
 <style lang="scss">

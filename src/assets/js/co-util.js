@@ -26,5 +26,144 @@ export default {
         }
       }
     })
+  },
+  /**
+   * 格式化时间
+   * @param date long
+   * @param format 格式
+   */
+  formatDate: (date, format) => {
+    const padStart = (value, length, char) => {
+      value = value + ''
+      return value.padStart(length, char)
+    }
+    if (!date) return '--'
+    let _date = date
+    format = format || 'YYYY-MM-DD'
+    let splitArr = format.split(/(YYYY|MM|DD|hh|mm|ss)+/)
+
+    if (typeof date !== 'object') {
+      _date = new Date(date)
+    }
+
+    return splitArr.map(item => {
+      if (item === 'YYYY') {
+        return _date.getFullYear()
+      }
+
+      if (item === 'MM') {
+        return padStart(_date.getMonth() + 1, 2, 0)
+      }
+
+      if (item === 'DD') {
+        return padStart(_date.getDate(), 2, 0)
+      }
+
+      if (item === 'hh') {
+        return padStart(_date.getHours(), 2, 0)
+      }
+      if (item === 'mm') {
+        return padStart(_date.getMinutes(), 2, 0)
+      }
+      if (item === 'ss') {
+        return padStart(_date.getSeconds(), 2, 0)
+      }
+      return item
+    }).join('')
+  },
+  /**
+   * 格式化时间
+   * @param date long
+   * @param format 格式
+   */
+  formatDate: (date, format) => {
+    const padStart = (value, length, char) => {
+      value = value + ''
+      return value.padStart(length, char)
+    }
+    if (!date) return '--'
+    let _date = date
+    format = format || 'YYYY-MM-DD'
+    let splitArr = format.split(/(YYYY|MM|DD|hh|mm|ss)+/)
+
+    if (typeof date !== 'object') {
+      _date = new Date(date)
+    }
+
+    return splitArr.map(item => {
+      if (item === 'YYYY') {
+        return _date.getFullYear()
+      }
+
+      if (item === 'MM') {
+        return padStart(_date.getMonth() + 1, 2, 0)
+      }
+
+      if (item === 'DD') {
+        return padStart(_date.getDate(), 2, 0)
+      }
+
+      if (item === 'hh') {
+        return padStart(_date.getHours(), 2, 0)
+      }
+      if (item === 'mm') {
+        return padStart(_date.getMinutes(), 2, 0)
+      }
+      if (item === 'ss') {
+        return padStart(_date.getSeconds(), 2, 0)
+      }
+      return item
+    }).join('')
+  },
+  /**
+   * 获取指定日期：
+   * @param days  指定日期的前后N天
+   * @param date  指定日期
+   * @param format 指定格式
+   */
+  getSpecDate: (days, date, format) => {
+    days = days || 0
+    let currDate = date ? new Date(date) : new Date()
+    let specTime = currDate.setDate(currDate.getDate() + days)
+    const formatDate = (date, format) => {
+      const padStart = (value, length, char) => {
+        value = value + ''
+        return value.padStart(length, char)
+      }
+      if (!date) return '--'
+      let _date = date
+      format = format || 'YYYY-MM-DD'
+      let splitArr = format.split(/(YYYY|MM|DD|hh|mm|ss)+/)
+
+      if (typeof date !== 'object') {
+        _date = new Date(date)
+      }
+
+      return splitArr.map(item => {
+        if (item === 'YYYY') {
+          return _date.getFullYear()
+        }
+
+        if (item === 'MM') {
+          return padStart(_date.getMonth() + 1, 2, 0)
+        }
+
+        if (item === 'DD') {
+          return padStart(_date.getDate(), 2, 0)
+        }
+
+        if (item === 'hh') {
+          return padStart(_date.getHours(), 2, 0)
+        }
+        if (item === 'mm') {
+          return padStart(_date.getMinutes(), 2, 0)
+        }
+        if (item === 'ss') {
+          return padStart(_date.getSeconds(), 2, 0)
+        }
+        return item
+      }).join('')
+    }
+    return formatDate(specTime, format)
   }
 }

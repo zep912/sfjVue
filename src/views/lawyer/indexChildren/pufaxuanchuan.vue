@@ -8,38 +8,54 @@
 		</div>
 		<div class="zixun_content">
 			<div class="zixun_tab">
-				<div :class="zixun_active==1?'zixun_active':''" @click="zixuntab(1)">以案释法</div>
+				<!-- <div :class="zixun_active==1?'zixun_active':''" @click="zixuntab(1)">以案释法</div> -->
 				<div :class="zixun_active==2?'zixun_active':''" @click="zixuntab(2)">法律法规</div>
 			</div>
 		</div>
 		<div class="zixun_liebiao" v-if="zixun_active==2">
 			<div class="liebiao_top">
-				<div class="liebiao_topzuo">
-					<div>
-						效力级别：
-						<el-select v-model="xiaolijibie" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-					<div>
-						时效性：
-						<el-select v-model="shixiaoxing" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-				</div>
-				<div class="liebiao_sousuo">
-					<input type="text" placeholder="请输入搜索内容">
-					<div class="liebiao_search">
-						<img src="../../../assets/image/u2290.png" alt="">
-					</div>
-				</div>
-
+				<el-form :model="queryCondition" ref="ruleForm">
+					<el-row type="flex" align="middle" justify="start">
+						<!-- <div>
+							<el-button type="success" @click="add">新增</el-button>
+						</div> -->
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="效力级别：" prop="scopeLevel">
+								<el-select v-model="queryCondition.scopeLevel" placeholder="请选择">
+									<el-option
+										v-for="item in xiaolijibieList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="时效性：" prop="lawTimeliness">
+								<el-select v-model="queryCondition.lawTimeliness" placeholder="请选择">
+									<el-option
+										v-for="item in shixiaoxingList"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<div class="c-input f-right">
+								<input type="text" v-model="queryCondition.lawTitle" class="c-query-select" placeholder="请输入标题查询">
+								<div class="liebiao_search" @click="getData">
+									<img src="../../../assets/image/u2290.png" alt="">
+								</div>
+							</div>
+						</el-col>
+					</el-row>
+				</el-form>
 			</div>
 			<div class="biaoge">
-				<el-table :data="falvfagui" border style="width: 100%" key="1">
+				<el-table :data="peixunjihua" border style="width: 100%" :cell-class-name="publishClassName">
 					<el-table-column type="index" label="序号" width="60">
 					</el-table-column>
 					<el-table-column prop="lawTitle" label="标题">
@@ -54,42 +70,68 @@
 					</el-table-column>
 					<el-table-column prop="execDate" label="实施日期">
 					</el-table-column>
-					<el-table-column prop="name" label="操作">
+					<el-table-column label="操作">
+						<template slot-scope="scope">
+							<el-button size="mini" type="primary"  @click="chakan(scope.$index, scope.row)">查看</el-button>
+						</template>
 					</el-table-column>
-
 				</el-table>
 			</div>
-			<div class="zixun_fenye">
-				<el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-				</el-pagination>
+			<!-- 分页 -->
+			<div class="p_page">
+				<el-pagination background
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					:current-page="queryCondition.pageRequest.pageIndex"
+					:page-sizes="[10]"
+					:page-size="queryCondition.pageRequest.limit"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="queryCondition.pageRequest.results">
+					</el-pagination>
 			</div>
 		</div>
+		<!--  -->
 		<div class="zixun_liebiao" v-if="zixun_active==1">
 			<div class="liebiao_top">
-				<el-button type="success">现场登记</el-button>
-				<div class="liebiao_topzuo">
-					<div>
-						问题类型：
-						<el-select v-model="wentileixing" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-					<div>
-						状态：
-						<el-select v-model="zhuangtai" placeholder="请选择">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</div>
-				</div>
-				<div class="liebiao_sousuo">
-					<input type="text" v-model="sousuo2" placeholder="请输入搜索内容">
-					<div class="liebiao_search">
-						<img src="../../../assets/image/u2290.png" alt="">
-					</div>
-				</div>
-
+				<el-form :model="queryCondition" ref="ruleForm">
+					<el-row type="flex" align="middle" justify="start">
+						<div>
+							<el-button type="success">现场登记</el-button>
+						</div>
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="问题类型：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
+									<el-option
+										v-for="item in options"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item class="c-query-select" label="状态：" prop="trainMode">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
+									<el-option
+										v-for="item in options"
+										:key="item.dictDataCode"
+										:label="item.dictDataName"
+										:value="item.dictDataCode">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<div class="c-input f-right">
+								<input type="text" placeholder="请输入搜索内容">
+								<div class="c-input_search">
+									<img src="../../../assets/image/u2290.png" alt="">
+								</div>
+							</div>
+						</el-col>
+					</el-row>
+				</el-form>
 			</div>
 			<div class="biaoge">
 				<el-table :data="yianshifa" border style="width: 100%" key="2">
@@ -107,91 +149,129 @@
 					</el-table-column>
 					<el-table-column prop="name" label="操作">
 					</el-table-column>
-
 				</el-table>
 			</div>
-			<div class="zixun_fenye">
-				<el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-				</el-pagination>
+			<!-- 分页 -->
+			<div class="p_page">
+				<el-pagination background
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					:current-page="queryCondition.pageRequest.pageIndex"
+					:page-sizes="[10]"
+					:page-size="queryCondition.pageRequest.limit"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="queryCondition.pageRequest.results">
+					</el-pagination>
 			</div>
 		</div>
 	</div>
 </template>
-
 <script>
+import {getSelectDetail, getLawRegulationsList} from "../../../http/api"
+import * as crud from '../../../assets/js/co-crud.js'
+import util from '@/assets/js/co-util'
 	export default {
 		data() {
 			return {
-				input: '',
+				queryCondition: {
+					token: sessionStorage.getItem("token"),
+					scopeLevel: null,
+					lawTimeliness: null,
+					lawTitle: '',
+					pageRequest: crud.getQueryCondition({})
+				},
+				xiaolijibieList: [], // 效力级别
+				shixiaoxingList: [], // 时效性
+				peixunjihua: [],
 				options: [{
 					value: '选项1',
 					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
-				}],
-				value: '',
+				},],
 				zixun_active: 2,
-				xiaolijibie:"",
-				shixiaoxing:"",
-				wentileixing:'',
-				zhuangtai:'',
-				sousuo2:'',
-				yianshifa: [],
-				falvfagui: []
+				yianshifa: []
 			}
 		},
 		created() {
-			this.init()
+			this.wayData()
+			this.typeData()
+			this.getData()
 		},
 		methods: {
-			init(){
-				this.$axios.post(`/api/doc/paraphrase/getCaseParaphraseByLawyerList`, {
-					"token": sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
-					"caseType":this.wentileixing,                //类型：String  可有字段  备注：案例类型
-					"publishStatus":this.zhuangtai,                //类型：String  可有字段  备注：状态 1：待审核；2：驳回；3：未发布；4：已发布
-					"caseTitle":"标题",                //类型：String  可有字段  备注：标题
-					"pageSize":"10",                //类型：String  可有字段  备注：每页显示几条
-					"pageNum":"1"    
-				}, {
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept-Charset': 'utf-8'
-					}
-				}).then((respon) => {
-					if (respon) {
-						this.yianshifa = respon.data.content.dataList
-					}
-				})
-				this.$axios.post(`/api/doc/lawRegulations/getLawRegulationsList`, {
-					"token": sessionStorage.getItem("token"), //类型：String  必有字段  备注：token 用户身份标识
-					"scopeLevel":this.xiaolijibie,                //类型：String  可有字段  备注：效力级别
-					"lawTimeliness":this.shixiaoxing,                //类型：String  可有字段  备注：时效性
-					"lawTitle":this.sousuo2,                //类型：String  可有字段  备注：标题
-					"pageSize":"10",                //类型：String  可有字段  备注：每页显示几条
-					"pageNum":"1"     
-				}, {
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept-Charset': 'utf-8'
-					}
-				}).then((respon) => {
-					if (respon) {
-						this.falvfagui = respon.data.content.dataList
+			zixuntab(e) {
+				this.zixun_active = e
+			},
+			//获取效力级别数据字典
+			wayData(){
+				getSelectDetail({
+					dictCode:'xiaolijibie',
+					userId:'1'
+				}).then(res=>{
+					if(res.code == '200'){
+						this.xiaolijibieList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
 					}
 				})
 			},
-			zixuntab(e) {
-				this.zixun_active = e
+			//获取时效性数据字典
+			typeData(){
+				getSelectDetail({
+					dictCode:'shixiaoxing',
+					userId:'3'
+				}).then(res=>{
+					if(res.code == '200'){
+						this.shixiaoxingList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					}
+				})
+			},
+			getData () {
+				let request = JSON.parse(JSON.stringify(this.queryCondition))
+				request.pageSize = request.pageRequest.limit
+				request.pageNum = request.pageRequest.pageIndex
+				delete request.pageRequest
+				util.dealNullQueryCondition(request)
+				getLawRegulationsList(request).then(res => {
+					if (res.code === 200) {
+						console.log(333, res)
+						let {content} = res
+						let {dataList, pageInfo} = content
+						this.peixunjihua = dataList
+						// console.log(111, pageInfo)
+						let pageResponse = {
+							start: (pageInfo.pageNum*10) - 10,
+							limit: 10,
+							results: pageInfo.total
+						}
+						this.queryCondition.pageRequest = crud.getCurrentPage(pageResponse)
+					}
+				})
+			},
+			// 分页
+			handleSizeChange (limit) {
+				this.queryCondition.pageRequest.limit = limit
+				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+				this.getData()
+			},
+			// 分页
+			handleCurrentChange (pageIndex) {
+				this.queryCondition.pageRequest.pageIndex = pageIndex
+				this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+				this.getData()
+			},
+			// 查看
+			chakan () {
+
+			},
+			// 改列表颜色
+			publishClassName ({row, columnIndex}) {
+				console.log(111333, row, columnIndex)
+				if ((row.lawTimeliness === '尚未生效' || row.lawTimeliness === '已被修订') && columnIndex === 4) {
+					return 'ey-review-Warning'
+				} else if (row.lawTimeliness === '现行有效'  && columnIndex === 4) {
+					return 'ey-review-Success'
+				} else if ((row.lawTimeliness === '部分失效' || row.lawTimeliness === '现已失效')   && columnIndex === 4)  {
+					return 'ey-review-Info'
+				} else  {
+					return ''
+				}
 			}
 		}
 	}
@@ -201,6 +281,18 @@
 	.pufaxuanchuan {
 		width: 100%;
 		height: 100%;
+		.ey-review-Blue {
+		color: #409EFF;
+		}
+		.ey-review-Success {
+			color: #67C23A;
+		}
+		.ey-review-Warning {
+			color: #E6A23C;
+		}
+		.ey-review-Info {
+			color: #909399;
+		}
 			.zaixian_top {
 			width: 95%;
 			height: 70px;
@@ -237,9 +329,103 @@
 		}
 
 		.liebiao_top {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
+			// display: flex;
+			// align-items: center;
+			// justify-content: space-between;
+			.el-form {
+			  margin-bottom: 20px;
+				.el-row {
+					.el-form-item {
+						margin: 0;
+					}
+					margin-bottom: 10px;
+					&:last-child {
+						margin-bottom: 0;
+					}
+					.el-col-twoline {
+						display: inline-block;
+						position: relative;
+					}
+					.el-date-editor--daterange.el-input__inner {
+						width: 100%;
+					}
+					.el-form-item__label {
+						width: 85px;
+						float: left;
+						text-align: right;
+					}
+					.el-form-item__content {
+						display: block;
+						padding-left: 85px;
+					}
+					.el-form-item {
+						white-space: nowrap;
+					}
+					.el-select {
+						display: block;
+						position: relative;
+					}
+					.el-form-item.c-query-select {
+						white-space: nowrap;
+						display: block;
+						.el-input {
+							width: 100%;
+							.el-input__inner {
+								width: 100%;
+							}
+						}
+						.el-form-item__label .c-left {
+							text-align: left;
+						}
+					} 
+					.c-input {
+						display: flex;
+						// white-space: nowrap;
+						justify-content:flex-end;
+						input {
+							width: 120px;
+							height: 36px;
+						}
+						.c-input_search {
+							width: 80px;
+							height: 40px;
+							background: -webkit-linear-gradient(left, #0fa3d5, #1b79c2);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border-radius: 0 5px 5px 0;
+						}
+					}
+					 // 搜索重置按钮
+					.c-query-input {
+						display: block;
+						white-space: nowrap;
+						// .el-button {
+						//   width: 128px;
+						//   padding: 0;
+						//   margin-left: 20px;
+						// }
+						.el-button:nth-child(1) {
+							margin-left: 0;
+						}
+					} // 搜索重置按钮右浮动
+					.f-right {
+						float: right;
+					}
+					.c-query-range-date {
+						white-space: nowrap;
+						width: 100%;
+					}
+					div.el-form-item.c-query-range-date {
+						margin-right: 0;
+					}
+				}
+				.el-input-number {
+					.el-input__inner {
+						text-align: left;
+					}
+				}
+			}
 		}
 
 		.liebiao_topzuo {

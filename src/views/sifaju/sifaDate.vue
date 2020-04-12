@@ -1,18 +1,18 @@
 <template>
-  <div class="flexA">
+  <div class="sifaDate">
     <p style="margin-right: 10px;color: #666666;"></p>
     <div id="date" class="timeDate">
-      <select class="border ml10" @change="yearChange(this.selYear,1)" v-model="selYear" id="selYear" style="padding-left: 20px">
+      <select class="border ml10" @change="yearChange(this.obj.selYear,1)" v-model="obj.selYear" id="selYear" style="padding-left: 20px">
         <option value="">不选</option>
         <option :value="year" v-for="year in years">{{year}}</option>
       </select>
       <span class="border js-date" @click="quickSel($event,1)" :class="num=='1'?'active':''">年</span>
-      <select class="border w36 pl15" v-model="selMonth" @change="monthChange(selYear,selMonth,1)" id="selMonth">
+      <select class="border w36 pl15" v-model="obj.selMonth" @change="monthChange(obj.selYear, obj.selMonth,1)" id="selMonth">
         <option value="">不选</option>
         <option :value="month" v-for="month in months">{{month}}</option>
       </select>
       <span class="border js-date" @click="quickSel($event,2)" :class="num=='2'?'active':''">月</span>
-      <select class="border w36 pl15" v-model='selDay' id="selDay" @change="dayChange(1)">
+      <select class="border w36 pl15" v-model='obj.selDay' id="selDay" @change="dayChange(1)">
         <option value="">不选</option>
         <option :value="day" v-for="day in days">{{day}}</option>
       </select>
@@ -22,15 +22,25 @@
 </template>
 
 <script>
-  import {formatDayAndMonth} from "../utils/date";
+  import {formatDayAndMonth} from "../../utils/date";
 
   export default {
-        name: "single-date",
+        name: "sifa-date",
         props: {
           num: {
             type: Number,
             default: function() {
               return 3
+            }
+          },
+          obj: {
+            type: Object,
+            default: function () {
+              return {
+                selYear: '',
+                selMonth: '',
+                selDay: ''
+              }
             }
           }
         },
@@ -44,9 +54,6 @@
              years :[],
              months :[],
              saveMonths : [],
-             selYear: '',
-             selMonth: '',
-             selDay: '',
              dateInfo:{},
             }
         },
@@ -69,13 +76,13 @@
         methods:{
           // 左侧时间初始化
           initDate() {
-            this.selYear = this.year;
+            this.obj.selYear = this.year;
             this.months = this.saveMonths;
-            this.selMonth = this.month;
-            this.monthChange(this.selYear, this.selMonth, 2);
+            this.obj.selMonth = this.month;
+            this.monthChange(this.obj.selYear, this.obj.selMonth, 2);
             //初始化默认到当日
             if(this.num=='3'){
-              this.selDay=this.day;
+              this.obj.selDay=this.day;
               // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl8').addClass('pl15');
             } else {
@@ -91,9 +98,9 @@
             } else {
               this.months = [];
             }
-            this.selMonth = '';
+            this.obj.selMonth = '';
             this.days = [];
-            this.selDay = '';
+            this.obj.selDay = '';
             // eslint-disable-next-line no-undef
             $('#selMonth,#selDay').removeClass('pl15').addClass('pl8');
             if (act === 1) {
@@ -118,7 +125,7 @@
                 this.days.push(formatDayAndMonth(i));
               }
             }
-            this.selDay = '';
+            this.obj.selDay = '';
             // eslint-disable-next-line no-undef
             $('#selDay').removeClass('pl15').addClass('pl8');
             if (act === 1) {
@@ -129,7 +136,7 @@
           // 天数改变
           dayChange(act) {
             // 日期不选
-            if (!this.selDay) {
+            if (!this.obj.selDay) {
               // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl15').addClass('pl8');
             } else {
@@ -146,51 +153,51 @@
             this.num=num;
             // 日
             if (num === 3) {
-              this.selYear = this.year;
+              this.obj.selYear = this.year;
               this.yearChange(this.selYear, 2);
-              this.selMonth = this.month;
+              this.obj.selMonth = this.month;
               this.monthChange(this.selYear, this.selMonth, 2);
-              this.selDay = this.day;
+              this.obj.selDay = this.day;
               // eslint-disable-next-line no-undef
               $('#selMonth').removeClass('pl8').addClass('pl15');
               // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl8').addClass('pl15');
               // 月
             } else if (num === 2) {
-              this.selYear = this.year;
+              this.obj.selYear = this.year;
               this.yearChange(this.selYear, 2);
-              this.selMonth = this.month;
-              this.monthChange(this.selYear, this.selMonth, 2);
+              this.obj.selMonth = this.month;
+              this.monthChange(this.obj.selYear, this.obj.selMonth, 2);
               // eslint-disable-next-line no-undef
               $('#selMonth').removeClass('pl8').addClass('pl15');
               // 年
             } else if (num === 1) {
-              this.selYear = this.year;
-              this.yearChange(this.selYear, 2);
+              this.obj.selYear = this.year;
+              this.yearChange(this.obj.selYear, 2);
             }
           },
           // 获取选定日期(由父组件调用)
           getDateInfo() {
             // 如果年份有值
-            if (this.selYear) {
+            if (this.obj.selYear) {
               // 如果月份有值
-              if (this.selMonth) {
+              if (this.obj.selMonth) {
                 // 如果日有值
-                if (this.selDay) {
-                  this.dateInfo.startDate = `${this.selYear}-${this.selMonth}-${this.selDay}`;
+                if (this.obj.selDay) {
+                  this.dateInfo.startDate = `${this.obj.selYear}-${this.obj.selMonth}-${this.obj.selDay}`;
                   this.dateInfo.startTime = '00:00:00'
-                  this.dateInfo.endDate = `${this.selYear}-${this.selMonth}-${this.selDay}`;
+                  this.dateInfo.endDate = `${this.obj.selYear}-${this.obj.selMonth}-${this.obj.selDay}`;
                   this.dateInfo.endTime = '23:59:59'
                 } else {
-                  this.dateInfo.startDate = `${this.selYear}-${this.selMonth}-01`;
+                  this.dateInfo.startDate = `${this.obj.selYear}-${this.obj.selMonth}-01`;
                   this.dateInfo.startTime = '00:00:00'
-                  this.dateInfo.endDate = `${this.selYear}-${this.selMonth}-${this.getDays(this.selYear, this.selMonth)}`;
+                  this.dateInfo.endDate = `${this.obj.selYear}-${this.obj.selMonth}-${this.getDays(this.obj.selYear, this.obj.selMonth)}`;
                   this.dateInfo.endTime = '23:59:59'
                 }
               } else {
-                this.dateInfo.startDate = `${this.selYear}-01-01`;
+                this.dateInfo.startDate = `${this.obj.selYear}-01-01`;
                 this.dateInfo.startTime = '00:00:00'
-                this.dateInfo.endDate = `${this.selYear}-12-31`;
+                this.dateInfo.endDate = `${this.obj.selYear}-12-31`;
                 this.dateInfo.endTime = '23:59:59'
               }
             }
@@ -206,7 +213,7 @@
             if (month === '04' || month === '06' || month === '09' || month === '11') {
               total = 30;
             } else if (month === '02') {
-              if ((year % 4 === 0 && year % 100 !== 0) || this.selYear % 400 === 0) {
+              if ((year % 4 === 0 && year % 100 !== 0) || this.obj.selYear % 400 === 0) {
                 total = 29;
               } else {
                 total = 28;
@@ -219,8 +226,8 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/common.css";
-  .flexA{
+  @import "../../assets/css/common.css";
+  .sifaDate{
     display: flex;
     align-items: center;
   }

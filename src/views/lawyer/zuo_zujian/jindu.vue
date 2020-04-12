@@ -2,7 +2,7 @@
 	<div class="lawcontent">
 		<div class="zuo_jindu">
 			<div class="indexcon_lefttop">
-				<el-date-picker 
+				<el-date-picker
 						v-model="value1"
 						type="date"
 						format="yyyy 年 MM 月 dd 日"
@@ -13,19 +13,19 @@
 				▼
 			</div>
 			<div class="indexcon_leftcon">
-				
+
 				<div class="shouye_jindu" v-for="(item, index) in timeList" :key="index">
 					<div class="jindu_zuo">
 						<div style="position: relative;">
-							<span :class="item.nodeType === '4'? 'blue_co': ''">{{item.nodeTime}}</span>
+							<span :class="item.nodeType === '4'? 'blue_co': ''">{{item.nodeTime || ''}}</span>
 							<div v-if="item.nodeType === '4'" class="now_tag">现在</div>
 						</div>
 					</div>
 					<!-- <div class="line"></div> -->
 					<!-- 签到（退） -->
 					<div v-if="item.nodeType === '1'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						<div class="jindubai">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
+						<div class="jindubai" :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								<div>{{item.nodeTitle}}</div>
 							</div>
@@ -34,8 +34,8 @@
 
 					<!-- 待办事项 -->
 					<div v-if="item.nodeType === '2'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						<div class="jindubai">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
+						<div class="jindubai" :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								{{item.nodeTitle}}
 							</div>
@@ -50,9 +50,8 @@
 
 					<!-- 文本消息 -->
 					<div v-if="item.nodeType === '3'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						<!-- <div class="jindu_tu_big el-icon-location"></div> -->
-						<div class="jindubai">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
+						<div class="jindubai"  :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								{{item.nodeTitle}}
 							</div>
@@ -67,7 +66,7 @@
 
 					<!-- 即时信息 -->
 					<div v-if="item.nodeType === '4'" class="jindu_you">
-						<div class="jindu_tu_big el-icon-location"></div>
+						<img src="../../../assets/image/now.png" class="jindu_tu_big" alt="">
 						<div class="jindu_younow">
 							<div>
 								<div class="jindu_topchuli">
@@ -84,27 +83,44 @@
 							</router-link>
 						</div>
 					</div>
+
+					<!-- 课件学习计划 -->
+					<div v-if="item.nodeType === '0'" class="jindu_you">
+						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
+						<div class="jindu_jihua" @click="$router.push({path: 'xuexijihua'})">
+							<div class="jihua-left">课件学习计划</div>
+							<div class="jihua-right">
+								<span class="count">{{item.completeCount}}/{{item.studyCount}}</span>
+								<span class="count top-blue">{{item.learningCount}}</span>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
 		<router-view></router-view>
 	</div>
-	
+
 </template>
 
 <script>
 import * as api from "@/http/lawyer"
+import {lawyerxuexi} from "@/http/api";
 import {formatDate} from '../../../utils/date.js';
 	export default {
 	  data() {
 	    return {
+			gray: require("../../../assets/image/grayd.png"),
+			blue: require("../../../assets/image/blue.png"),
 		  value1: formatDate(new Date(), 'yyyy-MM-dd'),
-		  timeList: []
+		  timeList: [],
+			nowIndex: 0 //现在时间的索引
 	    }
 	  },
 	  methods:{
 		  zhize(){
-			this.$emit('active','3')  
+			this.$emit('active','3')
 		  },
 		  xuexijihua(){
 			this.$emit('active','4')
@@ -114,11 +130,12 @@ import {formatDate} from '../../../utils/date.js';
 				token: sessionStorage.getItem("token"),
 				execTime: this.value1
 				// token: '64d1d05f5ccb4670a6d342f3b3c002ce'
-			  }
+			  };
 			  api.getWorkAxis(params).then(res => {
 				  console.log(res)
 				  if(res.code === 200) {
-					this.timeList = res.content.dataList
+					this.timeList = res.content.dataList;
+					this.nowIndex = res.content.dataList.findIndex(val => val.nodeType === '4');
 				  } else {
                     this.$message({
                         message: res.msg,
@@ -126,11 +143,11 @@ import {formatDate} from '../../../utils/date.js';
                     });
                 }
 			  })
-			  
+
 		  }
 	  },
 	  created() {
-		  this.getWorkAxis()
+		  this.getWorkAxis();
 	  }
 	}
 </script>
@@ -146,23 +163,24 @@ import {formatDate} from '../../../utils/date.js';
 	.indexcon_lefttop .el-input__inner {
 		border: 0;
 	}
-	
+
 	.indexcon_leftcon {
 		height: 90%;
 		background: #f6f6f6;
-		padding-top: 10px;
+		padding: 10px 0;
 		position: relative;
+		overflow-y: auto;
 	}
-	
+
 	.indexcon_lefttop .el-input {
 		font-size: 23px;
 	}
-	
+
 	.indexcon_time {
 		width: 70%;
 		margin: 10px auto;
 	}
-	
+
 	.shouye_jindu {
 		display: flex;
 		align-items: center;
@@ -179,12 +197,16 @@ import {formatDate} from '../../../utils/date.js';
 		transform: translateY(-50%);
 		z-index: 100;
 		background: #f6f6f6;
+		border: 1px solid #999;
+		padding: 4px;
+		box-sizing: border-box;
+		border-radius: 50%;
 	}
 	.jindu_tu_big {
-		width: 30px;
+		width: auto;
 		height: 30px;
 		position: absolute;
-		left: -15px;
+		left: -12px;
 		top: 50%;
 		transform: translateY(-50%);
 		z-index: 100;
@@ -194,11 +216,11 @@ import {formatDate} from '../../../utils/date.js';
 
 	.jindu_zuo {
 		height: 100%;
-		width: 25%;
+		width: 80px;
 		position: relative;
 	}
 	.now_tag {
-		width: 100px;
+		width: 80px;
 		height: 50px;
 		position: absolute;
 		left: 50%;
@@ -210,12 +232,11 @@ import {formatDate} from '../../../utils/date.js';
 	.blue_co {
 		color:rgb(35, 86, 131);
 	}
-	
+
 	.jindu_you {
-		width: 60%;
-		padding: 10px 2%;
+		flex: 1;
+		padding: 3px 20px;
 		background: #f6f6f6;
-		padding-left: 30px;
 		border-left: 1px solid #999;
 		position: relative;
 	}
@@ -225,13 +246,13 @@ import {formatDate} from '../../../utils/date.js';
 		position: relative;
 		border-radius: 5px;
 	}
-	
+
 	.jindu_qian {
 		text-align: left;
 		align-items: center;
 		color: #333;
 	}
-	
+
 	.jindu_shu {
 		width: 15px;
 		height: 15px;
@@ -244,7 +265,7 @@ import {formatDate} from '../../../utils/date.js';
 		margin: 0 10px;
 		font-size: 12px;
 	}
-	
+
 	.jindu_xiugai {
 		padding: 5px;
 		border-radius: 5px;
@@ -252,7 +273,7 @@ import {formatDate} from '../../../utils/date.js';
 		color: #fff;
 		font-size: 12px;
 	}
-	
+
 	.zhuang {
 		text-align: left;
 		margin-top: 5px;
@@ -267,17 +288,17 @@ import {formatDate} from '../../../utils/date.js';
 		display: flex;
 		justify-content: space-between;
 	}
-	
+
 	.jindu_zhiwen {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.jindu_zhiwen img {
 		width: 25px;
 		height: 25px;
 	}
-	
+
 	.jindu_zhiwen>div {
 		width: 30px;
 		height: 30px;
@@ -292,7 +313,7 @@ import {formatDate} from '../../../utils/date.js';
 		padding: 3px;
 		margin-left: 10px;
 	}
-	
+
 	.jindu_younow {
 		// width: 100%;
 		border-radius: 5px;
@@ -304,17 +325,17 @@ import {formatDate} from '../../../utils/date.js';
 	.jindu_younow a {
 		text-decoration: none;
 	}
-	
+
 	.jindu_younow>div {
 		display: flex;
 		align-items: center;
 		width: 100%;
 	}
-	
+
 	.jindu_younow>div>div {
 		width: 50%;
 	}
-	
+
 	.jindu_topchuli {
 		border-right: 1px solid #eee;
 		padding: 10px 0;
@@ -322,7 +343,7 @@ import {formatDate} from '../../../utils/date.js';
 	.jindu_topchuli:nth-child(2) {
 		border-right:none;
 	}
-	
+
 	.jindu_topchuli>div {
 		line-height: 22px;
 	}
@@ -341,7 +362,7 @@ import {formatDate} from '../../../utils/date.js';
 	}
 	.btm-red {
 		font-size: 14px;
-    	color: #FF6666;	
+    	color: #FF6666;
 	}
 	.btm-gray {
 		font-size: 14px;
@@ -365,5 +386,19 @@ import {formatDate} from '../../../utils/date.js';
 		height: 100%;
 		display: flex;
 		align-items: flex-start;
+	}
+	.jindu_jihua {
+		display: flex;
+		padding: 10px;
+		background-color: #fff;
+		cursor: pointer;
+		border-radius: 5px;
+	}
+	.jihua-right {
+		text-align: right;
+		flex: 1;
+	.bg-gory {
+		background-color: #e9eef3;
+	 }
 	}
 </style>
