@@ -64,6 +64,29 @@ export default {
         result = year + formatStr + month + formatStr + day;
         if(showTime) result += ' ' + hour + ':' + minute + ':' + second;
         return result;
+      },
+    /**
+   * 获取 enum 的 label
+   */
+    getEnumLabel: (enums, key) => {
+      if (!enums || (key === undefined || key === null) || typeof enums !== 'object') {
+        // console.warn('getEnummLabel 传参错误')
+        return '--'
       }
-
+      const _enum = enums[key]
+      if (!_enum) {
+        return '--'
+      }
+      return _enum.label
+    },
+     /**
+   * @param value 数组对象
+   * @param key 传入的值
+   * @param prop:  属性：可以为value 或是 label
+   */
+    getArrayValue: (value, key, prop) => {
+      return value.find(item => {
+        return item.value === key
+      })[prop]
+    },
 };

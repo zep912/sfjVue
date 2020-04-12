@@ -1341,6 +1341,28 @@ const router = new Router({
                     }
                 },
                 {
+                    path: '/lvshijieda',
+                    name: 'lvshijieda',
+                    component: () =>
+                        import ('./views/lawyer/indexChildren/lvshijieda.vue'),
+                    meta: {
+                        title: '律师解答',
+                        author: true,
+                        keepAlive: false
+                    }
+                },
+                {
+                    path: '/lvshixiangying',
+                    name: 'lvshixiangying',
+                    component: () =>
+                        import ('./views/lawyer/indexChildren//lvshixiangying.vue'),
+                    meta: {
+                        title: '律师响应',
+                        author: true,
+                        keepAlive: false
+                    }
+                }, 
+                {
                     path: '/ditu',
                     name: 'ditu',
                     component: () =>
