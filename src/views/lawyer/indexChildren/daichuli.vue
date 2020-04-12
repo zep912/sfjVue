@@ -5,7 +5,7 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<el-date-picker 
+					<el-date-picker
 						v-model="defultMonth"
 						type="month"
 						format="yyyy 年 MM 月"
@@ -47,7 +47,7 @@
 										<span v-if="item.dataContent3">{{item.dataContent3}}</span>
 										<span v-if="item.dataContent4">{{item.dataContent4}}</span>
 									</div>
-									
+
 								</div>
 							</div>
 							<div class="daichuli_you">
@@ -117,7 +117,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- 已归档 -->
 				<div class="daichuli yiguidang" v-if="completedList.length > 0">
 					<div class="daichuli_top yiguidang">
@@ -239,13 +238,13 @@ import {formatDate} from '../../../utils/date.js';
 				this.showMore = false
 				return
 			} else if (curLength < totalLength) {
-				if (curLength + 3 >= totalLength) {
-					this.showPendingList = this.pendingList
-					this.showMore = false
-				} else {
-					this.showPendingList = this.pendingList.slice(0, curLength + 3)
-					this.showMore = true
-				}
+				// if (curLength + 3 >= totalLength) {
+				this.showPendingList = this.pendingList
+				this.showMore = false
+				// } else {
+				// 	this.showPendingList = this.pendingList.slice(0, curLength + 3)
+				// 	this.showMore = true
+				// }
 			}
 		  }
 	  },
@@ -254,7 +253,7 @@ import {formatDate} from '../../../utils/date.js';
 		this.$nextTick(() => {
 			this.getPendingList()
 		})
-		  
+
 	  }
 	}
 </script>
@@ -415,12 +414,13 @@ import {formatDate} from '../../../utils/date.js';
 	}
 
 	.daichuli_left {
-		display: flex;
-		align-items: center;
+		display: grid;
+		grid-template-columns: 80px 100%;
+		/*align-items: center;*/
 	}
 
 	.dataTag {
-		width: 55px;
+		/*width: 80px!important;*/
 		height: 55px;
 		border-radius: 5px;
 		color: #fff;

@@ -24,8 +24,8 @@
 					<!-- <div class="line"></div> -->
 					<!-- 签到（退） -->
 					<div v-if="item.nodeType === '1'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						<div class="jindubai">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
+						<div class="jindubai" :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								<div>{{item.nodeTitle}}</div>
 							</div>
@@ -34,8 +34,8 @@
 
 					<!-- 待办事项 -->
 					<div v-if="item.nodeType === '2'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						<div class="jindubai">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
+						<div class="jindubai" :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								{{item.nodeTitle}}
 							</div>
@@ -50,9 +50,8 @@
 
 					<!-- 文本消息 -->
 					<div v-if="item.nodeType === '3'" class="jindu_you">
-						<img src="../../../assets/image/yuandian.png" class="jindu_tu" alt="">
-						<!-- <div class="jindu_tu_big el-icon-location"></div> -->
-						<div class="jindubai">
+						<img :src="index > nowIndex ? blue : gray" class="jindu_tu" alt="">
+						<div class="jindubai"  :class="{'bg-gory': index < nowIndex}">
 							<div class="jindu_qian">
 								{{item.nodeTitle}}
 							</div>
@@ -67,7 +66,7 @@
 
 					<!-- 即时信息 -->
 					<div v-if="item.nodeType === '4'" class="jindu_you">
-						<div class="jindu_tu_big el-icon-location"></div>
+						<img src="../../../assets/image/now.png" class="jindu_tu_big" alt="">
 						<div class="jindu_younow">
 							<div>
 								<div class="jindu_topchuli">
@@ -112,8 +111,11 @@ import {formatDate} from '../../../utils/date.js';
 	export default {
 	  data() {
 	    return {
+			gray: require("../../../assets/image/grayd.png"),
+			blue: require("../../../assets/image/blue.png"),
 		  value1: formatDate(new Date(), 'yyyy-MM-dd'),
-		  timeList: []
+		  timeList: [],
+			nowIndex: 0 //现在时间的索引
 	    }
 	  },
 	  methods:{
@@ -123,26 +125,26 @@ import {formatDate} from '../../../utils/date.js';
 		  xuexijihua(){
 			this.$emit('active','4')
 		  },
-		  // 获取时间轴信息
-		  async getWorkAxis() {
-			  let params = {token: sessionStorage.getItem("token"), execTime: this.value1};
-			  const res = await api.getWorkAxis(params);
-			  if(res.code === 200) {
-				this.timeList = res.content.dataList
-			  } else {
-				this.$message.error(res.msg);
-			  }
-			  // 获取我的培训计划情况
-			  const response = await lawyerxuexi({token: sessionStorage.getItem("token")});
-			  if (response.code === 200) {
-				  console.log(response, 'response123');
-				  // studyCount 当前课件学习数量 // completeCount 已完成数量 // learningCount  未完成数量
-				  const {studyCount, completeCount, learningCount} = response.content;
-				  this.timeList = this.timeList.concat([{nodeType: '0', studyCount, completeCount, learningCount}]);
-			  } else {
-			  	this.$message.error(res.msg);
-			  }
-		  },
+		  getWorkAxis() {
+			  let params = {
+				token: sessionStorage.getItem("token"),
+				execTime: this.value1
+				// token: '64d1d05f5ccb4670a6d342f3b3c002ce'
+			  };
+			  api.getWorkAxis(params).then(res => {
+				  console.log(res)
+				  if(res.code === 200) {
+					this.timeList = res.content.dataList;
+					this.nowIndex = res.content.dataList.findIndex(val => val.nodeType === '4');
+				  } else {
+                    this.$message({
+                        message: res.msg,
+                        type: "error"
+                    });
+                }
+			  })
+
+		  }
 	  },
 	  created() {
 		  this.getWorkAxis();
@@ -165,8 +167,9 @@ import {formatDate} from '../../../utils/date.js';
 	.indexcon_leftcon {
 		height: 90%;
 		background: #f6f6f6;
-		padding-top: 10px;
+		padding: 10px 0;
 		position: relative;
+		overflow-y: auto;
 	}
 
 	.indexcon_lefttop .el-input {
@@ -194,12 +197,16 @@ import {formatDate} from '../../../utils/date.js';
 		transform: translateY(-50%);
 		z-index: 100;
 		background: #f6f6f6;
+		border: 1px solid #999;
+		padding: 4px;
+		box-sizing: border-box;
+		border-radius: 50%;
 	}
 	.jindu_tu_big {
-		width: 30px;
+		width: auto;
 		height: 30px;
 		position: absolute;
-		left: -15px;
+		left: -12px;
 		top: 50%;
 		transform: translateY(-50%);
 		z-index: 100;
@@ -209,11 +216,11 @@ import {formatDate} from '../../../utils/date.js';
 
 	.jindu_zuo {
 		height: 100%;
-		width: 25%;
+		width: 80px;
 		position: relative;
 	}
 	.now_tag {
-		width: 100px;
+		width: 80px;
 		height: 50px;
 		position: absolute;
 		left: 50%;
@@ -227,10 +234,9 @@ import {formatDate} from '../../../utils/date.js';
 	}
 
 	.jindu_you {
-		width: 60%;
-		padding: 10px 2%;
+		flex: 1;
+		padding: 3px 20px;
 		background: #f6f6f6;
-		padding-left: 30px;
 		border-left: 1px solid #999;
 		position: relative;
 	}
@@ -391,5 +397,7 @@ import {formatDate} from '../../../utils/date.js';
 	.jihua-right {
 		text-align: right;
 		flex: 1;
+	.bg-gory {
+		background-color: #e9eef3;
 	}
 </style>

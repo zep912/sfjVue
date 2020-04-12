@@ -11,7 +11,7 @@
 		<div class="tianjia-header">
 			<el-form :model="queryCondition" :rules="rules" ref="queryCondition">
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="16">
+					<el-col :span="24">
 						<el-form-item label="培训主题:" prop="trainTitle">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTitle}}</span>
 							<el-input v-else maxlength="100"  v-model="queryCondition.trainTitle" placeholder="请输入培训主题"></el-input>
@@ -19,9 +19,9 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="培训方式:" prop="trainMode">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainMode}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
 							<el-select v-else v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in peixunfangshiList"
@@ -32,9 +32,9 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="适用岗位:" prop="matchPos">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPos}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.matchPosDesc}}</span>
 							<el-select v-else  v-model="queryCondition.matchPos" placeholder="请选择" @change="changeMatchPos">
 								<el-option
 									v-for="item in positionList"
@@ -47,7 +47,7 @@
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="培训级别:" prop="trainLevel" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
 							<el-select v-model="queryCondition.trainLevel" placeholder="请选择">
 									<el-option
@@ -59,9 +59,9 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="培训类型:" prop="trainType">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainType}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
 							<el-select v-else  v-model="queryCondition.trainType" placeholder="请选择">
 									<el-option
 										v-for="item in peixunleixingList"
@@ -72,42 +72,52 @@
 								</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8" v-if="this.query.type === 'view'">
-						<el-form-item label="培训状态" prop="trainType">
-							<span class="el-text">{{queryCondition.trainStatus}}</span>
+					<el-col :span="12" v-if="this.query.type === 'view'">
+						<el-form-item label="培训状态:" prop="trainType">
+							<span class="el-text">{{queryCondition.planStatusDesc}}</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
-						<el-form-item label="开始时间" prop="startTime">
-							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+						<el-form-item label="开始时间:" prop="startTime">
+							<sifa-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
+							<!-- <el-date-picker
+								v-model="queryCondition.startTime"
+								type="datetime"
+								placeholder="选择日期时间">
+							</el-date-picker> -->
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="截止时间" prop="endTime">
-							<single-date :num="'3'" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+						<el-form-item label="截止时间:" prop="endTime">
+							<sifa-date :num="num" :obj="objEnd" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
+							<!-- <el-date-picker
+								v-model="queryCondition.endTime"
+								type="datetime"
+								placeholder="选择日期时间">
+							</el-date-picker> -->
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
-						<el-form-item label="培训地点" prop="trainAddr">
+					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+						<el-form-item label="培训地点:" prop="trainAddr">
 							<el-input v-model="queryCondition.trainAddr" placeholder="请输入培训地点"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :span="16" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
-						<el-form-item label="培训主要内容概述" prop="trainContent">
+					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
+						<el-form-item label="培训主要内容概述:" prop="trainContent">
 							<el-input type="textarea" :rows="4" v-model="queryCondition.trainContent" placeholder="请输入培训主要内容概述"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8" v-if="queryCondition.trainMode !== '2'">
+					<el-col :span="12" v-if="queryCondition.trainMode !== '2'">
 						<el-form-item label="培训课件:" prop="couId">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couId}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.couName}}</span>
 							<el-select v-else v-model="queryCondition.couId" placeholder="请选择">
 								<el-option
 									v-for="item in peixunkejianList"
@@ -120,16 +130,16 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
+					<el-col :span="12" v-if="queryCondition.trainMode === '2' || this.query.type === 'view'">
 						<el-form-item label="课件类型:" prop="openType">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openType}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.openTypeDesc}}</span>
 							<el-radio-group v-else v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
 								<el-radio :label="1">不公开</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8" v-else>
+					<el-col :span="12" v-else>
 						<el-form-item label="公开类型" prop="openType">
 							<el-radio-group v-model="queryCondition.openType">
 								<el-radio :label="2">公开</el-radio>
@@ -137,9 +147,9 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="负责人:" prop="principalUserId">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserId}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserName}}</span>
 							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
 								<el-option
 									v-for="item in personList"
@@ -152,14 +162,15 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="8">
+					<el-col :span="12">
 					<el-form-item label="培训人数:" prop="trainUserTotal">
 						<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainUserTotal}}</span>
-						<el-input v-else v-model="queryCondition.trainUserTotal" placeholder="自动获取 人"></el-input>
+						<el-input v-else v-model="queryCondition.trainUserTotal" disabled placeholder="自动获取 人"></el-input>
 					</el-form-item>
 				</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
+					<el-col :span="24">
 					<el-form-item label="培训人员:" prop="">
 						<el-table :data="tableData" border style="width: 100%" v-if="this.query.type === 'view'">
 								<el-table-column  type="index" label="序号" width="80"> </el-table-column>
@@ -184,7 +195,7 @@
 								</el-table-column>
 							</el-table>
 							<div class="p_page">
-							<el-pagination background
+							<el-pagination background  v-if="this.query.type !== 'view'"
 								@size-change="handleSizeChange"
 								@current-change="handleCurrentChange"
 								:current-page="pageRequest.pageIndex"
@@ -195,12 +206,13 @@
 								</el-pagination>
 						</div>
 						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 		</div>
 		<!-- <NPxplanTree></NPxplanTree> -->
 		<div v-if="this.query.type !== 'view'">
-			<el-button type="primary" @click="submitConsultInfo">提交</el-button>
+			<el-button type="primary" @click="submitConsultInfo">发布</el-button>
 			<el-button @click="goBack">取消</el-button>
 		</div>
 	</div>
@@ -210,15 +222,26 @@
 
 	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
-	import SingleDate from '../../components/SingleDate'
-	// import util from '@/assets/js/co-util'
+	import sifaDate from './sifaDate'
+	import util from '@/assets/js/co-util'
 	// import NPxplanTree from './n_pxplan_tree'
 	export default {
 		components: {
-			SingleDate
+			sifaDate
 		},
 		data() {
 			return {
+				num: 3,
+				obj: {
+					selYear: '',
+					selMonth: '',
+					selDay: ''
+				},
+				objEnd: {
+					selYear: '',
+					selMonth: '',
+					selDay: ''
+				},
 				query: {
 					type: '',
 					planId: ''
@@ -249,7 +272,7 @@
 				positionList:[
 					{
 						label: '外部律师',
-						value: 2
+						value: '2'
 					}
 				],  // 适用岗位
 				personList: [
@@ -315,7 +338,7 @@
 			this.manakejians()
 		},
 		mounted() {
-			this.getDateInfo();
+			this.getDateInfo()
 		},
 		methods: {
 			//根据日期查询
@@ -379,7 +402,7 @@
 			},
 			// 适用岗位
 			changeMatchPos (event) {
-				console.log(111, event)
+				// console.log(111, event)
 				// if (event) {
 				// 	this.getInnerLawyerList()
 				// } else {
@@ -398,7 +421,7 @@
 				}
 				refreshLawyerList(obj).then(res => {
 					if (res.code == '200') {
-						console.log('律师', res.content)
+						// console.log('律师', res.content)
 							let {content} = res
 							let {dataList, pageInfo} = content
 								this.peixunjihua = dataList
@@ -410,7 +433,7 @@
 							this.queryCondition.trainUserTotal = pageResponse.results
 							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
-				})	
+				})
 			},
 			// 查询课件
 			manakejians() {
@@ -419,6 +442,7 @@
 				}
 				manakejians(obj).then(res => {
 					if (res.code == '200') {
+						// console.log(111300, res.content.dataList)
 						this.peixunkejianList = res.content.dataList
 					}
 				})
@@ -468,8 +492,25 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
-						this.queryCondition.couId = this.queryCondition.couName
 						this.queryCondition.principalUserId = sessionStorage.getItem("token")
+						this.queryCondition.principalUserName = sessionStorage.getItem("name")
+						this.queryCondition.trainMode = res.content.trainMode.toString()
+						let list = res.content.startDate.split('-')
+						let arr = res.content.endDate.split('-')
+						this.obj.selYear = list[0]
+						this.obj.selMonth = list[1]
+						this.obj.selDay = list[2]
+						this.objEnd.selYear = arr[0]
+						this.objEnd.selMonth = arr[1]
+						this.objEnd.selDay = arr[2]
+						console.log(111888, list)
+						// let startTime = `${res.content.startDate} ${res.content.startTime}`
+						// let endTime = `${res.content.endDate} ${res.content.endTime}`
+						// this.queryCondition.startTime = new Date(startTime)
+						// this.queryCondition.endTime = new Date(endTime)
+						if (this.queryCondition.matchPos) {
+							this.refreshLawyerList()
+						}
 					}
 				})
 			},
@@ -481,7 +522,7 @@
 				}
 				getLawyerStudyList(obj).then(res => {
 					if (res.code == '200') {
-						console.log('进度列表', res.content.dataList)
+						// console.log('进度列表', res.content.dataList)
 						this.tableData = res.content.dataList
 					}
 				})
@@ -503,7 +544,16 @@
 							message: '删除成功',
 							type: 'success'
 						})
-						this.refreshLawyerList()
+						let {content} = res
+							let {dataList, pageInfo} = content
+								this.peixunjihua = dataList
+								let pageResponse = {
+								start: (pageInfo.pageNum*10) - 10,
+								limit: 10,
+								results: pageInfo.total
+							}
+							this.queryCondition.trainUserTotal = pageResponse.results
+							this.pageRequest = crud.getCurrentPage(pageResponse)
 					}
 				})
 			},
@@ -531,6 +581,13 @@
 						// 	trainStatus
 						// }
 						let obj = JSON.parse(JSON.stringify(this.queryCondition))
+						// let startTime = new Date(this.queryCondition.startTime).getTime()
+						// let endTime = new Date(this.queryCondition.endTime).getTime()
+						// console.log(util.formatDate(startTime, 'YYYY-MM-DD hh:mm:ss'))
+						// obj.startDate = util.formatDate(startTime, 'YYYY-MM-DD')
+						// obj.startTime = util.formatDate(startTime, 'hh:mm:ss')
+						// obj.endDate = util.formatDate(endTime, 'YYYY-MM-DD')
+						// obj.endTime = util.formatDate(endTime, 'hh:mm:ss')
 						plan(obj).then(res => {
 							if (res.code == '200') {
 								this.$message({
@@ -558,9 +615,9 @@
 
 <style lang="scss">
 	.add-lvsuo-container {
+		width: 100%;
 		.top_manalvs {
-			width: 96%;
-			padding: 0 2%;
+			padding: 0 20px;
 			height: 70px;
 			display: flex;
 			align-items: center;
@@ -569,6 +626,7 @@
 		.tianjia-header {
 			width: 100%;
 			padding: 20px;
+			box-sizing: border-box;
 			.el-form {
 				margin-bottom: 20px;
 				.el-row {
