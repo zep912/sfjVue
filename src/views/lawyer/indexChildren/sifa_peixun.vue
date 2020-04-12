@@ -47,9 +47,9 @@
 				</div>
 			</div>
 			<div class="sifakc_tongji">
-				<div>学习次数：</div>
+				<div>学习次数：{{form.completeCount}}</div>
 				<div class="tongji_youce">
-					<div>共计：{{}}个</div>
+					<div>共计：{{form.studyCount}}个</div>
 					<div class="caidan">
 						<div>
 							<img src="../../../assets/image/caidan.png" alt="">
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 					<div class="sifashiti_sousuo">
-						<input type="text" v-model="guanjianzi" placeholder="请输入要搜索试题题目中的关键字">
+						<input type="text" v-model="queryCondition.trainTitle" placeholder="请输入要搜索试题题目中的关键字">
 						<div>搜索</div>
 					</div>
 				</div>
@@ -123,11 +123,12 @@
 			return {
 				queryCondition: {
 					token: sessionStorage.getItem("token"),
+					trainTitle: '',
 					pageRequest: crud.getQueryCondition({})
 				},
+				form: {},
 				dataList: [],
 				checked: true,
-				guanjianzi:'',
 				zhishic:'全部',
 				neirong:'全部',
 				leixingc:'全部'
@@ -160,9 +161,14 @@
 				lawyerxuexi(request).then(res => {
 					if (res.code === 200) {
 						let {content} = res
-						let {pageInfo, dataList} = content
+						let {pageInfo, dataList, completeCount, learningCount, studyCount} = content
 						console.log('列表', res)
 						this.dataList = dataList
+						this.form = {
+							completeCount,
+							learningCount,
+							studyCount
+						}
 						let pageResponse = {
 							start: (pageInfo.pageNum*10) - 10,
 							limit: 10,
