@@ -49,9 +49,10 @@
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
-								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
-								<div>{{item.taskStartTime}}</div>
+								<div>{{item.statusRemark}}</div>
+								<!--<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div>{{item.taskStartTime}}</div>-->
 							</div>
 						</div>
 					</div>
@@ -304,7 +305,7 @@ export default {
 	.daichuli_one {
 		width: 100%;
 		padding: 10px 0;
-		border-bottom: 1px solid #c0c4cc;
+		/*border-bottom: 1px solid #c0c4cc;*/
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -312,7 +313,7 @@ export default {
 
 	.daichuli_left {
 		display: grid;
-		grid-template-columns: 80px 100%;
+		grid-template-columns: 64px 100%;
 	}
 
 	.daichuli_left>div:nth-child(1) {

@@ -51,9 +51,10 @@
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
-								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
-								<div>{{item.taskStartTime}}</div>
+								<div>{{item.statusRemark}}</div>
+								<!--<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div>{{item.taskStartTime}}</div>-->
 							</div>
 						</div>
 						<div v-if="showMore" class="gengsduo" @click="loadMore">点击加载更多</div>
@@ -81,9 +82,10 @@
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
-								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
-								<div>{{item.taskStartTime}}</div>
+								<div>{{item.statusRemark}}</div>
+								<!--<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div>{{item.taskStartTime}}</div>-->
 							</div>
 						</div>
 					</div>
@@ -110,9 +112,10 @@
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
-								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
-								<div>{{item.taskStartTime}}</div>
+								<div>{{item.statusRemark}}</div>
+								<!--<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div>{{item.taskStartTime}}</div>-->
 							</div>
 						</div>
 					</div>
@@ -138,9 +141,10 @@
 								</div>
 							</div>
 							<div class="daichuli_you">
-								<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>
-								<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>
-								<div>{{item.taskStartTime}}</div>
+								<div>{{item.statusRemark}}</div>
+								<!--<div v-if="item.overtimeFlag == 2" class="over">超时：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div v-else>剩余：{{item.taskDueTime || 0}}小时</div>-->
+								<!--<div>{{item.taskStartTime}}</div>-->
 							</div>
 						</div>
 					</div>
@@ -415,7 +419,7 @@ import {formatDate} from '../../../utils/date.js';
 
 	.daichuli_left {
 		display: grid;
-		grid-template-columns: 80px 100%;
+		grid-template-columns: 64px 100%;
 		/*align-items: center;*/
 	}
 
