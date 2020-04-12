@@ -60,11 +60,13 @@
 				<div class="tongji_youce">
 					<div>共计：{{form.studyCount}}个</div>
 					<div class="caidan">
-						<div>
-							<img src="../../../assets/image/caidan.png" alt="">
+						<div class="jud-img1" @click="tabListChange">
+							<img class="imgcolor"  v-show="imgShow" src="../../../assets/image/caidan.png" alt="">
+							<img v-show="!imgShow" src="../../../assets/image/caidan.png" alt="">
 						</div>
-						<div>
-							<img src="../../../assets/image/candan2.png" alt="">
+						<div class="jud-img2" @click="tabListChange">
+							<img v-show="imgShow" src="../../../assets/image/candan2.png" alt="">
+							<img class="imgcolor"  v-show="!imgShow" src="../../../assets/image/candan2.png" alt="">
 						</div>
 					</div>
 					<div class="sifashiti_sousuo">
@@ -74,7 +76,7 @@
 				</div>
 			</div>
 			<div class="peixun_kecheng">
-				<div class="kecheng_content" v-for="(item,index) in dataList" :key="index">
+				<div class="kecheng_content" v-for="(item,index) in dataList" :key="`a_${index}`" v-if="imgShow">
 					<div class="kecheng_toubu">
 						<div class="kctb_zuo">
 							<div>
@@ -155,6 +157,7 @@
 						label: '公开'
 					}
 				], // 课件类型
+				imgShow: true, // 列表切换
 				dataList: [],
 				checked: true,
 				zhishic:'全部',
@@ -181,6 +184,10 @@
 				this.$router.push({
 					path:'/kanshipin'
 				})
+			},
+			// 司法培训，列表显示和块级显示的切换事件。通过改变显示隐藏来改变图标的变化
+			tabListChange() {
+				this.imgShow = !this.imgShow;
 			},
 			// 获取知识范围数据字典
 			typeData() {
@@ -348,11 +355,15 @@
 			width: 15px;
 			height: 15px;
 		}
-		div{
+		.jud-img1,.jud-img2{
 			width: 50%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			.imgcolor {
+				background-color:#7abef1;
+			}
+			
 		}
 		div:nth-child(1){
 			border-right: 1px solid #eee;
