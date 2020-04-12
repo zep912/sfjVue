@@ -60,11 +60,13 @@
 				<div class="tongji_youce">
 					<div>共计：{{form.studyCount}}个</div>
 					<div class="caidan">
-						<div>
-							<img src="../../../assets/image/caidan.png" alt="">
+						<div class="jud-img1" @click="tabListChange">
+							<img class="imgcolor"  v-show="imgShow" src="../../../assets/image/caidan.png" alt="">
+							<img v-show="!imgShow" src="../../../assets/image/caidan.png" alt="">
 						</div>
-						<div>
-							<img src="../../../assets/image/candan2.png" alt="">
+						<div class="jud-img2" @click="tabListChange">
+							<img v-show="imgShow" src="../../../assets/image/candan2.png" alt="">
+							<img class="imgcolor"  v-show="!imgShow" src="../../../assets/image/candan2.png" alt="">
 						</div>
 					</div>
 					<div class="sifashiti_sousuo">
@@ -73,9 +75,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="peixun_kecheng">
-				<div class="kecheng_content" v-for="(item,index) in dataList" :key="index">
-					<div class="kecheng_toubu">
+			<div :class="['peixun_kecheng', imgShow? '': 'lump_peixun_kecheng']">
+				<div :class="[imgShow? 'kecheng_content': 'lump_kecheng_content']" v-for="(item,index) in dataList" :key="`a_${index}`">
+					<div class="kecheng_toubu" v-if="imgShow">
 						<div class="kctb_zuo">
 							<div>
 								<el-checkbox v-model="checked">序号：{{index+1}}</el-checkbox>
@@ -95,7 +97,7 @@
 						</div>
 						<div class="kaishi_xuexisi" @click="kaishixuexi">开始学习</div>
 					</div>
-					<div class="kecheng_pxcontent">
+					<div :class="[imgShow?'kecheng_pxcontent':'lump_kecheng_pxcontent']">
 						<div class="kecheng_img">
 							<img :src="item.coverUrl" alt="">
 							<div>{{item.videoDuration}}</div>
@@ -155,6 +157,7 @@
 						label: '公开'
 					}
 				], // 课件类型
+				imgShow: true, // 列表切换
 				dataList: [],
 				checked: true,
 				zhishic:'全部',
@@ -181,6 +184,10 @@
 				this.$router.push({
 					path:'/kanshipin'
 				})
+			},
+			// 司法培训，列表显示和块级显示的切换事件。通过改变显示隐藏来改变图标的变化
+			tabListChange() {
+				this.imgShow = !this.imgShow;
 			},
 			// 获取知识范围数据字典
 			typeData() {
@@ -348,11 +355,15 @@
 			width: 15px;
 			height: 15px;
 		}
-		div{
+		.jud-img1,.jud-img2{
 			width: 50%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			.imgcolor {
+				background-color:#7abef1;
+			}
+			
 		}
 		div:nth-child(1){
 			border-right: 1px solid #eee;
@@ -389,6 +400,44 @@
 	}
 	.peixun_kecheng::-webkit-scrollbar{
 		display:none;
+	}
+	.lump_peixun_kecheng {
+		display: flex;
+		flex-wrap:wrap;
+		justify-content:center;
+		.lump_kecheng_content{
+			width: 17%;
+			border: 1px solid #EEE;
+			margin: 10px;
+			.lump_kecheng_pxcontent {
+				.kecheng_img {
+					width: 100%;
+					height: 180px;
+					position: relative;
+					img {
+						width: 100%;
+						height: 100%;
+					}
+					div {
+						width: 96%;
+						padding: 6px 2%;
+						color: #fff;
+						background: rgba(0,0,0,0.5);
+						position: absolute;
+						bottom: 0;
+						text-align: left;
+						font-size: 14px;
+					}
+				}
+				.kecheng_jianjie {
+					margin-top: 20px;
+					text-align: left;
+				}
+			}
+		}
+		&:first-child {
+			margin-right: 0;
+		}
 	}
 	.kecheng_content{
 		width: 100%;
