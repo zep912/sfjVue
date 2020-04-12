@@ -12,35 +12,44 @@
 					<div>
 						<div>知识范围</div>
 						<div class="toubu_youce">
-							<div>
+							<!-- <div>
 								<div :class="zhishic=='全部'?'sifa_active':''" @click="zhishi('全部')">全部</div>
 								<div :class="zhishic=='规章制度'?'sifa_active':''" @click="zhishi('规章制度')">规章制度</div>
 								<div :class="zhishic=='安全'?'sifa_active':''" @click="zhishi('安全')">安全</div>
-							</div>
+							</div> -->
+							<el-radio-group v-model="queryCondition.knowledgeScope" class="toubu_youce_group">
+								<el-radio-button v-for="(item, index) in zhishifanweiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-radio-button>
+							</el-radio-group>
 							<div>更多</div>
 						</div>
 					</div>
 					<div>
 						<div>内容分类</div>
 						<div class="toubu_youce">
-							<div>
+							<!-- <div>
 								<div :class="neirong=='全部'?'sifa_active':''" @click="neirongc('全部')">全部</div>
 								<div :class="neirong=='安全生产'?'sifa_active':''" @click="neirongc('安全生产')">安全生产</div>
 								<div :class="neirong=='劳动保护'?'sifa_active':''" @click="neirongc('劳动保护')">劳动保护</div>
 								<div :class="neirong=='安全标志'?'sifa_active':''" @click="neirongc('安全标志')">安全标志</div>
 								<div :class="neirong=='应对措施'?'sifa_active':''" @click="neirongc('应对措施')">应对措施</div>
-							</div>
+							</div> -->
+							<el-radio-group v-model="queryCondition.contentType" class="toubu_youce_group">
+								<el-radio-button v-for="(item, index) in neirongfenleiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-radio-button>
+							</el-radio-group>
 							<div>更多</div>
 						</div>
 					</div>
 					<div>
 						<div>课件类型</div>
 						<div class="toubu_youce">
-							<div>
+							<!-- <div>
 								<div :class="leixingc=='全部'?'sifa_active':''" @click="leixing('全部')">全部</div>
 								<div :class="leixingc=='1'?'sifa_active':''" @click="leixing('1')">公开</div>
 								<div :class="leixingc=='2'?'sifa_active':''" @click="leixing('2')">不公开</div>
-							</div>
+							</div> -->
+							<el-radio-group v-model="queryCondition.openType" class="toubu_youce_group">
+								<el-radio-button v-for="(item, index) in openTypeList" :key="index" :label="item.value" :value="item.value">{{item.label}}</el-radio-button>
+							</el-radio-group>
 							<div>更多</div>
 						</div>
 					</div>
@@ -72,7 +81,7 @@
 								<el-checkbox v-model="checked">序号：{{index+1}}</el-checkbox>
 							</div>
 							<div class="kecheng_fenge"></div>
-							<div>课件类型： {{}}</div>
+							<div>课件类型： {{item.couType}}</div>
 							<div class="kecheng_fenge"></div>
 							<div>知识范围： {{item.knowledgeScope}}</div>
 							<div class="kecheng_fenge"></div>
@@ -92,7 +101,7 @@
 							<div>{{item.videoDuration}}</div>
 						</div>
 						<div class="kecheng_jianjie">
-							<div>课件标题：<span>{{}}</span></div>
+							<div>课件标题：<span>{{item.couName}}</span></div>
 							<div>课件简介：<span>{{item.couDesc}}</span></div>
 						</div>
 					</div>
@@ -115,7 +124,7 @@
 </template>
 
 <script>
-	import {lawyerxuexi} from '../../../http/api.js'
+	import {lawyerxuexi, getSelectDetail} from '../../../http/api.js'
 	import * as crud from '../../../assets/js/co-crud.js'
 	import util from '@/assets/js/co-util'
 	export default {
@@ -123,10 +132,29 @@
 			return {
 				queryCondition: {
 					token: sessionStorage.getItem("token"),
+					knowledgeScope: null,
+					contentType: null,
+					openType: null,
 					trainTitle: '',
 					pageRequest: crud.getQueryCondition({})
 				},
 				form: {},
+				zhishifanweiList: [], // 知识范围
+				neirongfenleiList: [], // 内容分类
+				openTypeList: [
+					{
+						value: null,
+						label: '全部'
+					},
+					{
+						value: '1',
+						label: '不公开'
+					},
+					{
+						value: '2',
+						label: '公开'
+					}
+				], // 课件类型
 				dataList: [],
 				checked: true,
 				zhishic:'全部',
@@ -135,6 +163,8 @@
 			}
 		},
 		created() {
+			this.typeData()
+			this.wayData()
 			this.getData()
 		},
 		methods:{
@@ -150,6 +180,28 @@
 			kaishixuexi(){
 				this.$router.push({
 					path:'/kanshipin'
+				})
+			},
+			// 获取知识范围数据字典
+			typeData() {
+				getSelectDetail({
+					dictCode:'zhishifanwei',
+					userId:'1'
+				}).then(res=>{
+					if(res.code == '200'){
+						this.zhishifanweiList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					}
+				})
+			},
+			//获取内容分类数据字典
+			wayData(){
+				getSelectDetail({
+					dictCode:'neirongfenlei',
+					userId:'1'
+				}).then(res=>{
+					if(res.code == '200'){
+						this.neirongfenleiList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+					}
 				})
 			},
 			getData () {
@@ -219,6 +271,7 @@
 		width: 20%;
 		height: 45px;
 		display: flex;
+		line-height: 45px;
 		align-items: center;
 		justify-content: center;
 		background: #eee;
@@ -229,6 +282,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		.toubu_youce_group {
+			.el-radio-button {
+				border: none;
+				margin-left: 10px;
+				.el-radio-button__inner {
+					width: 95px;
+				  height: 35px;
+					line-height: 35px;
+					display: inline-block;
+					border-radius: 3px;
+					border: 1px solid #C0C4CC;
+					padding: 0;
+					// padding: 9px 30px;
+				}
+			}
+		}
 	}
 	.toubu_youce>div:nth-child(1){
 		display: flex;
@@ -366,6 +435,10 @@
 			background: #0EA9D7;
 			position: relative;
 			margin-right: 20px;
+			img {
+				width: 100%;
+				height: 100%;
+			}
 			div{
 				width: 96%;
 				padding: 6px 2%;
