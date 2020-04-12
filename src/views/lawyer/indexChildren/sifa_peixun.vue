@@ -60,7 +60,7 @@
 					</div>
 					<div class="sifashiti_sousuo">
 						<input type="text" v-model="queryCondition.trainTitle" placeholder="请输入要搜索试题题目中的关键字">
-						<div>搜索</div>
+						<div @click="getData">搜索</div>
 					</div>
 				</div>
 			</div>
@@ -88,7 +88,7 @@
 					</div>
 					<div class="kecheng_pxcontent">
 						<div class="kecheng_img">
-							<img :src="item.cusCover" alt="">
+							<img :src="item.coverUrl" alt="">
 							<div>{{item.videoDuration}}</div>
 						</div>
 						<div class="kecheng_jianjie">
