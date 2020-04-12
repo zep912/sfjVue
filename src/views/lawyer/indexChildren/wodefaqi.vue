@@ -5,13 +5,14 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<el-date-picker
-						v-model="defultMonth"
-						type="month"
-						format="yyyy 年 MM 月"
-						value-format="yyyy-MM"
-						:clearable="false"
-						style="width: 300px;margin-left: 10px;"></el-date-picker>
+					<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+					<!--<el-date-picker-->
+						<!--v-model="defultMonth"-->
+						<!--type="month"-->
+						<!--format="yyyy 年 MM 月"-->
+						<!--value-format="yyyy-MM"-->
+						<!--:clearable="false"-->
+						<!--style="width: 300px;margin-left: 10px;"></el-date-picker>-->
 				</div>
 				<div>
 					自定义
@@ -79,6 +80,7 @@ export default {
 	    }
 	  },
 	  methods:{
+		  // 获取视频学习进度
 		  getStartedList() {
 			  let params = {
 				token:sessionStorage.getItem("token"),
@@ -143,6 +145,11 @@ export default {
 					this.showMore = true
 				}
 			}
+		  },
+		  getDateInfo() {
+			  const dateInfo = this.$refs.getDateInfo();
+			  console.log(dateInfo);
+			  // this.defultMonth = dateInfo && dateInfo.
 		  }
 	  },
 	  created() {
