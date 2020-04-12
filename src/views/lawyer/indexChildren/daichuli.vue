@@ -36,7 +36,7 @@
 						待我处理（{{pendingList.length}}）
 					</div>
 					<div class="dauchuli_neirong">
-						<div v-for="(item, index) in showPendingList" :key="index" class="daichuli_one">
+						<div v-for="(item, index) in showPendingList" :key="index" class="daichuli_one" @click="$router.push({path: '/lvshi_shenhe', query: {id: item.businessId}})">
 							<div class="daichuli_left">
 								<div class="dataTag">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
