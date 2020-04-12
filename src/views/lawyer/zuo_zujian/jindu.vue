@@ -399,5 +399,6 @@ import {formatDate} from '../../../utils/date.js';
 		flex: 1;
 	.bg-gory {
 		background-color: #e9eef3;
+	 }
 	}
 </style>
