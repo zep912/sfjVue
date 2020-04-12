@@ -68,7 +68,10 @@
 <script>
 import * as api from "@/http/lawyer"
 import {formatDate} from '../../../utils/date.js';
+import SingleDate from "@/components/SingleDate";
+
 export default {
+	components: {SingleDate},
 	  data() {
 	    return {
 		  defultMonth: '',

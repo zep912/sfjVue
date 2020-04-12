@@ -168,7 +168,7 @@
 				imgStr: '',
 				form: {imgCode: ''},
 				rules: {
-					imgCode: [{required: true, validator: validator}]
+					imgCode: [{required: true, validator: validator, trigger: 'change'}]
 				},
 				startTime: '', // 本次学习开始时间
 				init: true  // 是否第一次验证
