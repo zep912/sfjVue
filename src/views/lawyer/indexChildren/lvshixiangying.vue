@@ -30,7 +30,7 @@
                             <div class="flex">
                                 <span class="text_betten">问题类型<i></i></span>： {{consultInfo.consultTypeDesc}}
                             </div>
-                            <div class="flex">
+                            <div class="flex vertical_top">
                                 <span class="text_betten">问题描述<i></i></span>：<textarea class="dis_textarea" disabled name="" id="" v-model="consultInfo.questionDesc" cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -69,12 +69,12 @@
                     <div class="shenheone_text">
                         <div>
                             <div class="flex">
-                                <span class="text_betten">咨询审核<i></i></span><span style="color: #ff0000;font-size: 30px;margin-right:10px;">*</span>
+                                <span class="text_betten">咨询审核<i></i></span><span class="star">*</span>
                                 <el-radio v-model="consultAnswer.approveFlag" :label="1">同意</el-radio>
                                 <el-radio v-model="consultAnswer.approveFlag" :label="2">不同意</el-radio>
                             </div>
                             <div class="flex">
-                                <span class="text_betten">律师解答<i></i></span><span style="color: #ff0000;font-size: 30px;margin-right:10px;">*</span>
+                                <span class="text_betten">律师解答<i></i></span><span class="star">*</span>
                                 <textarea name="" id="" v-model="consultAnswer.answerContent" cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -82,11 +82,11 @@
                     </div>
 
                 </div>
-                <div class="shenpi_create" v-if="status != '1'">
+                <div class="shenpi_create" v-if="status != '1' && msgRecordList.length > 0">
                     <div class="shenpi_one">
                         <div class="tab1">问题解答</div>
                         <div class="tab1_right">
-                            <span>超时：59分钟/23.9小时/1.9天</span>
+                            <!-- <span>超时：59分钟/23.9小时/1.9天</span> -->
                             <img src="../../../assets/image/u552.png" alt="">
                             <img src="../../../assets/image/u554.png" alt="">
                         </div>
@@ -306,15 +306,15 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
         display: flex;
         align-items: center;
         color: #FF6034;
-    }
-    .tab1_right img{
-        width: 22px;
-        height: 18px;
-        margin-left: 10px;
-    }
-    .tab1_right img:nth-child(2){
-        width: 24px;
-        height: 18px;
+        img {
+            width: 23px;
+            height: 17px;
+            margin-left: 10px;
+            &:nth-child(2){
+                width: 22px;
+                height: 17px;
+            }
+        }
     }
     .flex textarea{
         width: 80%;
@@ -331,7 +331,6 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
         height: 110px;
         display: flex;
         position: relative;
-        // margin-bottom: -20px;
         .line {
             position: absolute;
             width: 100%;
@@ -375,6 +374,20 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
     }
     .text_betten {
         width: 66px!important;
+        margin-top: 15px!important;
+    }
+    .star {
+        color: #ff0000;
+        font-size: 30px;
+        margin-right: 10px;
+        margin-left: 4px;
+        margin-top: 10px;
+    }
+    .flex.vertical_top {
+        align-items:flex-start;
+        .text_betten {
+            margin-top: 0!important;
+        }
     }
     .btn_box {
         display: flex;
@@ -426,9 +439,9 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
         display: flex;
         align-items: center;
         position: relative;
-        div {
-            margin-right: 20px;
-        }
+        // div {
+        //     // margin-right: 20px;
+        // }
         .yuandian {
             width: 50px;
             height: 50px;
@@ -450,9 +463,17 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
             background: #fff;
             }
         }
+        .source {
+            margin-right: 20px;
+        }
+        .content {
+            color: #666;
+        }
         
        .msgTime {
-           width: 100px;
+           width: 75px;
+           font-size: 14px;
+           color: #333333;
            text-align: center;
            margin-right: 0;
        }

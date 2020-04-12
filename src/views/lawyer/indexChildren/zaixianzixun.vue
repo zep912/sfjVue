@@ -98,7 +98,7 @@
                     { dictDataCode: "5", dictDataName: "律师拒绝" },
                     { dictDataCode: "6", dictDataName: "系统拒绝" }
                 ],
-				zixun_active: 2,
+				zixun_active: 1,
 				lvshi_fenye: {
                     pageNum: 1,
                     pageSize: 10,
