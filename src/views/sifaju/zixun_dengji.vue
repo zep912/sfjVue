@@ -3,7 +3,7 @@
 		<div class="top_manalvs">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/sifaju' }">职责</el-breadcrumb-item>
-			  <el-breadcrumb-item :to="{ path: 'falvzixun' }">法律咨询</el-breadcrumb-item>
+			  <el-breadcrumb-item :to="{ path: 'zaixianzixun' }">法律咨询</el-breadcrumb-item>
 			  <el-breadcrumb-item>现场咨询登记</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
