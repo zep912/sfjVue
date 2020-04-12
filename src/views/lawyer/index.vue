@@ -46,7 +46,7 @@
             <div class="p_conright index_con">
                 <!--<jindus v-if="actives==1||actives==3||actives==4" @active="zhizezhanshi"></jindus>
 				<daichulis v-if="actives==1"></daichulis>
-				<xiaoxi v-if="actives==2"></xiaoxi>	
+				<xiaoxi v-if="actives==2"></xiaoxi>
 				<zhizes v-if="actives==3" @ziyemian="zhizezhanshi"></zhizes>
 				<xuexijihuas v-if="actives==4" @xuexi="zhizezhanshi"></xuexijihuas>
 				<kanshipins v-if="actives==5" @xuexi="zhizezhanshi"></kanshipins>
@@ -207,7 +207,7 @@ export default {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    height: 100vh;
+    height: calc(100% - 80px);
 }
 
 .p_conleft {

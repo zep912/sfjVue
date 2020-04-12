@@ -158,7 +158,7 @@ export default {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    height: 100vh;
+    height: calc(100% - 80px);
 }
 .p_conleft {
     text-align: center;

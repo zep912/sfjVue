@@ -14,6 +14,10 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  .AMapManager {
+    width: 100%;
+    height: 100%;
+  }
 }
 #nav {
   padding: 30px;
