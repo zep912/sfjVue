@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div class="sifakc_tongji">
-				<div>学习次数：{{form.completeCount}}</div>
+				<div>学习次数<i @click="iconClick" :class="['el-icon-back',iconshow? 'sifakc_tongji_text1': 'sifakc_tongji_text2']"></i></div>
 				<div class="tongji_youce">
 					<div>共计：{{form.studyCount}}个</div>
 					<div class="caidan">
@@ -138,6 +138,7 @@
 					contentType: null,
 					openType: null,
 					trainTitle: '',
+					orderStudyCount: '1',
 					pageRequest: crud.getQueryCondition({})
 				},
 				form: {},
@@ -158,6 +159,7 @@
 					}
 				], // 课件类型
 				imgShow: true, // 列表切换
+				iconshow: true, // 学习图标
 				dataList: [],
 				checked: true,
 				zhishic:'全部',
@@ -185,9 +187,15 @@
 					path:'/kanshipin', query: {id}
 				})
 			},
+			// 学习图标
+			iconClick () {
+				this.iconshow = !this.iconshow
+				this.queryCondition.orderStudyCount = this.iconshow ? '1': '2'
+				this.getData()
+			},
 			// 司法培训，列表显示和块级显示的切换事件。通过改变显示隐藏来改变图标的变化
 			tabListChange() {
-				this.imgShow = !this.imgShow;
+				this.imgShow = !this.imgShow
 			},
 			// 获取知识范围数据字典
 			typeData() {
@@ -336,6 +344,16 @@
 		align-items: center;
 		justify-content: space-between;
 		border-bottom: 1px solid #eee;
+		i {
+			color: #068FD4;
+			font-size: 20px;
+		}
+		.sifakc_tongji_text1 {
+			transform:rotate(90deg);
+		}
+		.sifakc_tongji_text2 {
+			transform:rotate(-90deg);
+		}
 	}
 	.tongji_youce{
 		display: flex;
