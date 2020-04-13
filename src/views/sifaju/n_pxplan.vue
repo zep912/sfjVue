@@ -150,7 +150,7 @@
 					<el-col :span="12">
 						<el-form-item label="负责人:" prop="principalUserId">
 							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.principalUserName}}</span>
-							<el-select v-else v-model="queryCondition.principalUserId" placeholder="请选择">
+							<el-select v-else v-model="queryCondition.principalUserId" disabled placeholder="请选择">
 								<el-option
 									v-for="item in personList"
 									:key="item.value"
@@ -493,8 +493,14 @@
 					if (res.code == '200') {
 						console.log('详情', res.content)
 						this.queryCondition = res.content
-						this.queryCondition.principalUserId = sessionStorage.getItem("token")
-						this.queryCondition.principalUserName = sessionStorage.getItem("name")
+						this.personList = [
+							{
+								label: this.queryCondition.principalUserId,
+								value: this.queryCondition.principalUserName
+							}
+						];
+						this.queryCondition.principalUserId = this.queryCondition.principalUserId
+						this.queryCondition.principalUserName = this.queryCondition.principalUserName
 						this.queryCondition.trainMode = res.content.trainMode.toString()
 						let list = res.content.startDate.split('-')
 						let arr = res.content.endDate.split('-')

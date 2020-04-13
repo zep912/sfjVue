@@ -92,6 +92,9 @@
 				<el-table-column
 				  prop="studyProcess"
 				  label="学习进度">
+					<scope slot-scope="{row}">
+						{{row.studyProcess + '%'}}
+					</scope>
 				</el-table-column>
 				<el-table-column
 				  prop="studyStatus"
@@ -124,7 +127,8 @@
 	    data(){
 			const validator = async (rule, value, callback) => {
 				if (value) {
-					const res = this.$http.post('/login/checkValidateCode', {validateCode: value});
+					const res = await this.$http.post('/login/checkValidateCode', {validateCode: value});
+					console.log(res, 'res123');
 					if (res.code === 200) {
 						callback();
 					} else {
@@ -243,6 +247,7 @@
 				if (res.code === 200) {
 					this.dialogVisible = false;
 					this.$refs.videoPlayer.player.play(); //播放视频
+					this.form = {imgCode: ''};
 					this.getSeeVideo();
 				} else {
 					this.$message.error('请重试');

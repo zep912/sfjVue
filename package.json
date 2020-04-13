@@ -15,6 +15,7 @@
     "jsdom": "^16.2.1",
     "location": "0.0.1",
     "navigator": "^1.0.1",
+    "print-js": "^1.0.63",
     "vant": "^2.2.3",
     "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.10",
