@@ -499,8 +499,8 @@
 								value: this.queryCondition.principalUserName
 							}
 						];
-						this.queryCondition.principalUserId = this.queryCondition.principalUserId
-						this.queryCondition.principalUserName = this.queryCondition.principalUserName
+						// this.queryCondition.principalUserId = this.queryCondition.principalUserId
+						// this.queryCondition.principalUserName = this.queryCondition.principalUserName
 						this.queryCondition.trainMode = res.content.trainMode.toString()
 						let list = res.content.startDate.split('-')
 						let arr = res.content.endDate.split('-')
