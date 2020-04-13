@@ -94,6 +94,7 @@
 			this.search();
 		},
 		methods:{
+	    	// 搜索
 	    	search() {
 	    		// const {completeFlag, learningFlag} = this.form;
 				lawyerxuexi(Object.assign({}, this.form)).then(success=>{
@@ -111,7 +112,9 @@
 	.headle-right {
 		width: 70%;
 		height: 100%;
+		overflow-y: auto;
 		padding: 20px;
+		box-sizing: border-box;
 		background-color: #fff;
 	}
 	.xuexi_top{

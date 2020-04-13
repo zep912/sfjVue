@@ -46,8 +46,8 @@
 				<!--</div>-->
 			</div>
 		</div>
-		<div class="print">
-			<el-button type="primary" @click="print">打印</el-button>
+		<div class="print" @click="print">
+			打印
 		</div>
 	</div>
 
@@ -75,6 +75,7 @@
 			this.init();
 		},
 		methods:{
+			// 日历页面数据初始化
 			init(){
 				this.year = this.newData.getFullYear(); // 获取年份
 				this.month = this.newData.getMonth(); // 获取月份

@@ -136,7 +136,7 @@
                 <el-col :span="16" style="position:relative">
                     <baidu-map
                             class="bm-view"
-                            ak="u6vzTey4WMBeVAbC3SokRMGT3br2sejy"
+                            ak="ATzSBaYhEgFctcVGgoyWG7pZhFK1gRBs"
                             :center="center"
                             :zoom="zoom"
                             @ready="handler"

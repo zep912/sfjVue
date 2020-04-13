@@ -20,7 +20,7 @@
 							<el-radio-group v-model="queryCondition.knowledgeScope" class="toubu_youce_group">
 								<el-radio-button v-for="(item, index) in zhishifanweiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-radio-button>
 							</el-radio-group>
-							<div>更多</div>
+							<div v-if="zhishifanweiList.length > 8">更多</div>
 						</div>
 					</div>
 					<div>
@@ -36,7 +36,7 @@
 							<el-radio-group v-model="queryCondition.contentType" class="toubu_youce_group">
 								<el-radio-button v-for="(item, index) in neirongfenleiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-radio-button>
 							</el-radio-group>
-							<div>更多</div>
+							<div v-if="neirongfenleiList.length > 8">更多</div>
 						</div>
 					</div>
 					<div>
@@ -50,7 +50,7 @@
 							<el-radio-group v-model="queryCondition.openType" class="toubu_youce_group">
 								<el-radio-button v-for="(item, index) in openTypeList" :key="index" :label="item.value" :value="item.value">{{item.label}}</el-radio-button>
 							</el-radio-group>
-							<div>更多</div>
+							<div v-if="openTypeList.length > 8">更多</div>
 						</div>
 					</div>
 				</div>
@@ -262,6 +262,9 @@
 </script>
 
 <style lang="scss">
+	.zaixian_top {
+		padding: 20px 0 0 20px;
+	}
 	.sifa_peixun{
 		width: 100%;
 	}

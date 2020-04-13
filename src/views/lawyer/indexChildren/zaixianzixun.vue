@@ -1,6 +1,6 @@
 <template>
 	<div class="zaixianzixun">
-		<div class="zaixian_top">
+		<div class="zaixianzixun_top">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 				<el-breadcrumb-item :to="{ path: '/zhize' }">职责</el-breadcrumb-item>
 				<el-breadcrumb-item>{{zixun_active==1?'法律咨询':'针对性咨询列表'}}</el-breadcrumb-item>
@@ -195,7 +195,7 @@
 		height: 100%;
 	}
 
-	.zaixian_top {
+	.zaixianzixun_top {
 		width: 98%;
 		height: 70px;
 		padding-left: 2%;

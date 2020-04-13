@@ -12,7 +12,7 @@
 					{{data.planData.trainTitle}}
 				</div>
 				<div class="video-box">
-					<video-player class="video-player vjs-custom-skin"
+					<video-player v-if="data.coursewareData.playUrl" class="video-player vjs-custom-skin"
 								   ref="videoPlayer"
 								   :playsinline="true"
 								   :options="playerOptions"
@@ -156,7 +156,8 @@
 					fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
 					sources: [{
 						type: "video/mp4",
-						src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
+						src: ''
+						// src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
 					}],
 					hls: true,
 					poster: "poster.jpg", //你的封面地址
@@ -196,8 +197,8 @@
 					// 给video组件赋值
 					if (this.init) this.playerOptions = Object.assign({}, this.playerOptions, {sources: [{
 							type: "video/mp4",
-							// src: playUrl
-							src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
+							src: playUrl
+							// src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
 						}], poster: coverUrl});
 					this.startTime = formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss');
 				})
@@ -217,7 +218,6 @@
 			},
 			// 获取验证码
 			async getImgCode(set) {
-				console.log('getImgCode');
 				if (set) this.form = {imgCode: ''};
 				this.$refs.videoPlayer.player.pause(); //暂停视频的播放
 				console.log('getImgCode', '123');
@@ -240,7 +240,7 @@
 				console.log(this.$refs.videoPlayer.player.cache_, 'this.$refs.videoPlayer.player.cache_');
 				this.init = false;
 				const {duration, currentTime} = this.$refs.videoPlayer.player.cache_;
-				const studyProcess = Math.floor(currentTime * 100 / duration);
+				const studyProcess = Math.round(currentTime * 100 / duration);
 				const endTime = formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss');
 				const request = {startTime: this.startTime, endTime, consumeTime: currentTime, studyProcess, token: sessionStorage.getItem('token'), planId: this.$route.query.id};
 				const res = await this.$http.post('/train/saveStudyRecord', request);

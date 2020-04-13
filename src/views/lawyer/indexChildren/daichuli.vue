@@ -241,6 +241,7 @@ import {formatDate} from '../../../utils/date.js';
 				// }
 			}
 		  },
+		  // 获取日期
 		  getDateInfo() {
 		  	const dateInfo = this.$refs.getDateInfo();
 		  	console.log(dateInfo);

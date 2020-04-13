@@ -52,7 +52,7 @@
 						<li v-for="(item,index) in organList" :key="index">
 							<div
 											:class="{active:active==index}"
-											@click="orgListClick(item.orgType,index)"
+											@click="orgListClick(index)"
 							>{{item.orgCount||item.orgCunt}}</div>
 							<span>{{item.allOrg||item.orgName}}</span>
 						</li>
@@ -136,7 +136,7 @@
 				<el-col :span="16" style="position:relative">
 					<baidu-map
 									class="bm-view"
-									ak="u6vzTey4WMBeVAbC3SokRMGT3br2sejy"
+									ak="ATzSBaYhEgFctcVGgoyWG7pZhFK1gRBs"
 									:center="center"
 									:zoom="zoom"
 									@ready="handler"
@@ -299,8 +299,8 @@
 				this.zoom = 10;
 			},
 			// 点击所有的机构列表的时间。全部，法律援助等，也会触发请求机构事件3
-			orgListClick(n, index) {
-				this.form.orgType = n || "";
+			orgListClick(index) {
+				this.form.orgType = index + '' || "";
 				this.active = index;
 				this.getOrgList();
 			},

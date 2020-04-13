@@ -133,6 +133,7 @@ export default {
 			  })
 
 		  },
+		  // 加载更多
 		  loadMore () {
 			let curLength = this.showDataList.length
 			let totalLength = this.dataList.length
