@@ -63,11 +63,11 @@
 	  },
 	  methods:{
 		  zaixian(e){
-			this.$emit('ziyemian',e)  
+			this.$emit('ziyemian',e)
 		  }
 	  }
 	}
-	
+
 </script>
 
 <style>
@@ -78,7 +78,8 @@
 	}
 	.fenlei a .lvshi_wen{
 		margin-top: 10px;
-		font-size: 15px;
+		font-size: 12px;
+		min-width: 76px;
 	}
 	.zhize_toubu {
 		width: 100%;

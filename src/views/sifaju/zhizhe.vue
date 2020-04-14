@@ -405,8 +405,9 @@
 
 	}
 	.fenlei{
-		width: 98%;
+		width: 100%;
 		padding: 20px 20px;
+		box-sizing: border-box;
 		border: 1px solid #eee;
 		margin-top: 20px;
 		display: grid;
@@ -421,9 +422,10 @@
 		/*margin: 0 20px 0 0 ;*/
 	}
 	.lvshi_wen{
-		font-size: 14px;
+		font-size: 12px;
 		color: #666;
 		margin-top: 8px;
+		min-width: 76px;
 	}
 	.fenlei img{
 		width: 65px;

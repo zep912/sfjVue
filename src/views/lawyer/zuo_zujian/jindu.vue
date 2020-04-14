@@ -78,9 +78,7 @@
 									<div><span class="label-left btm-gray">其中超时</span><router-link :to="{name: 'wodefaqi'}"><span class="count btm-red">{{item.nodeContent4}}</span></router-link><span class="btm-gray">项</span></div>
 								</div>
 							</div>
-							<router-link :to="{name: 'zhize'}">
-								<div class="zhize" @click="zhize">职责</div>
-							</router-link>
+							<div class="zhize" @click="zhize">职责</div>
 						</div>
 					</div>
 
@@ -115,15 +113,13 @@ import {formatDate} from '../../../utils/date.js';
 			blue: require("../../../assets/image/blue.png"),
 		  value1: formatDate(new Date(), 'yyyy-MM-dd'),
 		  timeList: [],
-			nowIndex: 0 //现在时间的索引
+		  nowIndex: 0, //现在时间的索引
 	    }
 	  },
 	  methods:{
 		  zhize(){
-			this.$emit('active','3')
-		  },
-		  xuexijihua(){
-			this.$emit('active','4')
+		  	const path = sessionStorage.getItem('type') != '6' ? '/zhize' : '/sifaju';
+		  	this.$router.push({path})
 		  },
 		  // 获取时间轴信息
 		  async getWorkAxis() {
@@ -375,6 +371,7 @@ import {formatDate} from '../../../utils/date.js';
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		cursor: pointer;
 	}
 	.xuexihong {
 		background: #ff6666;

@@ -12,31 +12,21 @@
 					<div>
 						<div>知识范围</div>
 						<div class="toubu_youce">
-							<!-- <div>
-								<div :class="zhishic=='全部'?'sifa_active':''" @click="zhishi('全部')">全部</div>
-								<div :class="zhishic=='规章制度'?'sifa_active':''" @click="zhishi('规章制度')">规章制度</div>
-								<div :class="zhishic=='安全'?'sifa_active':''" @click="zhishi('安全')">安全</div>
-							</div> -->
-							<el-radio-group v-model="queryCondition.knowledgeScope" class="toubu_youce_group">
-								<el-radio-button v-for="(item, index) in zhishifanweiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-radio-button>
-							</el-radio-group>
-							<div v-if="zhishifanweiList.length > 8">更多</div>
+							<el-checkbox-button v-model="knowledgeScopeList" :true-label="1" :false-label="0" @change="changeAll($event, 'knowledgeScopeList')">全部</el-checkbox-button>
+							<el-checkbox-group v-model="queryCondition.knowledgeScopeList" class="toubu_youce_group" @change="changeOnSelect($event, 'knowledgeScopeList')">
+								<el-checkbox-button v-for="(item, index) in zhishifanweiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-checkbox-button>
+							</el-checkbox-group>
+							<div v-if="zhishifanweiList.length > 9">更多</div>
 						</div>
 					</div>
 					<div>
 						<div>内容分类</div>
 						<div class="toubu_youce">
-							<!-- <div>
-								<div :class="neirong=='全部'?'sifa_active':''" @click="neirongc('全部')">全部</div>
-								<div :class="neirong=='安全生产'?'sifa_active':''" @click="neirongc('安全生产')">安全生产</div>
-								<div :class="neirong=='劳动保护'?'sifa_active':''" @click="neirongc('劳动保护')">劳动保护</div>
-								<div :class="neirong=='安全标志'?'sifa_active':''" @click="neirongc('安全标志')">安全标志</div>
-								<div :class="neirong=='应对措施'?'sifa_active':''" @click="neirongc('应对措施')">应对措施</div>
-							</div> -->
-							<el-radio-group v-model="queryCondition.contentType" class="toubu_youce_group">
-								<el-radio-button v-for="(item, index) in neirongfenleiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-radio-button>
-							</el-radio-group>
-							<div v-if="neirongfenleiList.length > 8">更多</div>
+							<el-checkbox-button v-model="contentTypeList" :true-label="1" :false-label="0" @change="changeAll($event, 'contentTypeList')">全部</el-checkbox-button>
+							<el-checkbox-group v-model="queryCondition.contentTypeList" class="toubu_youce_group" @change="changeOnSelect($event, 'contentTypeList')">
+								<el-checkbox-button v-for="(item, index) in neirongfenleiList" :key="index" :label="item.dictDataCode" :value="item.dictDataCode">{{item.dictDataName}}</el-checkbox-button>
+							</el-checkbox-group>
+							<div v-if="neirongfenleiList.length > 9">更多</div>
 						</div>
 					</div>
 					<div>
@@ -50,7 +40,7 @@
 							<el-radio-group v-model="queryCondition.openType" class="toubu_youce_group">
 								<el-radio-button v-for="(item, index) in openTypeList" :key="index" :label="item.value" :value="item.value">{{item.label}}</el-radio-button>
 							</el-radio-group>
-							<div v-if="openTypeList.length > 8">更多</div>
+							<div v-if="openTypeList.length > 9">更多</div>
 						</div>
 					</div>
 				</div>
@@ -134,13 +124,15 @@
 			return {
 				queryCondition: {
 					token: sessionStorage.getItem("token"),
-					knowledgeScope: null,
-					contentType: null,
+					knowledgeScopeList: [],
+					contentTypeList: [],
 					openType: null,
 					trainTitle: '',
 					orderStudyCount: '1',
 					pageRequest: crud.getQueryCondition({})
 				},
+				knowledgeScopeList: 1,
+				contentTypeList: true,
 				form: {},
 				zhishifanweiList: [], // 知识范围
 				neirongfenleiList: [], // 内容分类
@@ -204,7 +196,8 @@
 					userId:'1'
 				}).then(res=>{
 					if(res.code == '200'){
-						this.zhishifanweiList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+						this.zhishifanweiList = Object.keys(res.content.resultList).map((key) => res.content.resultList[key])
+						// this.zhishifanweiList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
 					}
 				})
 			},
@@ -215,10 +208,22 @@
 					userId:'1'
 				}).then(res=>{
 					if(res.code == '200'){
-						this.neirongfenleiList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
+						this.neirongfenleiList = Object.keys(res.content.resultList).map((key) => res.content.resultList[key]);
+						// this.neirongfenleiList = [{dictDataCode: null, dictDataName: '全部'}].concat(Object.keys(res.content.resultList).map((key) => res.content.resultList[key]))
 					}
 				})
 			},
+			// // 点击全部
+			changeAll(val, type) {
+				this[type] = 1;
+				this.queryCondition[type] = [];
+			},
+			// 多选选中时
+			changeOnSelect(val, type) {
+				this[type] = this.queryCondition[type].length ? 0 : 1;
+				this.queryCondition[type] = val
+			},
+			// 查询数据
 			getData () {
 				let request = JSON.parse(JSON.stringify(this.queryCondition))
 				request.pageSize = request.pageRequest.limit
@@ -298,15 +303,15 @@
 	.toubu_youce{
 		width: 80%;
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		.toubu_youce_group {
-			.el-radio-button {
+		/*align-items: center;*/
+		/*justify-content: space-between;*/
+		/*.toubu_youce_group {*/
+		.el-radio-button, .el-checkbox-button {
 				border: none;
 				margin-left: 10px;
-				.el-radio-button__inner {
+				.el-radio-button__inner, .el-checkbox-button__inner {
 					width: 95px;
-				  height: 35px;
+				  	height: 35px;
 					line-height: 35px;
 					display: inline-block;
 					border-radius: 3px;
@@ -315,7 +320,7 @@
 					// padding: 9px 30px;
 				}
 			}
-		}
+		/*}*/
 	}
 	.toubu_youce>div:nth-child(1){
 		display: flex;

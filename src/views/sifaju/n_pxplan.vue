@@ -212,7 +212,8 @@
 		</div>
 		<!-- <NPxplanTree></NPxplanTree> -->
 		<div v-if="this.query.type !== 'view'">
-			<el-button type="primary" @click="submitConsultInfo">发布</el-button>
+			<el-button type="primary" @click="submitConsultInfo">保存</el-button>
+			<el-button v-if="$route.query.id" type="success" @click="publishTrainPlan">发布</el-button>
 			<el-button @click="goBack">取消</el-button>
 		</div>
 	</div>
@@ -333,6 +334,7 @@
 				this.lvsuo_texts = "修改培训计划"
 				this.getTrainPlanInfo()
 			}
+			if (this.query.type === 'view') this.lvsuo_texts = '查看培训计划';
 			this.wayData()
 			this.typeData()
 			this.levelData()
@@ -576,6 +578,18 @@
 					} else {
 						console.log('error submit!!')
 			return false
+					}
+				})
+			},
+			// 发布培训计划
+			publishTrainPlan () {
+				this.$http.post('/train/publishTrainPlan', {token: sessionStorage.getItem('token'), planId: this.query.planId}).then(res => {
+					if (res.code == '200') {
+						this.$message({
+							message: '提交成功',
+							type: 'success'
+						});
+						this.goBack()
 					}
 				})
 			},

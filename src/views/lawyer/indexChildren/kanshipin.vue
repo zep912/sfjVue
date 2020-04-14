@@ -193,12 +193,14 @@
 					if (this.init) this.data = res.content;
 					this.studyRecordList = res.content.studyRecordList;
 					// 播放地址playUrl 封面地址coverUrl
-					const {playUrl, coverUrl} = res.content.coursewareData;
+					let {playUrl, coverUrl} = res.content.coursewareData;
+					// "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"为测试数据
+					playUrl = playUrl ? playUrl : "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+					this.data.coursewareData.playUrl = playUrl;
 					// 给video组件赋值
 					if (this.init) this.playerOptions = Object.assign({}, this.playerOptions, {sources: [{
 							type: "video/mp4",
-							src: playUrl
-							// src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
+							src: playUrl //你的视频地址（必填）
 						}], poster: coverUrl});
 					this.startTime = formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss');
 				})
