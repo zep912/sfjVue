@@ -12,7 +12,7 @@
 					<span>已完成：{{completeCount}}</span>
 				</div>
 				<div>
-					<el-checkbox v-model="form.learningFlag" :true-label="1" :false-label="2">
+					<el-checkbox v-model="form.completeFlag" :true-label="2" :false-label="1">
 					</el-checkbox>
 					<span style="color: #FF6034;">未完成：{{learningCount}}</span>
 				</div>
@@ -82,8 +82,7 @@
 			form:{
 				trainTitle:'',
 				token:sessionStorage.getItem("token"),
-				completeFlag: 2,
-				learningFlag: 2
+				completeFlag: '',
 			},
 			  studyCount: '',
 			  completeCount: '',

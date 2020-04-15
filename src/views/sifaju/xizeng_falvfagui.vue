@@ -262,7 +262,7 @@ export default {
 				pactModel: '',                //类型：String  可有字段  备注：国际条约分类，取字典形式(sifajieshixingshi)
 				explainType: '',                //类型：String  可有字段  备注：司法解释分类，取字典数据(sifajieshileixing)
 				explainModel: '',                //类型：String  可有字段  备注：司法解释形式，取字典数据(sifajieshixingshi)
-				fileId: ''                //类型：String  必有字段  备注：上传的文件ID
+				fileId: '',                //类型：String  必有字段  备注：上传的文件ID
 			},
 			uploadUrl: imgBaseurl+'/support/saveFileToHtml'
 		};
@@ -276,15 +276,20 @@ export default {
 			}).then(res=> {
 				if(res.code === 200) {
 					this.form = res.content;
+					this.form.scopeLevel = res.content.scopeLevelCode;
+					this.form.lawTimeliness = res.content.lawTimelinessCode;
+					this.form = res.content;
 					this.fileName = res.content.fileName;
 				}
 			})
 		}
 	},
 	methods:{
+		// 取消后回到前一页
 		cancel() {
 			this.$router.back(-1);
 		},
+		// 上传前处理
 		beforeUpload(file) {
 			const fileType = file.name.substring(file.name.lastIndexOf('.') + 1);
 			const isDoc = fileType === 'doc';
@@ -299,19 +304,23 @@ export default {
 			if (isDoc || isDocx) this.fileName = file.name;
 			return isDoc || isDocx;
 		},
+		// 上传成功处理
 		uploadSuccess(res) {
 			this.form.fileId = res.content.fileList[0].fileId;
 		},
+		// 提交表单
 		onSubmit(form) {
 			this.$refs[form].validate((valid) => {
 				this.showValidateUpload = this.form.fileId?false:true;
 				if(valid) {
+					// 参数处理 不同情况保留不同参数
 					let listType = {
 						form1: ['token', 'lawId', 'lawTitle', 'scopeLevel', 'enactOrg', 'lawTimeliness', 'enactDate', 'execDate', 'fileId'],
 						form2: ['token', 'lawId', 'lawTitle', 'enactOrg', 'enactDate', 'explainType', 'explainModel', 'fileId'],
 						form3: ['token', 'lawId', 'lawTitle', 'pactType', 'pactModel', 'fileId'],
 					},
 					request = {};
+					request.docType = this.$route.query.pageType + 1;
 					listType[form].forEach(name => {
 						request[name] = this.form[name];
 					})
@@ -340,6 +349,7 @@ export default {
 		},
   	},
 	computed: {
+		// token数据
 		uploadType(){
 			return {
 				'token': sessionStorage.getItem('token'),
@@ -478,6 +488,7 @@ export default {
 </style>
 <style lang="scss">
 .xinzeng_falvfagui {
+	 background-color: #fff;
 	.top_manalvs{
 		width:96%;
 		padding: 0 2%;

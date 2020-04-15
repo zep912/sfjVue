@@ -429,7 +429,7 @@
   .el-date-editor.el-input{
     width: 150px !important;
     @include responsive(medium-screens) {
-      width: 120px !important;;
+      width: 136px !important;;
     }
   }
 </style>

@@ -4,31 +4,39 @@
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="{ path: '/' }">职责</el-breadcrumb-item>
                 <el-breadcrumb-item :to="{ path: '/falv_liebiao' }">普法宣传</el-breadcrumb-item>
-                <el-breadcrumb-item>法律法规信息预览</el-breadcrumb-item>
+                <el-breadcrumb-item>{{$route.query.type == 0 ? '法律法规' : $route.query.type == 1 ? '司法解释' : '国际条约惯例'}}信息预览</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="read-falvfagui">
             <h1>{{lawTitle}}</h1>
             <ul>
-              <li>
+              <li v-if="$route.query.type != 2">
                 <strong>颁布单位：</strong>
                 <span>{{enactOrg}}</span>
               </li>
-              <li>
+              <li v-if="$route.query.type == 0">
                 <strong>执行日期：</strong>
                 <span>{{execDate}}</span>
               </li>
-              <li>
+              <li v-if="$route.query.type != 2">
                 <strong>颁布日期：</strong>
                 <span>{{enactDate}}</span>
               </li>
-              <li>
+              <li v-if="$route.query.type == 0">
                 <strong>效力级别：</strong>
                 <span>{{scopeLevel}}</span>
               </li>
-              <li>
+              <li v-if="$route.query.type == 0">
                 <strong>时效性：</strong>
                 <span>{{lawTimeliness}}</span>
+              </li>
+              <li v-if="$route.query.type == 2">
+                <strong>分类：</strong>
+                <span>{{pactTypeDesc}}</span>
+              </li>
+              <li v-if="$route.query.type == 2">
+                <strong>形式：</strong>
+                <span>{{pactModelDesc}}</span>
               </li>
             </ul>
             <div class="iframe-docx">
@@ -51,6 +59,8 @@ export default {
           enactDate: '',
           execDate: '',
           docUrl: '',
+          pactTypeDesc: '',
+          pactModelDesc: ''
         }
     },
     mounted() {
@@ -68,6 +78,8 @@ export default {
             this.enactDate = da.enactDate;
             this.execDate = da.execDate;
             this.docUrl = da.docUrl;
+            this.pactTypeDesc = da.pactTypeDesc;
+            this.pactModelDesc = da.pactModelDesc;
             // 获取下拉数据
             this.getSelectData();
             // this.setIframeHeight();
@@ -119,6 +131,7 @@ export default {
 .yulanfv{
   width: 100%;
   height: 100%;
+  background-color: #fff;
   .yulantop{
     width: 96%;
     padding: 0 2%;

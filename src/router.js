@@ -1364,7 +1364,7 @@ const router = new Router({
                     path: '/lvshixiangying',
                     name: 'lvshixiangying',
                     component: () =>
-                        import ('./views/lawyer/indexChildren//lvshixiangying.vue'),
+                        import ('./views/lawyer/indexChildren/lvshixiangying.vue'),
                     meta: {
                         title: '律师响应',
                         author: true,

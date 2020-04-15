@@ -103,7 +103,7 @@
 				</el-table-column>
 			  </el-table>
 		</div>
-		<el-dialog title="请输入验证码" class="kanshipin-el-dialog" :visible.sync="dialogVisible" width="240px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
+		<el-dialog title="请输入验证码" :append-to-body="true" class="kanshipin-el-dialog" :visible.sync="dialogVisible" width="240px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
 			<el-form :model="form" :rules="rules" label-width="10px" ref="form">
 				<el-row>
 					<el-col :span="14">
@@ -164,12 +164,12 @@
 					poster: "poster.jpg", //你的封面地址
 					width: document.documentElement.clientWidth,
 					notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-					// controlBar: {
-					//  timeDivider: true,
-			       //   durationDisplay: false,
-			       //   remainingTimeDisplay: false,
-			       //   fullscreenToggle: false  //全屏按钮
-			       // }
+					controlBar: {
+					 timeDivider: false,
+			         durationDisplay: true,
+			         remainingTimeDisplay: true,
+			         fullscreenToggle: false  //全屏按钮
+			       }
 				},
 				imgStr: '',
 				form: {imgCode: ''},
@@ -283,13 +283,13 @@
 		background: rgb(46,46,54);
 	}
 	.shipin_neirong>div:nth-child(1){
-		width: 65%;
+		width: 75%;
 		video{
 			width: 100%;
 		}
 	}
 	.shipin_neirong>div:nth-child(2){
-		width: 35%;
+		width: 25%;
 		margin-top: 43px;
 		margin-left: 20px;
 		text-align: left;

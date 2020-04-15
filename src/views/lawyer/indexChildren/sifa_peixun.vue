@@ -48,7 +48,7 @@
 			<div class="sifakc_tongji">
 				<div>学习次数<i @click="iconClick" :class="['el-icon-back',iconshow? 'sifakc_tongji_text1': 'sifakc_tongji_text2']"></i></div>
 				<div class="tongji_youce">
-					<div>共计：{{form.studyCount}}个</div>
+					<div>共计：{{queryCondition.pageRequest.results}}个</div>
 					<div class="caidan">
 						<div class="jud-img1" @click="tabListChange">
 							<img class="imgcolor"  v-show="imgShow" src="../../../assets/image/caidan.png" alt="">
@@ -93,7 +93,7 @@
 							<div>{{item.videoDuration}}</div>
 						</div>
 						<div class="kecheng_jianjie">
-							<div>课件标题：<span>{{item.couName}}</span></div>
+							<div>课件标题：<span>{{item.trainTitle}}</span></div>
 							<div>课件简介：<span>{{item.couDesc}}</span></div>
 						</div>
 					</div>

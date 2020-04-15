@@ -79,26 +79,31 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="24">
-						<el-form-item label="培训时间:" prop="startDate">
-							<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
-							<!-- <el-date-picker
-								v-model="queryCondition.startTime"
-								type="datetime"
+					<el-col :span="12">
+						<el-form-item label="培训时间" prop="startDate">
+							<!--<el-input v-model="queryCondition.startDate" v-show="false"></el-input>-->
+							<!--<single-date :num="'2'" @getDateInfo="getDateInfo" ref="getDateStart"></single-date>-->
+						<!--</el-form-item>-->
+
+							<el-date-picker style="width: 100%!important;"
+								v-model="queryCondition.startDate"
+								type="date" value-format="yyyy-MM-dd"
 								placeholder="选择日期时间">
-							</el-date-picker> -->
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<!--<el-col :span="12">-->
-						<!--<el-form-item label="截止时间:" prop="endTime">-->
-							<!--<sifa-date :num="num" :obj="objEnd" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>-->
-							<!-- <el-date-picker
-								v-model="queryCondition.endTime"
-								type="datetime"
-								placeholder="选择日期时间">
-							</el-date-picker> -->
+					<el-col :span="12">
+						<el-form-item label="截止时间:" prop="endDate">
+							<!--<el-input v-model="queryCondition.endDate" v-show="false"></el-input>-->
+							<!--<single-date :num="'2'" @getDateInfo="getDateInfo" ref="getDateEnd"></single-date>-->
 						<!--</el-form-item>-->
-					<!--</el-col>-->
+							<el-date-picker style="width: 100%!important;"
+								v-model="queryCondition.endDate"
+								type="date" value-format="yyyy-MM-dd"
+								placeholder="选择日期时间">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
@@ -255,8 +260,8 @@
 					trainMode: '',  //培训方式
 					matchPos:'',  //适用岗位
 					trainType:'',   //培训类型
-					startTime: '', // 开始时间
-					endTime: '', // 截止时间
+					startTime: '00:00:00', // 开始时间
+					endTime: '23:59:59', // 截止时间
 					couId: '', // 培训课件
 					openType:'',  // 公开类型
 					principalUserId: sessionStorage.getItem("userId"), // 负责人
@@ -346,13 +351,13 @@
 		},
 		methods: {
 			//根据日期查询
-			getDateInfo(){
-				const dateInfo = this.$refs.getDate.getDateInfo();
-				let {startDate, endDate} = dateInfo;
-				this.queryCondition.startDate = startDate
-				this.queryCondition.endDate = endDate
-				// this.getStartedList(dateInfo);
-			},
+			// getDateInfo(){
+			// 	const dateStartInfo = this.$refs.getDateStart.getDateInfo();
+			// 	const dateEndInfo = this.$refs.getDateEnd.getDateInfo();
+			// 	this.queryCondition.startDate = dateStartInfo.startDate;
+			// 	this.queryCondition.endDate = dateEndInfo.startDate;
+			// 	// this.getStartedList(dateInfo);
+			// },
 			//获取培训方式数据字典
 			wayData(){
 				getSelectDetail({
@@ -550,8 +555,8 @@
 				})
 			},
 			// 提交
-			submitConsultInfo () {
-			  this.getDateInfo();
+			async submitConsultInfo () {
+			  // await this.getDateInfo();
 				this.$refs.queryCondition.validate((valid) => {
 					if (valid) {
 						let obj = JSON.parse(JSON.stringify(this.queryCondition))
@@ -595,6 +600,7 @@
 <style lang="scss">
 	.add-lvsuo-container {
 		width: 100%;
+		background-color: #fff;
 		.top_manalvs {
 			padding: 0 20px;
 			height: 70px;

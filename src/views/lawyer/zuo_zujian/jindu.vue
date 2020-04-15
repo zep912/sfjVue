@@ -14,7 +14,7 @@
 			</div>
 			<div class="indexcon_leftcon">
 
-				<div class="shouye_jindu" v-for="(item, index) in timeList" :key="index">
+				<div class="shouye_jindu" v-for="(item, index) in timeList" :key="index" @click="routerChange(item, true)">
 					<div class="jindu_zuo">
 						<div style="position: relative;">
 							<span :class="item.nodeType === '4'? 'blue_co': ''">{{item.nodeTime || ''}}</span>
@@ -106,7 +106,10 @@
 import * as api from "@/http/lawyer"
 import {lawyerxuexi} from "@/http/api";
 import {formatDate} from '../../../utils/date.js';
+import baseMixins from '@/mixins/index'
+
 	export default {
+	mixins: [baseMixins],
 	  data() {
 	    return {
 			gray: require("../../../assets/image/grayd.png"),
@@ -155,6 +158,7 @@ import {formatDate} from '../../../utils/date.js';
 		justify-content: center;
 		border-bottom: 1px solid #999;
 		height: 70px;
+		background-color: #fff;
 	}
 	.indexcon_lefttop .el-input__inner {
 		border: 0;

@@ -86,10 +86,10 @@
 				<el-table :data="peixunjihua" border style="width: 100%" :cell-class-name="publishClassName">
 				    <el-table-column  type="index" label="序号" width="60"> </el-table-column>
 				    <el-table-column  prop="trainTitle" label="培训主题"></el-table-column>
-				    <el-table-column  prop="trainUserTotal"  label="培训人数" width="80"></el-table-column>
-						<el-table-column  prop="trainMode"  label="培训方式" width="80"></el-table-column>
-						<el-table-column  prop="trainType" label="培训类型" width="80"></el-table-column>
-						<el-table-column  prop="startDate" label="培训时间" width="100"></el-table-column>
+				    <el-table-column  prop="trainUserTotal"  label="培训人数" width="100"></el-table-column>
+						<el-table-column  prop="trainMode"  label="培训方式" width="100"></el-table-column>
+						<el-table-column  prop="trainType" label="培训类型" width="120"></el-table-column>
+						<el-table-column  prop="startDate" label="培训时间" width="160"></el-table-column>
 						<el-table-column  prop="trainAddr" label="地点" width="80">
 							<template slot-scope="scope">
 								<el-popover trigger="hover" placement="top" v-if="scope.row.trainAddr">
@@ -101,7 +101,7 @@
 								<span v-else>无</span>
 							</template>
 						</el-table-column>
-						<el-table-column  prop="planStatusDesc" label="培训状态" width="80"></el-table-column>
+						<el-table-column  prop="planStatusDesc" label="培训状态" width="120"></el-table-column>
 						<el-table-column label="操作" width="180">
 							<template slot-scope="scope">
 								<el-button  size="mini" type="primary" v-if="scope.row.planStatusDesc === '未发布' || scope.row.planStatusDesc === '未开始'"  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -223,10 +223,10 @@
 		getData(dateInfo) {
 			let request = JSON.parse(JSON.stringify(this.queryCondition))
 			request = Object.assign(request, {startDate: dateInfo.startTime, endDate: dateInfo.endTime});
-			request.pageSize = request.pageRequest.limit
-			request.pageNum = request.pageRequest.pageIndex
-			delete request.pageRequest
-			util.dealNullQueryCondition(request)
+			// request.pageSize = request.pageRequest.limit
+			// request.pageNum = request.pageRequest.pageIndex
+			// delete request.pageRequest
+			// util.dealNullQueryCondition(request)
 			manapeixun(request).then(res=>{
 				if(res){
 					let {content} = res
@@ -279,7 +279,7 @@
 							message: '删除成功',
 							type: 'success'
 						})
-						this.getData()
+						this.getDateInfo()
 					}
 				})
 			})
@@ -288,15 +288,15 @@
 		},
 		// 分页
     handleSizeChange (limit) {
-      this.queryCondition.pageRequest.limit = limit
-      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
-      this.getData()
+      // this.queryCondition.pageRequest.limit = limit
+      // this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+      this.getDateInfo()
 		},
 		// 分页
     handleCurrentChange (pageIndex) {
-      this.queryCondition.pageRequest.pageIndex = pageIndex
-      this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
-      this.getData()
+      this.queryCondition.pageNum = pageIndex
+      // this.queryCondition.pageRequest = crud.getQueryCondition(this.queryCondition.pageRequest)
+      this.getDateInfo()
 		},
 		// 改列表颜色
     publishClassName ({row, columnIndex}) {

@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="daichu_nirong">
-				<div v-for="(item, index) in showDataList" :key="index" class="daichuli yiguidang">
+				<div v-for="(item, index) in showDataList" :key="index" class="daichuli yiguidang" @click="routerChange(item)">
 					<div class="daichuli_top yiguidang">
 						<div class="yiguidangbeijing"></div>
 						{{item.time}}
@@ -69,9 +69,11 @@
 import * as api from "@/http/lawyer"
 import {formatDate} from '../../../utils/date.js';
 import selectDate from "@/components/selectDate";
+import baseMixins from '@/mixins/index'
 
 export default {
 	components: {selectDate},
+	mixins: [baseMixins],
 	  data() {
 	    return {
 		  defultMonth: '',

@@ -37,7 +37,7 @@
 						待我处理（{{pendingList.length}}）
 					</div>
 					<div class="dauchuli_neirong">
-						<div v-for="(item, index) in showPendingList" :key="index" class="daichuli_one" @click="$router.push({path: '/lvshi_shenhe', query: {id: item.businessId}})">
+						<div v-for="(item, index) in showPendingList" :key="index" class="daichuli_one" @click="routerChange(item)">
 							<div class="daichuli_left">
 								<div class="dataTag">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
@@ -69,7 +69,7 @@
 						我已处理（超时）（{{overTimeList.length}}）
 					</div>
 					<div class="dauchuli_neirong">
-						<div class="daichuli_one" v-for="(item, index) in overTimeList.slice(0, 1)" :key="index">
+						<div class="daichuli_one" v-for="(item, index) in overTimeList.slice(0, 1)" :key="index" @click="routerChange(item)">
 							<div class="daichuli_left">
 								<div class="dataTag yihchulibeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
@@ -99,7 +99,7 @@
 						我已处理（{{handledList.length}}）
 					</div>
 					<div class="dauchuli_neirong">
-						<div class="daichuli_one" v-for="(item, index) in handledList.slice(0, 1)" :key="index">
+						<div class="daichuli_one" v-for="(item, index) in handledList.slice(0, 1)" :key="index"  @click="routerChange(item)">
 							<div class="daichuli_left">
 								<div class="dataTag yichulibeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
@@ -128,7 +128,7 @@
 						{{completedList[0] ? completedList[0].time : ''}}
 					</div>
 					<div class="dauchuli_neirong">
-						<div class="daichuli_one" v-for="(item, index) in completedList.slice(0, 1)" :key="index">
+						<div class="daichuli_one" v-for="(item, index) in completedList.slice(0, 1)" :key="index" @click="routerChange(item)">
 							<div class="daichuli_left">
 								<div class="dataTag yiguidangbeijing">{{item.dataTag}}</div>
 								<div class="daichuli_zhong">
@@ -161,8 +161,11 @@
 import selectDate from "@/components/selectDate";
 import * as api from "@/http/lawyer"
 import {formatDate} from '../../../utils/date.js';
+import baseMixins from '@/mixins/index'
+
 	export default {
 	  components: {selectDate},
+		mixins: [baseMixins],
 	  data() {
 	    return {
 		  defultMonth: '',
@@ -273,6 +276,7 @@ import {formatDate} from '../../../utils/date.js';
 	.zhize_you {
 		width: 70%;
 		height: 100%;
+      background-color: #fff;
 	}
 
 	.zhize_neirong {
@@ -409,6 +413,7 @@ import {formatDate} from '../../../utils/date.js';
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		cursor: pointer;
 	}
 
 	.daichuli_left {

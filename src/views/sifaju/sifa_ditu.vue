@@ -2,7 +2,7 @@
   <div class="map">
     <div class="header-top">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/sifaju' }">职责</el-breadcrumb-item>
+        <el-breadcrumb-item :to="path">职责</el-breadcrumb-item>
         <el-breadcrumb-item>司法地图</el-breadcrumb-item>
       </el-breadcrumb>
       <el-button size="small" v-if="!boxShow || !organShow" @click="back" class="btn-fr">返回上一级</el-button>
@@ -455,6 +455,11 @@
           this.form.areaRegionId = '';
           this.getOrgList(true);
         }
+      }
+    },
+    computed: {
+      path: function() {
+        return {path: this.$route.path === '/ditu' ? '/zhize' : '/sifaju'}
       }
     }
   };

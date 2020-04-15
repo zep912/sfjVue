@@ -52,7 +52,7 @@
 							<template slot-scope="scope">
 								<el-button
 												size="mini"
-												@click="onRead(scope.row)">查看</el-button>
+												@click="onRead(scope.row, 0)">查看</el-button>
 								<el-button
 												size="mini"
 												@click="onEdit(scope.row, 0)">修改</el-button>
@@ -109,12 +109,12 @@
 						<el-table-column prop="explainType" label="类型" width="100"></el-table-column>
 						<el-table-column prop="explainModel" label="形式" width="100"></el-table-column>
 						<el-table-column prop="enactDate" label="颁布日期" width="160"></el-table-column>
-						<el-table-column prop="execDate" label="实施日期" width="160"></el-table-column>
+						<!--<el-table-column prop="publishDate" label="发布日期" width="160"></el-table-column>-->
 						<el-table-column label="操作" prop="lawId" width="180">
 							<template slot-scope="scope">
 								<el-button
 												size="mini"
-												@click="onRead(scope.row)">查看</el-button>
+												@click="onRead(scope.row, 1)">查看</el-button>
 								<el-button
 												size="mini"
 												@click="onEdit(scope.row, 1)">修改</el-button>
@@ -169,13 +169,13 @@
 							<el-table-column prop="lawTitle" label="标题"></el-table-column>
 							<el-table-column prop="pactType" label="分类" width="140"></el-table-column>
 							<el-table-column prop="pactModel" label="形式" width="80"></el-table-column>
-							<el-table-column prop="enactDate" label="成文日期" width="160"></el-table-column>
-							<el-table-column prop="execDate" label="发布日期" width="160"></el-table-column>
+							<!--<el-table-column prop="enactDate" label="成文日期" width="160"></el-table-column>-->
+							<!--<el-table-column prop="execDate" label="发布日期" width="160"></el-table-column>-->
 							<el-table-column label="操作" prop="lawId" width="180">
 								<template slot-scope="scope">
 									<el-button
 													size="mini"
-													@click="onRead(scope.row)">查看</el-button>
+													@click="onRead(scope.row, 2)">查看</el-button>
 									<el-button
 													size="mini"
 													@click="onEdit(scope.row, 2)">修改</el-button>
@@ -243,11 +243,12 @@
 				  path: '/yulan', query: {id: f.lawId, name: f.lawTitle}
 			  })
 		  },
-		  onRead(row) {
+		  onRead(row, type) {
 			  this.$router.push({
 				  name: 'falvfagui_xinxi',
 				  query: {
-					  id: row.lawId
+					  id: row.lawId,
+					  type,
 				  }
 			  })
 		  },

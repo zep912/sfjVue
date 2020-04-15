@@ -155,7 +155,7 @@
 		color: #fff;
 		font-size: 28px;
 		font-weight: 600;
-		
+
 	}
 	.p_top_right img{
 		width: 52px;
@@ -166,13 +166,13 @@
 	.p_top_right{
 		display: flex;
 		align-items: center;
-		
+
 	}
 	.name_p{
 		width: 100px;
 		text-align: left;
 		color: #fff;
-		
+
 	}
 	.name_p>div:nth-child(1){
 		font-size: 20px;

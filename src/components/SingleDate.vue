@@ -26,14 +26,7 @@
 
   export default {
         name: "single-date",
-        props: {
-          num: {
-            type: Number,
-            default: function() {
-              return 3
-            }
-          }
-        },
+        props:['num'],
         data(){
             return {
               year:'',
@@ -76,11 +69,9 @@
             //初始化默认到当日
             if(this.num=='3'){
               this.selDay=this.day;
-              // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl8').addClass('pl15');
             } else {
               this.selDay = '';
-              // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl15').addClass('pl8');
             }
           },
@@ -94,20 +85,16 @@
             this.selMonth = '';
             this.days = [];
             this.selDay = '';
-            // eslint-disable-next-line no-undef
             $('#selMonth,#selDay').removeClass('pl15').addClass('pl8');
             if (act === 1) {
-              // eslint-disable-next-line no-undef
               $('.js-date').removeClass('js-date');
             }
           },
           // 月份改变
           monthChange(year, month, act) {
             if (month) {
-              // eslint-disable-next-line no-undef
               $('#selMonth').removeClass('pl8').addClass('pl15');
             } else {
-              // eslint-disable-next-line no-undef
               $('#selMonth').removeClass('pl15').addClass('pl8');
             }
             this.days = [];
@@ -119,10 +106,8 @@
               }
             }
             this.selDay = '';
-            // eslint-disable-next-line no-undef
             $('#selDay').removeClass('pl15').addClass('pl8');
             if (act === 1) {
-              // eslint-disable-next-line no-undef
               $('.js-date').removeClass('js-date');
             }
           },
@@ -130,14 +115,11 @@
           dayChange(act) {
             // 日期不选
             if (!this.selDay) {
-              // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl15').addClass('pl8');
             } else {
-              // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl8').addClass('pl15');
             }
             if (act === 1) {
-              // eslint-disable-next-line no-undef
               $('.js-date').removeClass('js-date');
             }
           },
@@ -151,9 +133,7 @@
               this.selMonth = this.month;
               this.monthChange(this.selYear, this.selMonth, 2);
               this.selDay = this.day;
-              // eslint-disable-next-line no-undef
               $('#selMonth').removeClass('pl8').addClass('pl15');
-              // eslint-disable-next-line no-undef
               $('#selDay').removeClass('pl8').addClass('pl15');
               // 月
             } else if (num === 2) {
@@ -161,7 +141,6 @@
               this.yearChange(this.selYear, 2);
               this.selMonth = this.month;
               this.monthChange(this.selYear, this.selMonth, 2);
-              // eslint-disable-next-line no-undef
               $('#selMonth').removeClass('pl8').addClass('pl15');
               // 年
             } else if (num === 1) {
