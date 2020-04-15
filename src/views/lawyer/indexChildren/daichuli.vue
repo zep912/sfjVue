@@ -5,7 +5,7 @@
 		<div class="zhize_neirong">
 			<div class="daichu_shijian">
 				<div>
-					<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
+					<select-date :num="'2'" ref="getDate" :title="''"></select-date>
 					<!--<el-date-picker-->
 						<!--v-model="defultMonth"-->
 						<!--type="month"-->
@@ -14,16 +14,16 @@
 						<!--:clearable="false"-->
 						<!--style="width: 300px;margin-left: 10px;"></el-date-picker>-->
 				</div>
-				<div>
-					自定义
-					<el-date-picker v-model="timeArr" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-					 style="width: 260px;margin-left: 10px;">
-					</el-date-picker>
-				</div>
+				<!--<div>-->
+					<!--自定义-->
+					<!--<el-date-picker v-model="timeArr" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"-->
+					 <!--style="width: 260px;margin-left: 10px;">-->
+					<!--</el-date-picker>-->
+				<!--</div>-->
 				<div>
 					<div class="sousuo">
 						<input type="text" v-model="keyWord" placeholder="请输入关键字查询">
-						<div class="search" @click="getPendingList">
+						<div class="search" @click="getDateInfo">
 							<img src="../../../assets/image/u2290.png" alt="">
 						</div>
 					</div>
@@ -158,11 +158,11 @@
 </template>
 
 <script>
-import SingleDate from "@/components/SingleDate";
+import selectDate from "@/components/selectDate";
 import * as api from "@/http/lawyer"
 import {formatDate} from '../../../utils/date.js';
 	export default {
-	  components: {SingleDate},
+	  components: {selectDate},
 	  data() {
 	    return {
 		  defultMonth: '',
@@ -178,12 +178,11 @@ import {formatDate} from '../../../utils/date.js';
 	  },
 	  methods:{
 	  	  // 获取待处理信息
-		  getPendingList() {
+		  getPendingList(dateInfo) {
 			  let params = {
 				token:sessionStorage.getItem("token"),
-				taskTime: this.defultMonth,
-				taskStartTime: this.timeArr&&this.timeArr[0] ? this.timeArr[0] : null,
-				taskEndTime: this.timeArr&&this.timeArr[1] ? this.timeArr[1] : null,
+				taskStartTime: dateInfo.startTime,
+				taskEndTime: dateInfo.endTime,
 				keyWord: this.keyWord,
 				pageNum:'0',
 				pageSize:'9999'
@@ -241,17 +240,16 @@ import {formatDate} from '../../../utils/date.js';
 				// }
 			}
 		  },
-		  // 获取日期
+		  // 获取日期 并查询
 		  getDateInfo() {
-		  	const dateInfo = this.$refs.getDateInfo();
-		  	console.log(dateInfo);
-			  // this.defultMonth = dateInfo && dateInfo.
+		  	const dateInfo = this.$refs.getDate.getDateInfo();
+		  	this.getPendingList(dateInfo);
 		  }
 	  },
 	  created() {
-		this.defultMonth = formatDate(new Date(), 'yyyy-MM')
+		// this.defultMonth = formatDate(new Date(), 'yyyy-MM')
 		this.$nextTick(() => {
-			this.getPendingList()
+			this.getDateInfo();
 		})
 
 	  }

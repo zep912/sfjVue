@@ -76,7 +76,7 @@
                             </div>
                             <div class="flex vertical_top">
                                 <span class="text_betten">律师解答<i></i></span><span class="star" style="margin-top:0px;">*</span>
-                                <textarea name="" id="" v-model="consultAnswer.answerContent" cols="30" rows="10"></textarea>
+                                <textarea :disabled="$route.query.status == 2" name="" id="" v-model="consultAnswer.answerContent" cols="30" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -107,7 +107,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
             <!-- 律师响应按钮 -->
             <div v-if="status == '1'" class="btn_box">
@@ -168,7 +168,7 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
                 let params = {
                     token: sessionStorage.getItem("token"),
                     consultId: this.$route.query.consultId,
-                    taskId: this.consultInfo.instanceId,
+                    taskId: this.flowAxis[this.flowAxis.length - 1].taskId,
                     instanceId: this.flowAxis[this.flowAxis.length -1].instanceId,
                     msgSource: '1',
                     msgType: '1',
@@ -201,7 +201,9 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
                         type: "success",
                         offset: "50"
                     })
-                        this.getConsultDetail()
+                        // 报错成功回到上一页
+                        this.$routr.back(-1);
+                        // this.getConsultDetail()
                     } else {
                         this.$message({
                             message: res.msg,
@@ -216,7 +218,7 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
                 let params = {
                     token: sessionStorage.getItem("token"),
                     consultId: this.$route.query.consultId,
-                    taskId: this.consultInfo.instanceId,
+                    taskId: this.flowAxis[this.flowAxis.length - 1].taskId,
                     msgContent: this.resContent,
                     msgSource: '1',
                     msgType: '1',
@@ -485,7 +487,7 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
         .content {
             color: #666;
         }
-        
+
        .msgTime {
            width: 75px;
            font-size: 14px;
@@ -541,5 +543,5 @@ import {getConsultDetail, saveInteractionLawyerMsg, saveLawyerAnswer} from "../.
         }
     }
 }
-    
+
 </style>

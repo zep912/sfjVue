@@ -109,11 +109,20 @@
 </script>
 
 <style lang="scss">
+	.zhize_toubu {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 70px;
+		border-bottom: 1px solid #999;
+		font-size: 20px;
+	}
 	.headle-right {
 		width: 70%;
 		height: 100%;
 		overflow-y: auto;
-		padding: 20px;
+		padding: 0 20px;
 		box-sizing: border-box;
 		background-color: #fff;
 	}
@@ -123,13 +132,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		font-size: 16px;
+		font-size: 14px;
 		color: #000;
-		font-weight: 600;
 		border-bottom: 1px solid #eee;
 	}
 	.chaxun{
-		width: 25%;
+		width: 40%;
 		margin-right: 15px;
 		display: flex;
 		align-items: center;
@@ -198,7 +206,7 @@
 	}
 	.kecheng_you{
 		text-align: left;
-
+		flex: 1;
 	}
 	.kecheng_you>div:nth-child(1){
 		font-size: 16px;
@@ -210,6 +218,9 @@
 		justify-content: space-between;
 		color: #999;
 		margin-top: 20px;
+		> div {
+			min-width: 160px;
+		}
 		span{
 			color: #333;
 		}

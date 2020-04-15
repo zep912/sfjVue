@@ -9,7 +9,7 @@
 		</div>
 		<div class="mapbox">
 			<el-row>
-				<el-col :span="8" v-show="boxShow" style="position:relative;padding-bottom:40px">
+				<el-col :span="6" v-show="boxShow" style="position:relative;padding-bottom:40px">
 					<el-input
 									placeholder="请输入想要搜索机构名称"
 									v-model="form.orgName"
@@ -599,7 +599,7 @@
 	}
 	.map {
 		width: 100%;
-		margin: 0 20px;
+		padding: 0 20px;
 		position: relative;
 		.header-top {
 			padding: 20px 0;
@@ -638,5 +638,8 @@
 		height: 170px;
 		float: left;
 		margin-right: 15px;
+	}
+	.el-form-item {
+		text-align: left;
 	}
 </style>

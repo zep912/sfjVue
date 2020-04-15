@@ -19,7 +19,7 @@
 						<!-- <div>
 							<el-button type="success" @click="add">新增</el-button>
 						</div> -->
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item class="c-query-select" label="效力级别：" prop="scopeLevel">
 								<el-select v-model="queryCondition.scopeLevel" placeholder="请选择">
 									<el-option
@@ -31,7 +31,7 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item class="c-query-select" label="时效性：" prop="lawTimeliness">
 								<el-select v-model="queryCondition.lawTimeliness" placeholder="请选择">
 									<el-option
@@ -43,7 +43,7 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="12">
 							<div class="c-input f-right">
 								<input type="text" v-model="queryCondition.lawTitle" class="c-query-select" placeholder="请输入标题查询">
 								<div class="liebiao_search" @click="getData">
@@ -295,8 +295,8 @@ import util from '@/assets/js/co-util'
 		}
 			.zaixian_top {
 			width: 95%;
-			height: 70px;
-			padding-left: 5%;
+			/*height: 70px;*/
+			padding: 20px;
 			border-bottom: 1px solid #eee;
 			display: flex;
 			align-items: center;
@@ -379,11 +379,13 @@ import util from '@/assets/js/co-util'
 						}
 					}
 					.c-input {
+						margin-right: 20px;
 						display: flex;
 						// white-space: nowrap;
 						justify-content:flex-end;
 						input {
-							width: 120px;
+							min-width: 300px;
+							flex: 1;
 							height: 36px;
 						}
 						.c-input_search {

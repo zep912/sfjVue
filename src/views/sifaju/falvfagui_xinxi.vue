@@ -3,7 +3,7 @@
         <div class="top_manalvs yulantop">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="{ path: '/' }">职责</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{path:'mana_law'}">普法宣传</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/falv_liebiao' }">普法宣传</el-breadcrumb-item>
                 <el-breadcrumb-item>法律法规信息预览</el-breadcrumb-item>
             </el-breadcrumb>
         </div>

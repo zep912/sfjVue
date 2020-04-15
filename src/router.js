@@ -1370,12 +1370,12 @@ const router = new Router({
                         author: true,
                         keepAlive: false
                     }
-                }, 
+                },
                 {
                     path: '/ditu',
                     name: 'ditu',
                     component: () =>
-                        import ('./views/shimin/sifa_ditu.vue'),
+                        import ('./views/sifaju/sifa_ditu.vue'),
                     meta: {
                         title: '司法地图',
                         author: true,

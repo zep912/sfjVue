@@ -34,21 +34,21 @@
 							</el-select>
 						</div>
 						<div class="p_search">
-							<input type="text" placeholder="请输入律师姓名或执业证号查询" v-model="request.lawTitle">
+							<el-input class="p_search" placeholder="请输入律师姓名或执业证号查询" v-model="request.lawTitle"></el-input>
 							<div class="searchp" @click="getCaseDataList('laywer')">
 								<img src="../../assets/image/u2290.png" alt="">
 							</div>
 						</div>
 					</div>
 					<el-table :data="laywerList" border>
-						<el-table-column type="index" label="序号"></el-table-column>
+						<el-table-column type="index" label="序号" width="60"></el-table-column>
 						<el-table-column prop="lawTitle" label="标题"></el-table-column>
-						<el-table-column prop="scopeLevel" label="效力级别"></el-table-column>
-						<el-table-column prop="enactOrg" label="颁布单位"></el-table-column>
-						<el-table-column prop="lawTimeliness" label="时效性"></el-table-column>
-						<el-table-column prop="enactDate" label="颁布日期"></el-table-column>
-						<el-table-column prop="execDate" label="实施日期"></el-table-column>
-						<el-table-column label="操作" prop="lawId">
+						<el-table-column prop="scopeLevel" label="效力级别" width="100"></el-table-column>
+						<el-table-column prop="enactOrg" label="颁布单位" width="240"></el-table-column>
+						<el-table-column prop="lawTimeliness" label="时效性" width="100"></el-table-column>
+						<el-table-column prop="enactDate" label="颁布日期" width="160"></el-table-column>
+						<el-table-column prop="execDate" label="实施日期" width="160"></el-table-column>
+						<el-table-column label="操作" prop="lawId" width="180">
 							<template slot-scope="scope">
 								<el-button
 												size="mini"
@@ -104,13 +104,13 @@
 						</div>
 					</div>
 					<el-table :data="laywerList"  border style="width: 100%">
-						<el-table-column type="index" label="序号"></el-table-column>
+						<el-table-column type="index" label="序号" width="60"></el-table-column>
 						<el-table-column prop="lawTitle" label="标题"></el-table-column>
-						<el-table-column prop="explainType" label="类型"></el-table-column>
-						<el-table-column prop="explainModel" label="形式"></el-table-column>
-						<el-table-column prop="enactDate" label="颁布日期"></el-table-column>
-						<el-table-column prop="execDate" label="实施日期"></el-table-column>
-						<el-table-column label="操作" prop="lawId">
+						<el-table-column prop="explainType" label="类型" width="100"></el-table-column>
+						<el-table-column prop="explainModel" label="形式" width="100"></el-table-column>
+						<el-table-column prop="enactDate" label="颁布日期" width="160"></el-table-column>
+						<el-table-column prop="execDate" label="实施日期" width="160"></el-table-column>
+						<el-table-column label="操作" prop="lawId" width="180">
 							<template slot-scope="scope">
 								<el-button
 												size="mini"
@@ -165,13 +165,13 @@
 						</div>
 					</div>
 					<el-table :data="laywerList"  border style="width: 100%">
-							<el-table-column type="index" label="序号"></el-table-column>
+							<el-table-column type="index" label="序号" width="60"></el-table-column>
 							<el-table-column prop="lawTitle" label="标题"></el-table-column>
-							<el-table-column prop="pactType" label="分类"></el-table-column>
-							<el-table-column prop="pactModel" label="形式"></el-table-column>
-							<el-table-column prop="enactDate" label="成文日期"></el-table-column>
-							<el-table-column prop="execDate" label="发布日期"></el-table-column>
-							<el-table-column label="操作" prop="lawId">
+							<el-table-column prop="pactType" label="分类" width="140"></el-table-column>
+							<el-table-column prop="pactModel" label="形式" width="80"></el-table-column>
+							<el-table-column prop="enactDate" label="成文日期" width="160"></el-table-column>
+							<el-table-column prop="execDate" label="发布日期" width="160"></el-table-column>
+							<el-table-column label="操作" prop="lawId" width="180">
 								<template slot-scope="scope">
 									<el-button
 													size="mini"
@@ -312,6 +312,7 @@
 		.p_search input{
 			padding-left: 20px;
 			border: 0;
+			width: 100%;
 		}
 		.p_search .searchp{
 			width: 100px;

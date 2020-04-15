@@ -2,7 +2,8 @@
 	<div class="kanshipin">
 		<div class="kanshipin_top">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
-			  <el-breadcrumb-item :to="{ path: '/xuexijihua' }">课件学习计划</el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: '/zhize' }">职责</el-breadcrumb-item>
+			  <el-breadcrumb-item :to="{ path: '/sifa_peixun' }">司法培训</el-breadcrumb-item>
 			  <el-breadcrumb-item>{{data.planData.trainTitle}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>

@@ -639,4 +639,7 @@
     float: left;
     margin-right: 15px;
   }
+  .el-form-item {
+    text-align: left;
+  }
 </style>

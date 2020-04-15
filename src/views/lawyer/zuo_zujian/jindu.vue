@@ -9,7 +9,7 @@
 						value-format="yyyy-MM-dd"
 						:clearable="false"
 						@change = "getWorkAxis"
-						style="width: 300px;margin-left: 10px;"></el-date-picker>
+						style="width: 300px!important;margin-left: 10px;"></el-date-picker>
 				▼
 			</div>
 			<div class="indexcon_leftcon">
@@ -136,6 +136,7 @@ import {formatDate} from '../../../utils/date.js';
 				  // studyCount 当前课件学习数量 // completeCount 已完成数量 // learningCount  未完成数量
 				  const {studyCount, completeCount, learningCount} = response.content;
 				  this.timeList = this.timeList.concat([{nodeType: '0', studyCount, completeCount, learningCount}]);
+				  this.nowIndex = this.timeList.findIndex(item => item.nodeType == '4')
 			  } else {
 				  this.$message.error(res.msg);
 			  }

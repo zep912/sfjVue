@@ -13,7 +13,7 @@
 					<el-row type="flex" align="middle" justify="start">
 						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训方式：" prop="trainMode">
-								<el-select v-model="queryCondition.trainMode" placeholder="请选择" @change="getData()">
+								<el-select v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in wayList"
 										:key="item.dictDataCode"
@@ -25,7 +25,7 @@
 						</el-col>
 						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训级别：" prop="trainLevel">
-								<el-select v-model="queryCondition.trainLevel" placeholder="请选择" :disabled="queryCondition.trainMode === '1'"  @change="getData()">
+								<el-select v-model="queryCondition.trainLevel" placeholder="请选择" :disabled="queryCondition.trainMode === '1'">
 									<el-option
 										v-for="item in levelList"
 										:key="item.dictDataCode"
@@ -37,7 +37,7 @@
 						</el-col>
 						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训类型：" prop="trainType">
-								<el-select v-model="queryCondition.trainType" placeholder="请选择" @change="getData()">
+								<el-select v-model="queryCondition.trainType" placeholder="请选择">
 										<el-option
 											v-for="item in typeList"
 											:key="item.dictDataCode"
@@ -49,7 +49,7 @@
 						</el-col>
 						<el-col :span="5">
 							<el-form-item class="c-query-select" label="培训状态：" prop="trainStatus">
-								<el-select v-model="queryCondition.trainStatus" placeholder="请选择"  @change="getData()">
+								<el-select v-model="queryCondition.trainStatus" placeholder="请选择">
 									<el-option
 													v-for="item in stateList"
 													:key="item.dictDataCode"
@@ -61,34 +61,9 @@
 						</el-col>
 					</el-row>
 					<el-row type="flex" align="middle" justify="start">
-						<el-col :span="8">
+						<el-col :span="15">
 							<el-form-item class="c-query-range-date" label="培训时间：" prop="trainDate">
-								<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
-								<!--<el-date-picker-->
-								<!--class="c-query-range-date"-->
-									<!--v-model="queryCondition.trainDate"-->
-									<!--type="date"-->
-									<!--placeholder="选择日期"-->
-									<!--format="yyyy-MM-dd"-->
-									<!--value-format="yyyy-MM-dd"-->
-									<!--@change="getData()"-->
-									<!--&gt;-->
-								<!--</el-date-picker>-->
-							</el-form-item>
-						</el-col>
-						<el-col :span="7">
-							<el-form-item class="c-query-range-date" label="自定义：" prop="value6">
-								<el-date-picker
-								class="c-query-range-date"
-										v-model="queryCondition.value6"
-										type="daterange"
-										format="yyyy-MM-dd"
-										value-format="yyyy-MM-dd"
-										range-separator="至"
-										start-placeholder="开始日期"
-										end-placeholder="结束日期"
-									@change="getData()">
-									</el-date-picker>
+								<select-date :num="'2'" ref="getDate"></select-date>
 							</el-form-item>
 						</el-col>
 						<el-col :span="5">
@@ -96,8 +71,8 @@
 								<el-input v-model="queryCondition.trainTitle" placeholder="请输入主题搜索"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="3"  class="c-query-input">
-							<el-button type="primary" @click="getData()">搜索</el-button>
+						<el-col :span="4"  class="c-query-input">
+							<el-button type="primary" @click="getDateInfo">搜索</el-button>
 						</el-col>
 					</el-row>
 				</el-form>
@@ -156,10 +131,10 @@
 	import {manapeixun, getSelectDetail, deleteTrainPlan} from '../../http/api.js'
 	import * as crud from '../../assets/js/co-crud.js'
 	import util from '@/assets/js/co-util'
-	import SingleDate from "@/components/SingleDate";
+	import selectDate from "@/components/selectDate";
 
 	export default {
-		components: {SingleDate},
+		components: {selectDate},
     data() {
       return {
 				queryCondition: {
@@ -181,13 +156,20 @@
     	}
   },
 	created(){
-		this.getData();
+		this.$nextTick(() => {
+			this.getDateInfo();
+		});
 		this.wayData();
 		this.levelData();
 		this.typeData();
 		this.stateData();
 	},
 	methods: {
+	//	  获取时间组件时间并搜索
+      getDateInfo() {
+        const dateInfo = this.$refs.getDate.getDateInfo();
+        this.getData(dateInfo);
+      },
     //获取培训方式数据字典
 		wayData(){
 			getSelectDetail({
@@ -238,15 +220,9 @@
 			})
 		},
 		// 查询表格
-		getData() {
+		getData(dateInfo) {
 			let request = JSON.parse(JSON.stringify(this.queryCondition))
-			console.log(333, request)
-			if (request.value6 && request.value6.length > 0) {
-				let list = request.value6.slice(',')
-				request.startDate = list[0]
-				request.endDate = list[1]
-				delete request.value6
-			}
+			request = Object.assign(request, {startDate: dateInfo.startTime, endDate: dateInfo.endTime});
 			request.pageSize = request.pageRequest.limit
 			request.pageNum = request.pageRequest.pageIndex
 			delete request.pageRequest
@@ -290,7 +266,7 @@
 		handleDelete (index, row) {
 			this.$confirm('是否确定删除？', '确认信息', {
 				distinguishCancelAndClose: true,
-				confirmButtonText: '保存',
+				confirmButtonText: '确认',
 				cancelButtonText: '取消'
 			}).then(() => {
 				let obj = {

@@ -14,9 +14,9 @@
 		</div>
 		<div class="zixun_liebiao">
 			<div class="liebiao_top">
-				<router-link class="top_btn"  v-if="zixun_active==1"  :to="{path:'zixun_dengji'}">
-						<el-button type="success">现场登记</el-button>
-				</router-link>
+				<!--<router-link class="top_btn"  v-if="zixun_active==1"  :to="{path:'zixun_dengji'}">-->
+						<!--<el-button type="success">现场登记</el-button>-->
+				<!--</router-link>-->
 				<div class="liebiao_topzuo">
 					<div class="form_item">
 						<span class="item_label">问题类型：</span>

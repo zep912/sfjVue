@@ -21,7 +21,7 @@
 				<el-row type="flex" align="middle" justify="start">
 					<el-col :span="12">
 						<el-form-item label="培训方式:" prop="trainMode">
-							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainTypeDesc}}</span>
+							<span class="el-text" v-if="this.query.type === 'view'">{{queryCondition.trainModeDesc}}</span>
 							<el-select v-else v-model="queryCondition.trainMode" placeholder="请选择">
 									<el-option
 										v-for="item in peixunfangshiList"
@@ -79,9 +79,9 @@
 					</el-col>
 				</el-row>
 				<el-row type="flex" align="middle" justify="start">
-					<el-col :span="12">
-						<el-form-item label="开始时间:" prop="startTime">
-							<sifa-date :num="num" :obj="obj" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
+					<el-col :span="24">
+						<el-form-item label="培训时间:" prop="startDate">
+							<single-date :num="2" @getDateInfo="getDateInfo" ref="getDate"></single-date>
 							<!-- <el-date-picker
 								v-model="queryCondition.startTime"
 								type="datetime"
@@ -89,16 +89,16 @@
 							</el-date-picker> -->
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="截止时间:" prop="endTime">
-							<sifa-date :num="num" :obj="objEnd" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>
+					<!--<el-col :span="12">-->
+						<!--<el-form-item label="截止时间:" prop="endTime">-->
+							<!--<sifa-date :num="num" :obj="objEnd" @getDateInfo="getDateInfo" ref="getDate"></sifa-date>-->
 							<!-- <el-date-picker
 								v-model="queryCondition.endTime"
 								type="datetime"
 								placeholder="选择日期时间">
 							</el-date-picker> -->
-						</el-form-item>
-					</el-col>
+						<!--</el-form-item>-->
+					<!--</el-col>-->
 				</el-row>
 				<el-row>
 					<el-col :span="24" v-if="queryCondition.trainMode === '2' && this.query.type !== 'view'">
@@ -223,12 +223,12 @@
 
 	import {getSelectDetail, plan, manakejians, getTrainPlanInfo, getLawyerStudyList, refreshLawyerList, removeLawyer, queryLawyerList} from "../../http/api"
 	import * as crud from '../../assets/js/co-crud.js'
-	import sifaDate from './sifaDate'
+    import SingleDate from "@/components/SingleDate";
 	import util from '@/assets/js/co-util'
 	// import NPxplanTree from './n_pxplan_tree'
 	export default {
 		components: {
-			sifaDate
+          SingleDate
 		},
 		data() {
 			return {
@@ -259,7 +259,7 @@
 					endTime: '', // 截止时间
 					couId: '', // 培训课件
 					openType:'',  // 公开类型
-					principalUserId: sessionStorage.getItem("token"), // 负责人
+					principalUserId: sessionStorage.getItem("userId"), // 负责人
 					trainAddr: '',
 					trainContent: '',
 					trainLevel: '',
@@ -280,7 +280,7 @@
 				personList: [
 					{
 						label: sessionStorage.getItem("name"),
-						value: sessionStorage.getItem("token")
+						value: sessionStorage.getItem("userId")
 					}
 				], // 负责人
 				rules: {
@@ -296,10 +296,10 @@
 					trainType:[
 						{required: true,message: "请选择培训类型",trigger: "change"}
 					],
-					startTime: [
+					startDate: [
 						{required: true,message: "请输入开始时间",trigger: "change"}
 					],
-					endTime: [
+					endDate: [
 						{required: true,message: "请输入截止时间",trigger: "change"}
 					],
 					trainAddr: [
@@ -342,23 +342,16 @@
 			this.manakejians()
 		},
 		mounted() {
-			this.getDateInfo()
+			// this.getDateInfo()
 		},
 		methods: {
 			//根据日期查询
 			getDateInfo(){
 				const dateInfo = this.$refs.getDate.getDateInfo();
-				let {startDate, startTime, endDate, endTime} = dateInfo
+				let {startDate, endDate} = dateInfo;
 				this.queryCondition.startDate = startDate
 				this.queryCondition.endDate = endDate
-				this.queryCondition.startTime = startTime
-				this.queryCondition.endTime = endTime
 				// this.getStartedList(dateInfo);
-			},
-			// 初始化获取时间
-			getTimeInit(time){
-				console.log(time.startTime);
-				// this.getStartedList(time);
 			},
 			//获取培训方式数据字典
 			wayData(){
@@ -406,12 +399,6 @@
 			},
 			// 适用岗位
 			changeMatchPos (event) {
-				// console.log(111, event)
-				// if (event) {
-				// 	this.getInnerLawyerList()
-				// } else {
-				// 	this.getLawyerListByOffice()
-				// }
 				this.refreshLawyerList()
 			},
 			// 选择岗位后更新律师列表
@@ -497,11 +484,12 @@
 						this.queryCondition = res.content
 						this.personList = [
 							{
-								label: this.queryCondition.principalUserId,
-								value: this.queryCondition.principalUserName
+								value: this.queryCondition.principalUser,
+								label: this.queryCondition.principalUserName
 							}
 						];
-						// this.queryCondition.principalUserId = this.queryCondition.principalUserId
+
+						this.queryCondition.principalUserId = this.queryCondition.principalUser;
 						// this.queryCondition.principalUserName = this.queryCondition.principalUserName
 						this.queryCondition.trainMode = res.content.trainMode.toString()
 						let list = res.content.startDate.split('-')
@@ -512,7 +500,7 @@
 						this.objEnd.selYear = arr[0]
 						this.objEnd.selMonth = arr[1]
 						this.objEnd.selDay = arr[2]
-						if (res.content.planId) {
+						if (res.content.planId && this.$route.query.type !== 'view') {
 							this.getQueryLawyerList(res.content.planId)
 						}
 					}
@@ -563,6 +551,7 @@
 			},
 			// 提交
 			submitConsultInfo () {
+			  this.getDateInfo();
 				this.$refs.queryCondition.validate((valid) => {
 					if (valid) {
 						let obj = JSON.parse(JSON.stringify(this.queryCondition))

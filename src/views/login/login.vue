@@ -56,6 +56,10 @@ export default {
                         success.content.userInfo.userName
                     );
                     sessionStorage.setItem(
+                            "userId",
+                            success.content.userInfo.userId
+                    );
+                    sessionStorage.setItem(
                         "imgurl",
                         success.content.userInfo.userImgUrl
                     );

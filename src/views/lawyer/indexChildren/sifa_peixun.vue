@@ -66,7 +66,7 @@
 				</div>
 			</div>
 			<div :class="['peixun_kecheng', imgShow? '': 'lump_peixun_kecheng']">
-				<div :class="[imgShow? 'kecheng_content': 'lump_kecheng_content']" v-for="(item,index) in dataList" :key="`a_${index}`">
+				<div :class="[imgShow? 'kecheng_content': 'lump_kecheng_content']" v-for="(item,index) in dataList" :key="`a_${index}`" @click.stop="kaishixuexi(item.planId)">
 					<div class="kecheng_toubu" v-if="imgShow">
 						<div class="kctb_zuo">
 							<div>
@@ -153,7 +153,7 @@
 				imgShow: true, // 列表切换
 				iconshow: true, // 学习图标
 				dataList: [],
-				checked: true,
+				checked: false,
 				zhishic:'全部',
 				neirong:'全部',
 				leixingc:'全部'
@@ -430,7 +430,7 @@
 	.lump_peixun_kecheng {
 		display: flex;
 		flex-wrap:wrap;
-		justify-content:center;
+		/*justify-content:center;*/
 		.lump_kecheng_content{
 			width: 17%;
 			border: 1px solid #EEE;
@@ -503,7 +503,7 @@
 		width: 96%;
 		padding: 10px 2%;
 		display: flex;
-		align-items: center;
+		/*align-items: center;*/
 		.kecheng_img{
 			width: 13%;
 			height: 120px;

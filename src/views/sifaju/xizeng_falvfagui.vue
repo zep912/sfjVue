@@ -3,7 +3,7 @@
 		<div class="top_manalvs">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/sifaju' }">职责</el-breadcrumb-item>
-			  <el-breadcrumb-item :to="{path:'falv_liebiao'}">普法宣传</el-breadcrumb-item>
+			  <el-breadcrumb-item :to="{path: '/falv_liebiao'}">普法宣传</el-breadcrumb-item>
 			  <el-breadcrumb-item>新增{{titleList[$route.query.pageType]}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
@@ -13,7 +13,7 @@
 					<el-col :span="10">
 						<el-form-item class="itemWrap"  prop="lawTitle">
 							<span class="textSpan">标题<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="请输入标题"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="10" :offset="2">
@@ -29,7 +29,7 @@
 					<el-col :span="10">
 						<el-form-item class="itemWrap"  prop="enactOrg">
 							<span class="textSpan">颁布单位<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.enactOrg" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.enactOrg" style="width:60%;" placeholder="请输入颁布单位"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="10" :offset="2">
@@ -89,7 +89,7 @@
 					<el-col :span="24">
 						<el-form-item class="itemWrap"  prop="lawTitle">
 							<span class="textSpan">标题<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="请输入标题"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -115,7 +115,7 @@
 					<el-col :span="10">
 						<el-form-item class="itemWrap"  prop="enactOrg">
 							<span class="textSpan">颁布单位<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.enactOrg" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.enactOrg" style="width:60%;" placeholder="请输入颁布单位"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="10" :offset="2">
@@ -153,7 +153,7 @@
 					<el-col :span="24">
 						<el-form-item class="itemWrap"  prop="lawTitle">
 							<span class="textSpan">标题<i></i></span><span class="name_span" >*</span>
-							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="中华人民共和国环境保护法"></el-input>
+							<el-input maxlength="100" v-model="form.lawTitle" style="width:60%;" placeholder="请输入标题"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
