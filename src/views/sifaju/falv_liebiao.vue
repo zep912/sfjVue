@@ -198,6 +198,7 @@
 
 <script>
 	import {getLawRegulationsList,getSelectDetail} from '../../http/api.js'
+	import util from '@/assets/js/co-util'
   export default {
 	  data() {
 		  return {
@@ -281,7 +282,28 @@
 		  addPage(pageType) {
 		  	this.$router.push({path: 'xizeng_falvfagui', query: {pageType}})
 		  }
-	  }
+		},
+		beforeRouteLeave(to, from, next) {
+			const nextRoute = ['falvfagui_xinxi']
+			if (nextRoute.indexOf(to.name) > -1) {
+				util.setSearchCache({ to, from, next }, { toName: to.name, pageName: 'falv_liebiao', request: { request: this.request }})
+			}
+			next()
+		},
+		beforeRouteEnter(to, from, next) {
+			const nextRoute = ['falvfagui_xinxi']
+			if (nextRoute.indexOf(from.name) > -1) {
+				next(vm => {
+					const request = util.getSearchCache({ to, from, next }, { fromName: from.name, pageName: 'falv_liebiao' })
+					vm.request = request ? request.request : vm.request
+					vm.getCaseDataList(vm.request)
+				})
+			} else {
+				next(vm=>{
+					vm.getCaseDataList(vm.request)
+				})
+			}
+		}
   }
 </script>
 

@@ -1,3 +1,4 @@
+import store from '@/store/index'
 export default {
   /**
    * 删除请求条件中属性值为空的属性
@@ -76,6 +77,7 @@ export default {
    * @param date long
    * @param format 格式
    */
+  // eslint-disable-next-line no-dupe-keys
   formatDate: (date, format) => {
     const padStart = (value, length, char) => {
       value = value + ''
@@ -165,5 +167,22 @@ export default {
       }).join('')
     }
     return formatDate(specTime, format)
-  }
+  },
+  /**
+   * 判断页面，获取搜索条件缓存
+   * @params {to,from,next} vue路由守卫默认参数
+   * @params {fromName,pageName} 分别为去往的页面名称（需要缓存的页面)、当前页面名称、请求实体
+   */
+  getSearchCache({ to, from, next }, { fromName, pageName }) {
+    return store.getters.searchCache[pageName]
+  },
+  /**
+   * 判断页面，获取搜索条件缓存
+   * @params {to,from,next} vue路由守卫默认参数
+   * @params {fromName,pageName,request} 分别为去往的页面名称（需要缓存的页面)、当前页面名称、请求实体
+   */
+  setSearchCache({ to, from, next }, { toName, pageName, request }) {
+    // console.log('setSearchCache', { toName, pageName, request })
+    store.dispatch('setCache', { name: pageName, request })
+  },
 }
