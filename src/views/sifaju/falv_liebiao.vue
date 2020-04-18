@@ -280,7 +280,7 @@
 			  let laywer = await getLawRegulationsList(this.request);
 			  this.laywerList = laywer.content.dataList;
 			  this.total = laywer.content.pageInfo.total;
-			  this.request = Object.assign({}, this.request, {pageNum: laywer.content.pageInfo.pageNum});
+			  this.request.pageNum = laywer.content.pageInfo.pageNum;
 		  },
 		  //获取select下拉数据
 		  async getSelectData(isAll) {
