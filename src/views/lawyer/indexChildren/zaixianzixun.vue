@@ -185,6 +185,33 @@
 				let status = row.consultStatus
 				this.$router.push({path:'/lvshixiangying', query: {consultId: row.consultId, status}})
 			}
+		},
+		beforeRouteLeave(to, from, next) {
+			const nextRoute = ['lvshixiangying']
+			if (nextRoute.indexOf(to.name) > -1) {
+				util.setSearchCache({ to, from, next }, { toName: to.name, pageName: 'zaixianzixun',
+					request: { zixun_active: this.zixun_active, wentileixingVal: this.wentileixingVal,
+						consultStatusVal: this.consultStatusVal, questionTitle: this.questionTitle, pageNum: this.lvshi_fenye.pageNum  }})
+			}
+			next()
+		},
+		beforeRouteEnter(to, from, next) {
+			const nextRoute = ['lvshixiangying']
+			if (nextRoute.indexOf(from.name) > -1) {
+				next(vm => {
+					const request = util.getSearchCache({ to, from, next }, { fromName: from.name, pageName: 'zaixianzixun' });
+					vm.zixun_active = request ? request.zixun_active : vm.zixun_active;
+					vm.wentileixingVal = request ? request.wentileixingVal : vm.wentileixingVal;
+					vm.consultStatusVal = request ? request.consultStatusVal : vm.consultStatusVal;
+					vm.questionTitle = request ? request.questionTitle : vm.questionTitle;
+					vm.lvshi_fenye.pageNum = request ? request.pageNum : vm.lvshi_fenye.pageNum;
+					vm.getCaseDataList()
+				})
+			} else {
+				next(vm=>{
+					vm.getCaseDataList()
+				})
+			}
 		}
 	}
 </script>

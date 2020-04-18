@@ -116,7 +116,6 @@ import baseMixins from '@/mixins/index'
 			blue: require("../../../assets/image/blue.png"),
 		  value1: formatDate(new Date(), 'yyyy-MM-dd'),
 		  timeList: [],
-		  nowIndex: 0, //现在时间的索引
 	    }
 	  },
 	  methods:{
@@ -139,7 +138,6 @@ import baseMixins from '@/mixins/index'
 				  // studyCount 当前课件学习数量 // completeCount 已完成数量 // learningCount  未完成数量
 				  const {studyCount, completeCount, learningCount} = response.content;
 				  this.timeList = this.timeList.concat([{nodeType: '0', studyCount, completeCount, learningCount}]);
-				  this.nowIndex = this.timeList.findIndex(item => item.nodeType == '4')
 			  } else {
 				  this.$message.error(res.msg);
 			  }
@@ -147,6 +145,12 @@ import baseMixins from '@/mixins/index'
 	  },
 	  created() {
 		  this.getWorkAxis();
+	  },
+      computed: {
+		// 获取实时消息的索引
+		nowIndex: function () {
+			return this.timeList.findIndex(item => item.nodeType === '4')
+		}
 	  }
 	}
 </script>
@@ -245,6 +249,9 @@ import baseMixins from '@/mixins/index'
 		background: #fff;
 		position: relative;
 		border-radius: 5px;
+		&.bg-gory {
+			background-color: #e9eef3;
+		}
 	}
 
 	.jindu_qian {
@@ -398,8 +405,5 @@ import baseMixins from '@/mixins/index'
 	.jihua-right {
 		text-align: right;
 		flex: 1;
-	.bg-gory {
-		background-color: #e9eef3;
-	 }
 	}
 </style>

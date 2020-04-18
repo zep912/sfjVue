@@ -61,9 +61,9 @@
 						</el-table-column>
 					</el-table>
 					<div class="p_page">
-							<el-pagination
-											background
-											@current-change="onPageChange"
+							<el-pagination background
+											:current-page="request.pageNum" :page-size="request.pageSize"
+										   @current-change="onPageChange"
 											layout="total, prev, pager, next"
 											:total="total">
 							</el-pagination>
@@ -123,8 +123,9 @@
 						</el-table-column>
 					</el-table>
 					<div class="p_page">
-						<el-pagination
-						  background
+						<el-pagination background
+						  :current-page="request.pageNum" :page-size="request.pageSize"
+						   @current-change="onPageChange"
 						  layout="total,prev, pager, next"
 						  :total="total">
 						</el-pagination>
@@ -184,8 +185,9 @@
 							</el-table-column>
 						</el-table>
 					<div class="p_page">
-						<el-pagination
-										background
+						<el-pagination background :current-page="request.pageNum"
+									   :page-size="request.pageSize"
+									   @current-change="onPageChange"
 										layout="total,prev, pager, next"
 										:total="total">
 						</el-pagination>
@@ -214,8 +216,8 @@
 				  scopeLevel: "",                //类型：String  可有字段  备注：效力级别
 				  lawTimeliness: "",                //类型：String  可有字段  备注：时效性
 				  lawTitle: "",                //类型：String  可有字段  备注：标题
-				  pageSize: "10",                //类型：String  可有字段  备注：每页显示几条
-				  pageNum: "1"                //类型：String  可有字段  备注：当前页
+				  pageSize: 10,                //类型：String  可有字段  备注：每页显示几条
+				  pageNum: 1                //类型：String  可有字段  备注：当前页
 			  },
 			  laywerList: [],   //法律法规
 			  total: 0
@@ -226,7 +228,18 @@
 		  this.getCaseDataList();
 	  },
 	  methods: {
+		  // tab切换时初始化数据
 		  handleClick() {
+			  const docType = this.request.docType;
+			  this.request = {
+				  token: sessionStorage.getItem("token"),              //类型：String  必有字段  备注：token 用户身份标识
+				  docType,     // 文档类型 1:法律法规 2：司法解释 3：国际条约
+				  scopeLevel: "",                //类型：String  可有字段  备注：效力级别
+				  lawTimeliness: "",                //类型：String  可有字段  备注：时效性
+				  lawTitle: "",                //类型：String  可有字段  备注：标题
+				  pageSize: "10",                //类型：String  可有字段  备注：每页显示几条
+				  pageNum: 1                //类型：String  可有字段  备注：当前页
+			  };
 			  this.getCaseDataList();
 		  },
 		  chakna() {
@@ -234,9 +247,9 @@
 				  path: '/falvfagui_xinxi'
 			  })
 		  },
-		  onPageChange(num) {
-			  this.request.pageNum = '' + num;
-			  this.getCaseDataList('laywer');
+		  onPageChange(pageNum) {
+		  	this.request.pageNum = pageNum;
+		  	this.getCaseDataList();
 		  },
 		  handleEdit(e, f) {
 			  console.log(54564)
@@ -266,7 +279,8 @@
 		  async getCaseDataList() {
 			  let laywer = await getLawRegulationsList(this.request);
 			  this.laywerList = laywer.content.dataList;
-			  this.total = laywer.content.pageInfo.total
+			  this.total = laywer.content.pageInfo.total;
+			  this.request = Object.assign({}, this.request, {pageNum: laywer.content.pageInfo.pageNum});
 		  },
 		  //获取select下拉数据
 		  async getSelectData(isAll) {
@@ -294,13 +308,14 @@
 			const nextRoute = ['falvfagui_xinxi']
 			if (nextRoute.indexOf(from.name) > -1) {
 				next(vm => {
-					const request = util.getSearchCache({ to, from, next }, { fromName: from.name, pageName: 'falv_liebiao' })
-					vm.request = request ? request.request : vm.request
-					vm.getCaseDataList(vm.request)
+					const request = util.getSearchCache({ to, from, next }, { fromName: from.name, pageName: 'falv_liebiao' });
+					const req = request ? request.request : vm.request;
+					vm.request = Object.assign({}, req, {pageNum: req.pageNum});
+					vm.getCaseDataList()
 				})
 			} else {
 				next(vm=>{
-					vm.getCaseDataList(vm.request)
+					vm.getCaseDataList()
 				})
 			}
 		}
